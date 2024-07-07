@@ -1,0 +1,107 @@
+[gd_scene load_steps=12 format=3 uid="uid://ct81dwgxecd4w"]
+
+[ext_resource type="Script" path="res://demo/scripts/player/player.gd" id="1_6x5ip"]
+[ext_resource type="PackedScene" uid="uid://46avmnm8sxr7" path="res://demo/scenes/spark_fx.tscn" id="2_vtqkh"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_wdl16"]
+[ext_resource type="Script" path="res://demo/scripts/player/states/player_idle.gd" id="4_i35vg"]
+[ext_resource type="Script" path="res://demo/scripts/player/states/player_run.gd" id="5_ojjch"]
+[ext_resource type="Script" path="res://demo/scripts/player/states/player_fall.gd" id="6_sym58"]
+[ext_resource type="Script" path="res://demo/scripts/player/states/player_jump.gd" id="7_2ga8r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_myg2a"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0vkr"]
+albedo_color = Color(0.768627, 0.509804, 0.498039, 1)
+metallic_specular = 0.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_w4w8f"]
+material = SubResource("StandardMaterial3D_f0vkr")
+radius = 0.3
+height = 1.8
+
+[sub_resource type="LabelSettings" id="LabelSettings_rc5o5"]
+font_size = 20
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_6x5ip")
+_camera_path = NodePath("Camera3D")
+_raycast_path = NodePath("Camera3D/RayCast3D")
+_state_machine_path = NodePath("StateMachine")
+_spark_fx = ExtResource("2_vtqkh")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_wdl16")
+_starting_state_path = NodePath("PlayerIdle")
+
+[node name="PlayerIdle" type="Node" parent="StateMachine"]
+script = ExtResource("4_i35vg")
+_run_path = NodePath("../PlayerRun")
+_jump_path = NodePath("../PlayerJump")
+_fall_path = NodePath("../PlayerFall")
+
+[node name="PlayerRun" type="Node" parent="StateMachine"]
+script = ExtResource("5_ojjch")
+_idle_path = NodePath("../PlayerIdle")
+_jump_path = NodePath("../PlayerJump")
+_fall_path = NodePath("../PlayerFall")
+
+[node name="PlayerFall" type="Node" parent="StateMachine"]
+script = ExtResource("6_sym58")
+_idle_path = NodePath("../PlayerIdle")
+_run_path = NodePath("../PlayerRun")
+
+[node name="PlayerJump" type="Node" parent="StateMachine"]
+script = ExtResource("7_2ga8r")
+_fall_path = NodePath("../PlayerFall")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_myg2a")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+current = true
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -100)
+collide_with_areas = true
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_w4w8f")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.5
+offset_top = -1.5
+offset_right = 1.5
+offset_bottom = 1.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="StateLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -57.0
+offset_right = 20.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Idle"
+label_settings = SubResource("LabelSettings_rc5o5")
+horizontal_alignment = 1

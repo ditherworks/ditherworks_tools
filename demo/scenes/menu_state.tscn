@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3tlxih2d5g4h"]
+
+[ext_resource type="Script" path="res://demo/scripts/menu_state.gd" id="1_06vvl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2u66"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k6ue6"]
+font_size = 64
+
+[node name="MenuState" type="Node"]
+script = ExtResource("1_06vvl")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w2u66")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "MENU"
+label_settings = SubResource("LabelSettings_k6ue6")
+horizontal_alignment = 1
+
+[node name="Return" type="Button" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Return To Game"
+
+[node name="Exit" type="Button" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Exit"

@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfa8eoyaqk8ux"]
+
+[ext_resource type="Script" path="res://game_state/game.gd" id="1_fddw4"]
+[ext_resource type="PackedScene" uid="uid://b3tlxih2d5g4h" path="res://demo/scenes/menu_state.tscn" id="2_ughlh"]
+[ext_resource type="PackedScene" uid="uid://b1nqtydbm8s27" path="res://demo/scenes/gameplay_state.tscn" id="3_e4hed"]
+[ext_resource type="Texture2D" uid="uid://bp35dst14hmck" path="res://demo/materials/logo_ditherworks.png" id="6_fmh5j"]
+[ext_resource type="Script" path="res://game_state/crossfade.gd" id="12_217ud"]
+
+[node name="Demo" type="Node"]
+script = ExtResource("1_fddw4")
+_starting_state = NodePath("GameplayState")
+_transition_path = NodePath("CrossFade")
+
+[node name="MenuState" parent="." instance=ExtResource("2_ughlh")]
+
+[node name="GameplayState" parent="." instance=ExtResource("3_e4hed")]
+
+[node name="CrossFade" type="Node" parent="."]
+script = ExtResource("12_217ud")
+_color_rect_path = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="CrossFade"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Logo" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.454902)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 128.0
+grow_horizontal = 0
+texture = ExtResource("6_fmh5j")
+expand_mode = 1
