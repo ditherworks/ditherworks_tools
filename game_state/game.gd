@@ -34,7 +34,7 @@ func _ready() -> void:
 		
 	else:
 		print("Warning - No game states found")
-				
+	
 
 # Public Functions
 func get_state(state_name: String) -> GameState:

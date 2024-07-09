@@ -2,11 +2,25 @@ class_name MenuState
 extends GameState
 
 
+# Constants
+const SAVE_PATH := "user://config.txt"
+const TEST_VALUES := {
+	"display": {
+		"fullscreen": false,
+		"fps_limit": 60,
+	},
+	"audio": {
+		"master": 100,
+		"gameplay": 80,
+		"music": 20,
+	},
+}
+
 # Export Members
 
 
 # Private Members
-var _save_file := SaveFile.new("config.txt")
+var _save_file := SaveFile.new()
 
 
 # Default Callbacks
@@ -14,9 +28,9 @@ func _ready() -> void:
 	(%Return as Button).pressed.connect(_on_button_pressed.bind(%Return))
 	(%Exit as Button).pressed.connect(_on_button_pressed.bind(%Exit))
 	
-	_save_file.load(_save_file._path)
-	_save_file.ensure_default_values(SaveFile.TEST_VALUES, true)
-	_save_file.save(_save_file._path)
+	_save_file.load(SAVE_PATH)
+	_save_file.ensure_default_values(TEST_VALUES, true)
+	_save_file.save(SAVE_PATH)
 
 	
 func _input(event: InputEvent) -> void:

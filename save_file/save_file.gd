@@ -3,27 +3,10 @@ extends ConfigFile
 
 
 # Constants
-const TEST_VALUES := {
-	"display": {
-		"fullscreen": false,
-		"fps_limit": 60,
-	},
-	"audio": {
-		"master": 100,
-		"gameplay": 80,
-		"music": 20,
-	},
-}
-
 
 # Private Members
-var _path : String
-
 
 # Default Callbacks
-func _init(file_name: String) -> void:
-	_path = "user://" + file_name
-
 
 # Public Functions
 func ensure_default_values(defaults: Dictionary, remove_invalid := false) -> void:
