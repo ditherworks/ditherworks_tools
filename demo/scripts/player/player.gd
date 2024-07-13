@@ -32,24 +32,6 @@ var _mouse_input : Vector2
 func _ready() -> void:
 	_state_machine.state_changed.connect(_state_changed)
 	
-	
-func _input(event: InputEvent) -> void:
-	# gather mouse input
-	var mouse := event as InputEventMouseMotion
-	if mouse:
-		_mouse_input += mouse.relative * 0.01
-		
-	var mouse_button := event as InputEventMouseButton
-	if mouse_button and mouse_button.pressed and mouse_button.button_index == 1:
-		if _raycast.is_colliding():
-			SpawnedFX3D.spawn_aimed(_spark_fx, self, _raycast.get_collision_point(), _raycast.get_collision_normal())
-			g_lines.draw_line(_raycast.global_position, _raycast.get_collision_point(), Color.ORANGE_RED, 1.0)
-			g_lines.draw_point(_raycast.get_collision_point(), 0.1, Color.RED, 1.0)
-			
-			if _raycast.get_collider() is HitBox:
-				var hitbox := _raycast.get_collider() as HitBox
-				hitbox.hurt(10.0, _raycast.get_collision_point(), _raycast.get_collision_normal(), self)
-	
 
 func _process(delta: float) -> void:
 	_mouse_look()
@@ -64,8 +46,23 @@ func set_move_input(input: Vector3) -> void:
 	_move_input = input.limit_length(1.0) * Vector3(1.0, 0.0, 1.0)
 	
 	
+func update_look_input(look_input: Vector2) -> void:
+	_mouse_input += look_input
+	
+	
 func get_flat_velocity() -> Vector3:
 	return velocity * Vector3(1.0, 0.0, 1.0)
+	
+	
+func shoot() -> void:
+	if _raycast.is_colliding():
+		SpawnedFX3D.spawn_aimed(_spark_fx, self, _raycast.get_collision_point(), _raycast.get_collision_normal())
+		g_lines.draw_line(_raycast.global_position, _raycast.get_collision_point(), Color.ORANGE_RED, 1.0)
+		g_lines.draw_point(_raycast.get_collision_point(), 0.1, Color.RED, 1.0)
+		
+		if _raycast.get_collider() is HitBox:
+			var hitbox := _raycast.get_collider() as HitBox
+			hitbox.hurt(10.0, _raycast.get_collision_point(), _raycast.get_collision_normal(), self)	
 
 
 # Private Functions

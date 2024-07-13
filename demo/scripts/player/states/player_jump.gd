@@ -18,12 +18,16 @@ func enter() -> void:
 	
 	
 func fixed_update(delta: float, time_in_state: float) -> void:
-	_default_move()
-	
 	if _player.velocity.y < 0.0:
 		change_state.emit(get_node(_fall_path))
 		return
-	
+
+
+func unhandled_input(event: InputEvent) -> void:
+	_default_movement(event)
+	_default_look(event)
+	_default_shoot(event)
+		
 	
 # Private Functions
 # Signal Functions

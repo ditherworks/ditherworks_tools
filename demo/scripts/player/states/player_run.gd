@@ -15,16 +15,18 @@ extends PlayerState
 # Default Callbacks
 # Public Functions
 	
-func fixed_update(delta: float, time_in_state: float) -> void:
-	_default_move()
-	
+func fixed_update(delta: float, time_in_state: float) -> void:	
 	if _player.get_flat_velocity().is_zero_approx():
 		change_state.emit(get_node(_idle_path))
 		
-	if Input.is_action_just_pressed("jump"):
+
+func unhandled_input(event: InputEvent) -> void:
+	_default_movement(event)
+	_default_look(event)
+	_default_shoot(event)
+	
+	if event.is_action("jump"):
 		change_state.emit(get_node(_jump_path))
-		return
-		
 		
 # Private Functions
 # Signal Functions
