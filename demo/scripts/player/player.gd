@@ -62,7 +62,10 @@ func shoot() -> void:
 		
 		if _raycast.get_collider() is HitBox:
 			var hitbox := _raycast.get_collider() as HitBox
-			hitbox.hurt(10.0, _raycast.get_collision_point(), _raycast.get_collision_normal(), self)	
+			hitbox.hurt(10.0, _raycast.get_collision_point(), _raycast.get_collision_normal(), self)
+	else:
+		var tip := _raycast.global_position + (_raycast.global_basis * _raycast.target_position)
+		g_lines.draw_line(_raycast.global_position, tip, Color.ORANGE_RED, 1.0)
 
 
 # Private Functions

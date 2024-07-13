@@ -94,7 +94,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.75, 0)
 size = Vector3(2, 0.5, 2)
 
 [node name="Player" parent="." instance=ExtResource("4_ea7qv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.5)
 
 [node name="Shapes" type="Node3D" parent="."]
 script = ExtResource("5_r1jxm")
