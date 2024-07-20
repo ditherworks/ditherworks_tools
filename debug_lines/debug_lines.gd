@@ -23,7 +23,7 @@ var _vertices := PackedVector3Array()
 var _colors := PackedColorArray()
 var _array_data := []
 
-var _delayed_lines : Array[Line]
+var _lines : Array[Line]
 
 var _dirty := false
 
@@ -43,22 +43,22 @@ func _ready() -> void:
 	_array_data.resize(Mesh.ARRAY_MAX)
 	
 	# process later than default (0), to ensure all calls to this class have already been made
-	process_priority = 20
+	process_priority = 100
 	
 
 func _process(delta: float) -> void:
-	# clear the mesh
-	_mesh.clear_surfaces()
 	
 	if _dirty:
-		# add delayed lines into the list for this frame
-		for line in _delayed_lines:
+		_mesh.clear_surfaces()
+		
+		# convert all lines to mesh data
+		for line in _lines:
 			_vertices.push_back(line._start)
 			_vertices.push_back(line._end)
 			_colors.push_back(line._color)
 			_colors.push_back(line._color)
 			
-		# create mesh surface from all array data
+		# build the mesh from the data
 		if not _vertices.is_empty():
 			_array_data[Mesh.ARRAY_VERTEX] = _vertices
 			_array_data[Mesh.ARRAY_COLOR] = _colors
@@ -69,27 +69,17 @@ func _process(delta: float) -> void:
 		_dirty = false
 	
 	# update life on all delayed lines
-	for i in range(_delayed_lines.size() - 1, -1, -1):
-		var line := _delayed_lines[i] as Line
+	for i in range(_lines.size() - 1, -1, -1):
+		var line := _lines[i] as Line
 		line._life -= delta
 		if line._life <= 0.0:
-			_delayed_lines.remove_at(i)
+			_lines.remove_at(i)
 			_dirty = true
-			
+		
 		
 # Public Functions		
 func draw_line(start: Vector3, end: Vector3, color: Color, duration := 0.0) -> void:
-	# store line if it's wanted for more than one frame
-	if duration > 0.0:
-		_delayed_lines.push_back(Line.new(start, end, color, duration))
-		return
-	
-	# add the line data to list for the next frame	
-	_vertices.push_back(start)
-	_vertices.push_back(end)
-	_colors.push_back(color)
-	_colors.push_back(color)
-	
+	_lines.push_back(Line.new(start, end, color, duration))
 	_dirty = true
 	
 	
