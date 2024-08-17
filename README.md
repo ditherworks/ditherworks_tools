@@ -7,10 +7,13 @@ Each tool is self-reliant and kept in it's own folder so pick and choose whateve
 An autoload class allowing that will render lines and points in 3D, quickly and easily. They can last a single frame or hold for a fixed period.
 
 ### game
-A combination of scenes, and a parent controller to manage the major, common elements of any game architecture
+A base framework for the typical, major components of a game architecture: front end (with many screens), hud, pause screen
 
 ### health
 A health and hitbox system for detecting and managing damage.
+
+### input_mapper
+A panel and buttons for viewing and remapping actions
 
 ### save_file
 A simple extension of the config_file class that allows for a dictionary of "default values" to be passed in while removing old, redundant entries.
