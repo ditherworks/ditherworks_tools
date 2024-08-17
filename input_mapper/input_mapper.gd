@@ -43,7 +43,7 @@ func _add_button(action: String) -> void:
 	_buttons_parent.add_child(button)
 	
 	var key_event := _get_first_key_event(InputMap.action_get_events(action))
-	button.configure_for_key(action, _action_labels[action], key_event)
+	button.configure(action, _action_labels[action], key_event)
 	button.remap_begin.connect(_enable_buttons.bind(false))
 	button.remap_complete.connect(_enable_buttons.bind(true))
 		

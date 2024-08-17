@@ -26,37 +26,48 @@ func _ready() -> void:
 	
 	
 func _input(event: InputEvent) -> void:
-	if _listening:
-		var key := event as InputEventKey
-		if key and key.pressed:
-			InputMap.action_erase_event(_action, _event)
-			InputMap.action_add_event(_action, event)
-			configure_for_key(_action, _action_label.text, event)
-			_listening = false
-			remap_complete.emit()
-			accept_event()
+	if not _listening:
+		return
+		
+	var key := event as InputEventKey
+	if key and key.pressed:
+		_remap(event)
+		accept_event()
 
 		
 # Public Functions
-func configure_for_key(action: String, label: String, event: InputEvent) -> void:
+func configure(action: String, label: String, event: InputEvent) -> void:
 	_action = action
 	_event = event
-	
 	_action_label.text = label
-	_key_label.text = event.as_text().trim_suffix("(Physical)")
-	_key_label.visible = true
-	_button_icon.visible = false
 	_prompt_label.visible = false
 	
+	if event is InputEventJoypadButton:
+		_key_label.visible = false
+		_button_icon.visible = true
+		#... _button_icon.texture = 
+	else:
+		_key_label.visible = true
+		_key_label.text = event.as_text().trim_suffix("(Physical)")
+		_button_icon.visible = false
+			
 	
 func reset() -> void:
 	_listening = false
 	
 		
 # Private Functions
-func _pressed() -> void:
-	prints(_action, "awaiting remap")
+func _remap(event: InputEvent) -> void:
+	InputMap.action_erase_event(_action, _event)
+	InputMap.action_add_event(_action, event)
 	
+	configure(_action, _action_label.text, event)
+		
+	_listening = false
+	remap_complete.emit()
+	
+	
+func _pressed() -> void:
 	_key_label.visible = false
 	_button_icon.visible = false
 	_prompt_label.visible = true
