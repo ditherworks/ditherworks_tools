@@ -31,6 +31,12 @@ func _input(event: InputEvent) -> void:
 		
 	var key := event as InputEventKey
 	if key and key.pressed:
+		if not key.keycode == KEY_ESCAPE:
+			_remap(event)
+		accept_event()
+	
+	var mouse := event as InputEventMouseButton	
+	if mouse and mouse.pressed and not mouse.double_click:
 		_remap(event)
 		accept_event()
 
@@ -73,5 +79,5 @@ func _pressed() -> void:
 	_prompt_label.visible = true
 	
 	_listening = true
-	
 	remap_begin.emit()
+	
