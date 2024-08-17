@@ -36,5 +36,3 @@ func _default_shoot(event: InputEvent) -> void:
 
 	
 # Signal Functions
-
-

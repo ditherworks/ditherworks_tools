@@ -6,8 +6,8 @@ Each tool is self-reliant and kept in it's own folder so pick and choose whateve
 ### debug_lines
 An autoload class allowing that will render lines and points in 3D, quickly and easily. They can last a single frame or hold for a fixed period.
 
-### game_state
-A bespoke state machine to manage the major states of a game (front end, gameplay etc). It uses a simple screen fade transition that can be easily replaced with something different
+### game
+A combination of scenes, and a parent controller to manage the major, common elements of any game architecture
 
 ### health
 A health and hitbox system for detecting and managing damage.
@@ -20,4 +20,3 @@ A system for bundling multiple GPUParticle3Ds along with a flash of light and so
 
 ### state_machine
 A generic state machine intended for use on game characters or any other entities
-

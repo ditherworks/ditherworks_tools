@@ -70,4 +70,3 @@ func _get_all_hitboxes(node: Node, hitboxes := []) -> Array:
 		hitboxes = _get_all_hitboxes(child, hitboxes)
 		
 	return hitboxes
-

@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcnp3ohf2aqf0"]
+
+[ext_resource type="Script" path="res://input_mapper/input_mapper_button.gd" id="1_c8qpn"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5q1oa"]
+size = Vector2(32, 32)
+
+[node name="InputMapperButton" type="Button" node_paths=PackedStringArray("_action_label", "_key_label", "_button_icon", "_prompt_label")]
+custom_minimum_size = Vector2(500, 52)
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_c8qpn")
+_action_label = NodePath("MarginContainer/HBoxContainer/Action")
+_key_label = NodePath("MarginContainer/HBoxContainer/Key")
+_button_icon = NodePath("MarginContainer/HBoxContainer/Button")
+_prompt_label = NodePath("MarginContainer/HBoxContainer/Prompt")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Action" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "Action Label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Key" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "KEY"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Button" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+texture = SubResource("PlaceholderTexture2D_5q1oa")
+
+[node name="Prompt" type="Label" parent="MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "Press Desired Button..."
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true

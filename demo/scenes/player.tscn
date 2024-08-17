@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ct81dwgxecd4w"]
+[gd_scene load_steps=11 format=3 uid="uid://ct81dwgxecd4w"]
 
 [ext_resource type="Script" path="res://demo/scripts/player/player.gd" id="1_6x5ip"]
 [ext_resource type="PackedScene" uid="uid://46avmnm8sxr7" path="res://demo/scenes/spark_fx.tscn" id="2_vtqkh"]
@@ -20,11 +20,6 @@ metallic_specular = 0.0
 material = SubResource("StandardMaterial3D_f0vkr")
 radius = 0.3
 height = 1.8
-
-[sub_resource type="LabelSettings" id="LabelSettings_rc5o5"]
-font_size = 20
-shadow_size = 2
-shadow_color = Color(0, 0, 0, 1)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_6x5ip")
@@ -73,36 +68,3 @@ collide_with_areas = true
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 mesh = SubResource("CapsuleMesh_w4w8f")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -1.5
-offset_top = -1.5
-offset_right = 1.5
-offset_bottom = 1.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 2
-
-[node name="StateLabel" type="Label" parent="."]
-unique_name_in_owner = true
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -57.0
-offset_right = 20.0
-offset_bottom = -34.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Idle"
-label_settings = SubResource("LabelSettings_rc5o5")
-horizontal_alignment = 1

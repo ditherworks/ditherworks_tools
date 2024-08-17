@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://bb3370ysyn8d6"]
+
+[ext_resource type="Script" path="res://input_mapper/input_mapper.gd" id="1_bk6er"]
+[ext_resource type="PackedScene" uid="uid://dcnp3ohf2aqf0" path="res://demo/scenes/input_mapper_button.tscn" id="2_gsnpu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_f65lp"]
+font_size = 32
+
+[node name="InputMapper" type="PanelContainer" node_paths=PackedStringArray("_buttons_parent", "_reset_button")]
+offset_right = 500.0
+offset_bottom = 52.0
+script = ExtResource("1_bk6er")
+_button_scene = ExtResource("2_gsnpu")
+_action_labels = {
+"jump": "Jump",
+"move_backward": "Move Backward",
+"move_forward": "Move Forward",
+"move_left": "Strafe Left",
+"move_right": "Strafe Right"
+}
+_buttons_parent = NodePath("Content/Buttons")
+_reset_button = NodePath("Content/Reset")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="Content"]
+layout_mode = 2
+text = "Input Mapper"
+label_settings = SubResource("LabelSettings_f65lp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Action"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Input"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+
+[node name="InputMapperButton" parent="Content/Buttons" instance=ExtResource("2_gsnpu")]
+layout_mode = 2
+
+[node name="Reset" type="Button" parent="Content"]
+layout_mode = 2
+text = "RESET TO DEFAULTS"

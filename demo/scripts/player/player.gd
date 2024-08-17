@@ -9,12 +9,11 @@ const LOOK_LIMIT := deg_to_rad(89.0)
 
 
 # Export Members
-@export_category("Internals")
 @export var _camera_path : NodePath
 @export var _raycast_path : NodePath
 @export var _state_machine_path : NodePath
 
-@export_category("Externals")
+@export_group("Externals")
 @export var _spark_fx : PackedScene
 
 
@@ -29,16 +28,21 @@ var _mouse_input : Vector2
 
 
 # Default Callbacks
-func _ready() -> void:
-	_state_machine.state_changed.connect(_state_changed)
-	
-
 func _process(delta: float) -> void:
 	_mouse_look()
 	
 	
 func _physics_process(delta: float) -> void:
 	_apply_physics(delta)
+	
+	if Input.is_key_pressed(KEY_0):
+		get_tree().paused = not get_tree().paused
+	
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		g_game.pause(true)
+		get_viewport().set_input_as_handled()
 	
 
 # Public Functions	
@@ -89,11 +93,3 @@ func _mouse_look() -> void:
 	# clear mouse input buffer, ready for next frame
 	_mouse_input = Vector2.ZERO
 	
-	# show lookat point
-	#var raycast := get_node(_raycast_node) as RayCast3D
-	#if raycast.is_colliding():
-		#g_lines.draw_ray(raycast.get_collision_point(), raycast.get_collision_normal() * 0.5, Color.WHITE)
-
-
-func _state_changed(new_state: BaseState) -> void:
-	(%StateLabel as Label).text = new_state.name

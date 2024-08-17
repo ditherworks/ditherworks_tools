@@ -1,16 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://b1nqtydbm8s27"]
+[gd_scene load_steps=19 format=3 uid="uid://2eahjvvuqm1v"]
 
-[ext_resource type="Script" path="res://demo/scripts/gameplay_state.gd" id="1_riei8"]
-[ext_resource type="PackedScene" uid="uid://b01tt6armfu7j" path="res://demo/scenes/default_environment.tscn" id="2_bpr0w"]
-[ext_resource type="Material" uid="uid://bhcsdgs5j6fxw" path="res://demo/materials/grey_checker.tres" id="3_qgiao"]
-[ext_resource type="PackedScene" uid="uid://ct81dwgxecd4w" path="res://demo/scenes/player.tscn" id="4_ea7qv"]
-[ext_resource type="Script" path="res://demo/scripts/folder_3d.gd" id="5_r1jxm"]
-[ext_resource type="PackedScene" uid="uid://5j01ivs0gas1" path="res://demo/models/shapes_cone.tscn" id="6_2e1h0"]
-[ext_resource type="PackedScene" uid="uid://8w24ph0vsuma" path="res://demo/models/shapes_torus.tscn" id="7_8yqet"]
-[ext_resource type="PackedScene" uid="uid://b161qw6g3bm14" path="res://demo/models/shapes_monkey.tscn" id="8_wv4oe"]
-[ext_resource type="Script" path="res://health/health.gd" id="9_w70rv"]
-[ext_resource type="Script" path="res://health/hitbox.gd" id="10_25qy2"]
-[ext_resource type="Material" uid="uid://j8r223yo0m3c" path="res://demo/materials/grey.tres" id="11_vojvt"]
+[ext_resource type="PackedScene" uid="uid://b01tt6armfu7j" path="res://demo/scenes/default_environment.tscn" id="1_5eqw7"]
+[ext_resource type="Material" uid="uid://bhcsdgs5j6fxw" path="res://demo/materials/grey_checker.tres" id="2_uabkg"]
+[ext_resource type="Script" path="res://demo/scripts/folder_3d.gd" id="3_1to0t"]
+[ext_resource type="PackedScene" uid="uid://5j01ivs0gas1" path="res://demo/models/shapes_cone.tscn" id="4_4dbg8"]
+[ext_resource type="PackedScene" uid="uid://8w24ph0vsuma" path="res://demo/models/shapes_torus.tscn" id="5_yo584"]
+[ext_resource type="PackedScene" uid="uid://b161qw6g3bm14" path="res://demo/models/shapes_monkey.tscn" id="6_3k84n"]
+[ext_resource type="Script" path="res://health/health.gd" id="7_5i7k8"]
+[ext_resource type="Script" path="res://health/hitbox.gd" id="8_u11ks"]
+[ext_resource type="Material" uid="uid://j8r223yo0m3c" path="res://demo/materials/grey.tres" id="9_q6lik"]
+[ext_resource type="PackedScene" uid="uid://ct81dwgxecd4w" path="res://demo/scenes/player.tscn" id="10_urfi4"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_255qw"]
 data = PackedVector3Array(0, -1, -1, 0.3827, -1, -0.9239, 0, 1, 0, 0.3827, -1, -0.9239, 0.7071, -1, -0.7071, 0, 1, 0, 0.7071, -1, -0.7071, 0.9239, -1, -0.3827, 0, 1, 0, 0.9239, -1, -0.3827, 1, -1, 0, 0, 1, 0, 1, -1, 0, 0.9239, -1, 0.3827, 0, 1, 0, 0.9239, -1, 0.3827, 0.7071, -1, 0.7071, 0, 1, 0, 0.7071, -1, 0.7071, 0.3827, -1, 0.9239, 0, 1, 0, 0.3827, -1, 0.9239, 0, -1, 1, 0, 1, 0, 0, -1, 1, -0.3827, -1, 0.9239, 0, 1, 0, -0.3827, -1, 0.9239, -0.7071, -1, 0.7071, 0, 1, 0, -0.7071, -1, 0.7071, -0.9239, -1, 0.3827, 0, 1, 0, -0.9239, -1, 0.3827, -1, -1, 0, 0, 1, 0, -1, -1, 0, -0.9239, -1, -0.3827, 0, 1, 0, -0.9239, -1, -0.3827, -0.7071, -1, -0.7071, 0, 1, 0, -0.3827, -1, -0.9239, 0.3827, -1, -0.9239, 0, -1, -1, 0.3827, -1, -0.9239, 0.9239, -1, -0.3827, 0.7071, -1, -0.7071, 0.9239, -1, -0.3827, 0.9239, -1, 0.3827, 1, -1, 0, 0.9239, -1, 0.3827, 0.3827, -1, 0.9239, 0.7071, -1, 0.7071, 0.3827, -1, 0.9239, -0.3827, -1, 0.9239, 0, -1, 1, -0.3827, -1, 0.9239, -0.9239, -1, 0.3827, -0.7071, -1, 0.7071, -0.9239, -1, 0.3827, -0.9239, -1, -0.3827, -1, -1, 0, -0.9239, -1, -0.3827, -0.3827, -1, -0.9239, -0.7071, -1, -0.7071, -0.3827, -1, -0.9239, 0.9239, -1, -0.3827, 0.3827, -1, -0.9239, 0.9239, -1, -0.3827, 0.3827, -1, 0.9239, 0.9239, -1, 0.3827, 0.3827, -1, 0.9239, -0.9239, -1, 0.3827, -0.3827, -1, 0.9239, -0.9239, -1, 0.3827, -0.3827, -1, -0.9239, -0.9239, -1, -0.3827, -0.3827, -1, -0.9239, 0.3827, -1, 0.9239, 0.9239, -1, -0.3827, 0.3827, -1, 0.9239, -0.3827, -1, -0.9239, -0.9239, -1, 0.3827, -0.7071, -1, -0.7071, -0.3827, -1, -0.9239, 0, 1, 0, -0.3827, -1, -0.9239, 0, -1, -1, 0, 1, 0)
@@ -60,25 +59,24 @@ radius = 0.3
 height = 1.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_6s4b5"]
-material = ExtResource("11_vojvt")
+material = ExtResource("9_q6lik")
 radius = 0.3
 height = 0.6
 radial_segments = 32
 rings = 16
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4rd3i"]
-material = ExtResource("11_vojvt")
+material = ExtResource("9_q6lik")
 radius = 0.3
 height = 1.2
 radial_segments = 32
 
-[node name="GameplayState" type="Node"]
-script = ExtResource("1_riei8")
+[node name="DemoWorld" type="Node3D"]
 
-[node name="WorldEnvironment" parent="." instance=ExtResource("2_bpr0w")]
+[node name="WorldEnvironment" parent="." instance=ExtResource("1_5eqw7")]
 
 [node name="World" type="CSGCombiner3D" parent="."]
-material_override = ExtResource("3_qgiao")
+material_override = ExtResource("2_uabkg")
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="World"]
@@ -93,33 +91,30 @@ size = Vector3(2, 2, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.75, 0)
 size = Vector3(2, 0.5, 2)
 
-[node name="Player" parent="." instance=ExtResource("4_ea7qv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.5)
-
 [node name="Shapes" type="Node3D" parent="."]
-script = ExtResource("5_r1jxm")
+script = ExtResource("3_1to0t")
 
-[node name="Cone" parent="Shapes" instance=ExtResource("6_2e1h0")]
+[node name="Cone" parent="Shapes" instance=ExtResource("4_4dbg8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 1.5, -6.5)
-surface_material_override/0 = ExtResource("3_qgiao")
+surface_material_override/0 = ExtResource("2_uabkg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Shapes/Cone"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shapes/Cone/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_255qw")
 
-[node name="Torus" parent="Shapes" instance=ExtResource("7_8yqet")]
+[node name="Torus" parent="Shapes" instance=ExtResource("5_yo584")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, -3)
-surface_material_override/0 = ExtResource("3_qgiao")
+surface_material_override/0 = ExtResource("2_uabkg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Shapes/Torus"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shapes/Torus/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_0acn7")
 
-[node name="Monkey" parent="Shapes" instance=ExtResource("8_wv4oe")]
+[node name="Monkey" parent="Shapes" instance=ExtResource("6_3k84n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -7)
-surface_material_override/0 = ExtResource("3_qgiao")
+surface_material_override/0 = ExtResource("2_uabkg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Shapes/Monkey"]
 
@@ -137,12 +132,12 @@ script = SubResource("GDScript_lrthn")
 _health_path = NodePath("../Health")
 
 [node name="Health" type="Node3D" parent="Dummy"]
-script = ExtResource("9_w70rv")
+script = ExtResource("7_5i7k8")
 _hitbox_root_path = NodePath("..")
 
 [node name="Head_HitBox" type="Area3D" parent="Dummy/Health"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-script = ExtResource("10_25qy2")
+script = ExtResource("8_u11ks")
 _multiplier = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/Health/Head_HitBox"]
@@ -150,7 +145,7 @@ shape = SubResource("SphereShape3D_inwm1")
 
 [node name="Body_HitBox" type="Area3D" parent="Dummy/Health"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-script = ExtResource("10_25qy2")
+script = ExtResource("8_u11ks")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/Health/Body_HitBox"]
 shape = SubResource("CapsuleShape3D_yfr6e")
@@ -162,3 +157,5 @@ mesh = SubResource("SphereMesh_6s4b5")
 [node name="Body" type="MeshInstance3D" parent="Dummy"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 mesh = SubResource("CapsuleMesh_4rd3i")
+
+[node name="Player" parent="." instance=ExtResource("10_urfi4")]

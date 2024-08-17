@@ -35,5 +35,3 @@ func unhandled_input(event: InputEvent) -> void:
 	
 # Private Functions
 # Signal Functions
-
-
