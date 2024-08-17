@@ -15,9 +15,9 @@ var _current_screen : MenuScreen
 func _ready() -> void:
 	_register_with_children()
 	
-	# hide all screens
+	# disable
 	for child : MenuScreen in get_children():
-		child.visible = false
+		child.exit()
 	
 	goto_screen(_starting_screen)
 	

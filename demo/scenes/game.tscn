@@ -10,6 +10,7 @@ script = ExtResource("1_akm86")
 _hud = NodePath("Hud")
 _pause = NodePath("PauseScreen")
 _front_end = NodePath("FrontEnd")
+_start_in_game = true
 
 [node name="Hud" parent="." instance=ExtResource("2_2ndga")]
 

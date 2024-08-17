@@ -14,12 +14,14 @@ var _previous : MenuScreen
 # Public Functions
 func enter(previous: MenuScreen) -> void:
 	visible = true
+	set_process_input(true)
 	if previous:
 		_previous = previous
 	
 	
 func exit() -> void:
 	visible = false
+	set_process_input(false)
 	
 	
 func register_front_end(front_end: FrontEnd) -> void:
