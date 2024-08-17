@@ -30,8 +30,7 @@ func _default_look(event: InputEvent) -> void:
 
 
 func _default_shoot(event: InputEvent) -> void:
-	var mouse_button := event as InputEventMouseButton
-	if mouse_button and mouse_button.pressed and mouse_button.button_index == 1:
+	if event.is_action_pressed("shoot"):
 		_player.shoot()
 
 	

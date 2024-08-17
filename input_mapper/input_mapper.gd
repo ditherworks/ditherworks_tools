@@ -17,7 +17,8 @@ enum Type { Keyboard, Pad }
 
 # Default Callbacks
 func _ready() -> void:
-	_reset_button.pressed.connect(_rebuild_buttons)
+	_reset_button.pressed.connect(_reset)
+	
 	_rebuild_buttons()
 		
 	
@@ -48,14 +49,22 @@ func _add_button(action: String) -> void:
 	button.remap_complete.connect(_enable_buttons.bind(true))
 		
 
-func _get_first_key_event(events: Array) -> InputEventKey:
-	for key : InputEvent in events:
-		if key is InputEventKey:
-			return key as InputEventKey
+func _get_first_key_event(events: Array) -> InputEvent:
+	for event : InputEvent in events:
+		if event is InputEventKey or InputEventMouseButton:
+			return event
 	return null
 	
 
 func _enable_buttons(enable : bool) -> void:
 	for button : Button in _buttons_parent.get_children():
 		button.disabled = not enable
+		
+	_reset_button.disabled = not enable
+	
+	
+func _reset() -> void:
+	InputMap.load_from_project_settings()
+	_rebuild_buttons()
+	
 		

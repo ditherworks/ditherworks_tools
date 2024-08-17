@@ -16,7 +16,8 @@ _action_labels = {
 "move_backward": "Move Backward",
 "move_forward": "Move Forward",
 "move_left": "Strafe Left",
-"move_right": "Strafe Right"
+"move_right": "Strafe Right",
+"shoot": "Shoot"
 }
 _buttons_parent = NodePath("Content/Buttons")
 _reset_button = NodePath("Content/Reset")
