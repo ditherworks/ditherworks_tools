@@ -1,19 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://4rlp3m3v5mh"]
+[gd_scene load_steps=3 format=3 uid="uid://wnhy855wdnob"]
 
-[ext_resource type="Script" path="res://demo/scripts/demo_front_end.gd" id="1_yru4p"]
-[ext_resource type="PackedScene" uid="uid://bb3370ysyn8d6" path="res://demo/scenes/input_mapper.tscn" id="2_ey2es"]
+[ext_resource type="Script" path="res://demo/scripts/front_end/main_screen.gd" id="1_bdd70"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_uemi6"]
+[sub_resource type="LabelSettings" id="LabelSettings_xvisf"]
 font_size = 32
 
-[node name="FrontEnd" type="Control" node_paths=PackedStringArray("_continue_button", "_rebind_button")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("_continue_button", "_rebind_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_yru4p")
+script = ExtResource("1_bdd70")
 _continue_button = NodePath("VBoxContainer/ButtonList/Continue")
 _rebind_button = NodePath("VBoxContainer/ButtonList/Rebind")
 
@@ -32,15 +31,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "FRONT END"
-label_settings = SubResource("LabelSettings_uemi6")
+label_settings = SubResource("LabelSettings_xvisf")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ButtonList" type="VBoxContainer" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Continue" type="Button" parent="VBoxContainer/ButtonList"]
@@ -49,19 +46,5 @@ text = "Continue"
 
 [node name="Rebind" type="Button" parent="VBoxContainer/ButtonList"]
 layout_mode = 2
-text = "Rebind Controls
+text = "Rebind Keys
 "
-
-[node name="InputMapper" parent="." instance=ExtResource("2_ey2es")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -26.0
-offset_right = 250.0
-offset_bottom = 26.0
-grow_horizontal = 2
-grow_vertical = 2

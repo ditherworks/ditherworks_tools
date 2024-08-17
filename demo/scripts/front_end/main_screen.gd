@@ -1,11 +1,12 @@
-class_name DemoFrontEnd
-extends FrontEnd
+class_name MainScreen
+extends MenuScreen
 
 
 # Signals
 # Enums
 # Constants
 # Members
+@export var _controls_screen : MenuScreen
 @export var _continue_button : Button
 @export var _rebind_button : Button
 
@@ -29,4 +30,4 @@ func _button_pressed(button: Button) -> void:
 	if button == _continue_button:
 		g_game.switch_to_world()
 	if button == _rebind_button:
-		print("activate input mapper")
+		_front_end.goto_screen(_controls_screen)
