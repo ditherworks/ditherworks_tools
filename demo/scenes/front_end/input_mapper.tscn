@@ -13,11 +13,11 @@ script = ExtResource("1_bk6er")
 _button_scene = ExtResource("2_gsnpu")
 _action_labels = {
 "jump": "Jump",
-"move_backward": "Move Backward",
+"move_backward": "Move Back",
 "move_forward": "Move Forward",
 "move_left": "Strafe Left",
 "move_right": "Strafe Right",
-"shoot": "Shoot"
+"shoot": "Fire1"
 }
 _buttons_parent = NodePath("Content/Buttons")
 _reset_button = NodePath("Content/Reset")

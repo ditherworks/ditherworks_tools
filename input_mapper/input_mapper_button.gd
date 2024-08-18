@@ -31,7 +31,9 @@ func _input(event: InputEvent) -> void:
 		
 	var key := event as InputEventKey
 	if key and key.pressed:
-		if not key.keycode == KEY_ESCAPE:
+		if key.keycode == KEY_ESCAPE:
+			reset()
+		else:
 			_remap(event)
 		accept_event()
 	
@@ -59,6 +61,8 @@ func configure(action: String, label: String, event: InputEvent) -> void:
 			
 	
 func reset() -> void:
+	configure(_action, _action_label.text, _event)
+	remap_complete.emit()
 	_listening = false
 	
 		

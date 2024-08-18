@@ -6,6 +6,9 @@ extends MenuScreen
 # Enums
 # Constants
 # Members
+@export var _key_mapper : InputMapper
+	
+	
 # Default Callbacks
 func _input(event: InputEvent) -> void:
 	var key := event as InputEventKey
@@ -15,4 +18,10 @@ func _input(event: InputEvent) -> void:
 	
 	
 # Public Functions
+func exit() -> void:
+	super()
+	
+	_key_mapper.save()
+	
+	
 # Private Functions
