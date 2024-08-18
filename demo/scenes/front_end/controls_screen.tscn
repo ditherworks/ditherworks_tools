@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7lotouy73xyv"]
+[gd_scene load_steps=5 format=3 uid="uid://b7lotouy73xyv"]
 
 [ext_resource type="Script" path="res://demo/scripts/front_end/controls_screen.gd" id="1_k2b8g"]
 [ext_resource type="PackedScene" uid="uid://bb3370ysyn8d6" path="res://demo/scenes/front_end/input_mapper.tscn" id="2_eka2q"]
+[ext_resource type="Resource" uid="uid://bjnes0yu6k8ds" path="res://demo/input_icons.tres" id="3_mxk5n"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dmouo"]
 font_size = 32
@@ -81,3 +82,5 @@ offset_right = 250.0
 offset_bottom = 81.5
 grow_horizontal = 2
 grow_vertical = 2
+_type = 1
+_pad_icons = ExtResource("3_mxk5n")

@@ -18,6 +18,9 @@ signal remap_complete()
 var _listening := false
 var _action : String
 var _event : InputEvent
+var _icons : InputIcons
+
+var _type : InputMapper.InputType
 
 
 # Default Callbacks
@@ -29,32 +32,56 @@ func _input(event: InputEvent) -> void:
 	if not _listening:
 		return
 		
+	# check for escape request
 	var key := event as InputEventKey
-	if key and key.pressed:
-		if key.keycode == KEY_ESCAPE:
-			reset()
-		else:
-			_remap(event)
+	if key and key.pressed and key.keycode == KEY_ESCAPE:
+		reset()
 		accept_event()
+		return
 	
-	var mouse := event as InputEventMouseButton	
-	if mouse and mouse.pressed and not mouse.double_click:
+	# check for valid remap request
+	var valid = false
+	if _type == InputMapper.InputType.Keyboard:
+		if key and key.pressed:
+			valid = true
+		var mouse := event as InputEventMouseButton	
+		if mouse and mouse.pressed and not mouse.double_click:
+			valid = true
+	
+	if _type == InputMapper.InputType.Pad:
+		var button := event as InputEventJoypadButton
+		if button and button.pressed:
+			valid = true
+	
+	# apply valid requests
+	if valid:
 		_remap(event)
 		accept_event()
-
+		return
+	
 		
 # Public Functions
+func register_icons(icons: InputIcons) -> void:
+	_icons = icons
+	
+	
 func configure(action: String, label: String, event: InputEvent) -> void:
+	if not event:
+		return
+		
 	_action = action
 	_event = event
 	_action_label.text = label
 	_prompt_label.visible = false
 	
 	if event is InputEventJoypadButton:
+		_type = InputMapper.InputType.Pad
 		_key_label.visible = false
 		_button_icon.visible = true
-		#... _button_icon.texture = 
+		if _icons:
+			_button_icon.texture = _icons.get_icon((event as InputEventJoypadButton).button_index)
 	else:
+		_type = InputMapper.InputType.Keyboard
 		_key_label.visible = true
 		_key_label.text = event.as_text().trim_suffix("(Physical)")
 		_button_icon.visible = false

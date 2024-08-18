@@ -36,3 +36,5 @@ func _input(event: InputEvent) -> void:
 func _button_pressed(button: Button) -> void:
 	if button == _key_button:
 		_key_mapper.activate()
+	if button == _pad_button:
+		_pad_mapper.activate()

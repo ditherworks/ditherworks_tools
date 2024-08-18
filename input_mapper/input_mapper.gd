@@ -4,7 +4,7 @@ extends PanelContainer
 
 # Signals
 # Enums
-enum Type { Keyboard, Pad }
+enum InputType { Keyboard, Pad }
 
 
 # Constants
@@ -16,6 +16,8 @@ const FILE_PATH := "user://input.tres"
 @export var _action_labels : Dictionary
 @export var _buttons_parent : Control
 @export var _reset_button : Button
+@export var _type : InputType
+@export var _pad_icons : InputIcons
 
 var _dirty := false
 
@@ -40,13 +42,9 @@ func activate(enable := true) -> void:
 	
 # Private Functions
 func _save() -> void:
-	if not _dirty:
-		return
-	
-	var data := InputData.new()
-	data.save(_action_labels.keys(), FILE_PATH)	
-	
-	_dirty = false
+	if _dirty:
+		InputData.new().save(_action_labels.keys(), FILE_PATH)	
+		_dirty = false
 	
 	
 func _load() -> void:
@@ -55,11 +53,10 @@ func _load() -> void:
 		return
 
 	var data := ResourceLoader.load(FILE_PATH, "InputData")
-	if not is_instance_valid(data):
+	if is_instance_valid(data):
+		data.apply()
+	else:
 		print("failed to load InputData")
-		return
-	
-	data.apply()
 	
 	
 func _rebuild_buttons() -> void:
@@ -78,19 +75,25 @@ func _rebuild_buttons() -> void:
 		
 		
 func _add_button(action: String) -> void:
-	var button := _button_scene.instantiate() as InputMapperButton
-	_buttons_parent.add_child(button)
-	
-	var key_event := _get_first_key_event(InputMap.action_get_events(action))
-	button.configure(action, _action_labels[action], key_event)
-	button.remap_begin.connect(_enable_buttons.bind(false))
-	button.remap_complete.connect(_enable_buttons.bind(true))
+	var event := _get_first_event(InputMap.action_get_events(action))
+	if event:
+		var button := _button_scene.instantiate() as InputMapperButton
+		button.register_icons(_pad_icons)
+		_buttons_parent.add_child(button)
+		button.configure(action, _action_labels[action], event)
+		button.remap_begin.connect(_enable_buttons.bind(false))
+		button.remap_complete.connect(_enable_buttons.bind(true))
 		
 
-func _get_first_key_event(events: Array) -> InputEvent:
-	for event : InputEvent in events:
-		if event is InputEventKey or event is InputEventMouseButton:
-			return event
+func _get_first_event(events: Array) -> InputEvent:
+	if _type == InputType.Keyboard:
+		for event : InputEvent in events:
+			if event is InputEventKey or event is InputEventMouseButton:
+				return event
+	elif _type == InputType.Pad:
+		for event : InputEvent in events:
+			if event is InputEventJoypadButton:
+				return event
 	return null
 	
 

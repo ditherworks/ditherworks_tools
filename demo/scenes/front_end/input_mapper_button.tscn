@@ -1,9 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dcnp3ohf2aqf0"]
 
 [ext_resource type="Script" path="res://input_mapper/input_mapper_button.gd" id="1_c8qpn"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5q1oa"]
-size = Vector2(32, 32)
+[ext_resource type="Texture2D" uid="uid://cjk3o7t2nwb2p" path="res://demo/materials/ui/buttons_pc/steamdeck_blank.png" id="2_f0d1o"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kkism"]
 font_color = Color(0.915328, 0.40147, 0, 1)
@@ -52,10 +50,12 @@ uppercase = true
 
 [node name="Button" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 visible = false
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-texture = SubResource("PlaceholderTexture2D_5q1oa")
+texture = ExtResource("2_f0d1o")
+expand_mode = 5
 
 [node name="Prompt" type="Label" parent="MarginContainer/HBoxContainer"]
 visible = false

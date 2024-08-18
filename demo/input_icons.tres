@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InputIcons" load_steps=5 format=3 uid="uid://bjnes0yu6k8ds"]
+
+[ext_resource type="Script" path="res://input_mapper/input_icons.gd" id="1_38vce"]
+[ext_resource type="Texture2D" uid="uid://cjk3o7t2nwb2p" path="res://demo/materials/ui/buttons_pc/steamdeck_blank.png" id="1_65fny"]
+[ext_resource type="Texture2D" uid="uid://dxm5xy2uy7s6u" path="res://demo/materials/ui/buttons_pc/steamdeck_button_a.png" id="2_41fsx"]
+[ext_resource type="Texture2D" uid="uid://c2sp80ii4s0qj" path="res://demo/materials/ui/buttons_pc/steamdeck_button_r1.png" id="3_8qnag"]
+
+[resource]
+script = ExtResource("1_38vce")
+_blank = ExtResource("1_65fny")
+_textures = Array[Texture2D]([ExtResource("2_41fsx"), null, null, null, null, null, null, null, null, null, ExtResource("3_8qnag")])
