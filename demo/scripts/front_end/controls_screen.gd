@@ -6,22 +6,33 @@ extends MenuScreen
 # Enums
 # Constants
 # Members
+@export var _key_button : Button
+@export var _pad_button : Button
+
 @export var _key_mapper : InputMapper
+@export var _pad_mapper : InputMapper
 	
 	
 # Default Callbacks
+func _ready() -> void:
+	_key_button.pressed.connect(_button_pressed.bind(_key_button))
+	_pad_button.pressed.connect(_button_pressed.bind(_pad_button))
+	
+	
 func _input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key and key.pressed and key.keycode == KEY_ESCAPE:
-		_front_end.go_back()
+		if _key_mapper.visible:
+			_key_mapper.activate(false)
+		elif _pad_mapper.visible:
+			_pad_mapper.activate(false)
+		else:
+			_front_end.go_back()
 		accept_event()
 	
 	
 # Public Functions
-func exit() -> void:
-	super()
-	
-	_key_mapper.save()
-	
-	
 # Private Functions
+func _button_pressed(button: Button) -> void:
+	if button == _key_button:
+		_key_mapper.activate()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp35dst14hmck"
-path="res://.godot/imported/logo_ditherworks.png-2631895fbe382e359bfde0c3db33a0d4.ctex"
+uid="uid://c2sp80ii4s0qj"
+path="res://.godot/imported/steamdeck_button_r1.png-36a65594b1ebb345b9d5563ad87a36a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://demo/materials/logo_ditherworks.png"
-dest_files=["res://.godot/imported/logo_ditherworks.png-2631895fbe382e359bfde0c3db33a0d4.ctex"]
+source_file="res://demo/materials/ui/buttons_pc/steamdeck_button_r1.png"
+dest_files=["res://.godot/imported/steamdeck_button_r1.png-36a65594b1ebb345b9d5563ad87a36a4.ctex"]
 
 [params]
 

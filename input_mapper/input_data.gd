@@ -26,7 +26,6 @@ func save(save_list: Array, path: String, ) -> void:
 		
 		
 func apply() -> void:
-	print(_mappings)
 	for action in _mappings:
 		InputMap.action_erase_events(action)
 		for event in _mappings[action]:

@@ -30,7 +30,16 @@ func _ready() -> void:
 		
 	
 # Public Functions
-func save() -> void:
+func activate(enable := true) -> void:
+	visible = enable
+	set_process_input(enable)
+	
+	if not enable:
+		_save()
+	
+	
+# Private Functions
+func _save() -> void:
 	if not _dirty:
 		return
 	
@@ -38,9 +47,8 @@ func save() -> void:
 	data.save(_action_labels.keys(), FILE_PATH)	
 	
 	_dirty = false
-		
 	
-# Private Functions
+	
 func _load() -> void:
 	if not ResourceLoader.exists(FILE_PATH, "InputData"):
 		print("no InputData to load")

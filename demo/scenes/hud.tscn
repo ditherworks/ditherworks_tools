@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3jkcd853ef07"]
 
 [ext_resource type="Script" path="res://demo/scripts/demo_hud.gd" id="1_7rh4a"]
-[ext_resource type="Texture2D" uid="uid://bp35dst14hmck" path="res://demo/materials/logo_ditherworks.png" id="1_o6pbb"]
+[ext_resource type="Texture2D" uid="uid://bp35dst14hmck" path="res://demo/materials/ui/logo_ditherworks.png" id="1_o6pbb"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -13,7 +13,8 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_7rh4a")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Logo" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.427451)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

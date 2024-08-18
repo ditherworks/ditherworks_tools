@@ -1,0 +1,2 @@
+class_name InputIcons
+extends Resource
