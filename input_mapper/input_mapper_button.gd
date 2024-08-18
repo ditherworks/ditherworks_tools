@@ -9,6 +9,9 @@ signal remap_complete()
 
 # Enums
 # Constants
+const INVALID_BUTTONS := [JOY_BUTTON_BACK, JOY_BUTTON_GUIDE, JOY_BUTTON_START]
+	
+	
 # Members
 @export var _action_label : Label
 @export var _key_label : Label
@@ -55,12 +58,15 @@ func configure(action: String, label: String, event: InputEvent) -> void:
 	_action_label.text = label
 	_prompt_label.visible = false
 				
-	if event is InputEventJoypadButton:
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
 		_type = InputMapper.InputType.Pad
 		_key_label.visible = false
 		_button_icon.visible = true
 		if _icons:
-			_button_icon.texture = _icons.get_icon((event as InputEventJoypadButton).button_index)
+			if event is InputEventJoypadButton:
+				_button_icon.texture = _icons.get_button_icon((event as InputEventJoypadButton).button_index)
+			else:
+				_button_icon.texture = _icons.get_axis_icon((event as InputEventJoypadMotion).axis)
 	else:
 		_type = InputMapper.InputType.Keyboard
 		_key_label.visible = true
@@ -127,8 +133,12 @@ func _is_valid_mapping(event: InputEvent) -> bool:
 			if button:
 				if not button.pressed:
 					return false
-				if button.button_index == JOY_BUTTON_BACK or button.button_index == JOY_BUTTON_START:
+				if INVALID_BUTTONS.has(button.button_index):
 					return false
+				return true
+		
+			var motion := event as InputEventJoypadMotion
+			if motion and abs(motion.axis_value) > 0.75:
 				return true
 	
 	return false

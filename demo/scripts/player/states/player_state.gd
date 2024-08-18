@@ -30,7 +30,7 @@ func _default_look(event: InputEvent) -> void:
 
 
 func _default_shoot(event: InputEvent) -> void:
-	if event.is_action_pressed("shoot"):
+	if event.is_action_pressed("shoot") and Input.is_action_just_pressed("shoot"):
 		_player.shoot()
 
 	

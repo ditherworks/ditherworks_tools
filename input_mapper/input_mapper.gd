@@ -94,6 +94,8 @@ func _get_first_event(events: Array) -> InputEvent:
 		for event : InputEvent in events:
 			if event is InputEventJoypadButton:
 				return event
+			if event is InputEventJoypadMotion:
+				return event
 	return null
 	
 
