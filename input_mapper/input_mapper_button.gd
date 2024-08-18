@@ -54,7 +54,7 @@ func configure(action: String, label: String, event: InputEvent) -> void:
 	_event = event
 	_action_label.text = label
 	_prompt_label.visible = false
-	
+				
 	if event is InputEventJoypadButton:
 		_type = InputMapper.InputType.Pad
 		_key_label.visible = false
@@ -98,34 +98,37 @@ func _is_escape_request(event: InputEvent) -> bool:
 	var key := event as InputEventKey
 	if key and key.pressed and key.keycode == KEY_ESCAPE:
 		return true
+	
+	var button := event as InputEventJoypadButton
+	if button and button.pressed:
+		if button.button_index == JOY_BUTTON_BACK or button.button_index == JOY_BUTTON_START:
+			return true
+	
 	return false
 	
 
 func _is_valid_mapping(event: InputEvent) -> bool:
-	var key := event as InputEventKey
-	if key:
-		if not _type == InputMapper.InputType.Keyboard:
-			return false
-		if not key.pressed:
-			return false
-		return true
-		
-	var mouse := event as InputEventMouseButton
-	if mouse:
-		if not _type == InputMapper.InputType.Keyboard:
-			return false
-		if not mouse.pressed:
-			return false
-		return true
-	
-	var button := event as InputEventJoypadButton
-	if button:
-		if not _type == InputMapper.InputType.Pad:
-			return false
-		if not button.pressed:
-			return false
-		if button.button_index == 4 or button.button_index == 6:
-			return false
-		return true
+	match _type:
+		InputMapper.InputType.Keyboard:
+			var key := event as InputEventKey
+			if key:
+				if not key.pressed:
+					return false
+				return true
+				
+			var mouse := event as InputEventMouseButton
+			if mouse:
+				if not mouse.pressed:
+					return false
+				return true
+				
+		InputMapper.InputType.Pad:
+			var button := event as InputEventJoypadButton
+			if button:
+				if not button.pressed:
+					return false
+				if button.button_index == JOY_BUTTON_BACK or button.button_index == JOY_BUTTON_START:
+					return false
+				return true
 	
 	return false
