@@ -1,11 +1,17 @@
-[gd_resource type="Resource" script_class="InputIcons" load_steps=5 format=3 uid="uid://bjnes0yu6k8ds"]
+[gd_resource type="Resource" script_class="InputIcons" load_steps=11 format=3 uid="uid://bjnes0yu6k8ds"]
 
-[ext_resource type="Script" path="res://input_mapper/input_icons.gd" id="1_38vce"]
-[ext_resource type="Texture2D" uid="uid://cjk3o7t2nwb2p" path="res://demo/materials/ui/buttons_pc/steamdeck_blank.png" id="1_65fny"]
-[ext_resource type="Texture2D" uid="uid://dxm5xy2uy7s6u" path="res://demo/materials/ui/buttons_pc/steamdeck_button_a.png" id="2_41fsx"]
-[ext_resource type="Texture2D" uid="uid://c2sp80ii4s0qj" path="res://demo/materials/ui/buttons_pc/steamdeck_button_r1.png" id="3_8qnag"]
+[ext_resource type="Texture2D" uid="uid://cjk3o7t2nwb2p" path="res://demo/materials/ui/buttons_pc/steamdeck_blank.png" id="1_3nbjf"]
+[ext_resource type="Texture2D" uid="uid://dxm5xy2uy7s6u" path="res://demo/materials/ui/buttons_pc/steamdeck_button_a.png" id="2_sca45"]
+[ext_resource type="Texture2D" uid="uid://dox4enimjlb8r" path="res://demo/materials/ui/buttons_pc/steamdeck_button_b.png" id="3_6f2ai"]
+[ext_resource type="Texture2D" uid="uid://bdma4yw2jkryo" path="res://demo/materials/ui/buttons_pc/steamdeck_button_x.png" id="4_ijofs"]
+[ext_resource type="Texture2D" uid="uid://cfa14rr6kml1m" path="res://demo/materials/ui/buttons_pc/steamdeck_button_y.png" id="5_dloqh"]
+[ext_resource type="Texture2D" uid="uid://cbi6fmpdww3a3" path="res://demo/materials/ui/buttons_pc/steamdeck_button_l1.png" id="6_3mx7l"]
+[ext_resource type="Texture2D" uid="uid://tpoib46uyw80" path="res://demo/materials/ui/buttons_pc/steamdeck_stick_l_down.png" id="6_mhvml"]
+[ext_resource type="Texture2D" uid="uid://8vkblojpko7r" path="res://demo/materials/ui/buttons_pc/steamdeck_stick_r_down.png" id="7_dukxc"]
+[ext_resource type="Texture2D" uid="uid://c2sp80ii4s0qj" path="res://demo/materials/ui/buttons_pc/steamdeck_button_r1.png" id="7_dxnqw"]
+[ext_resource type="Script" path="res://input_mapper/input_icons.gd" id="8_jlxf0"]
 
 [resource]
-script = ExtResource("1_38vce")
-_blank = ExtResource("1_65fny")
-_textures = Array[Texture2D]([ExtResource("2_41fsx"), null, null, null, null, null, null, null, null, null, ExtResource("3_8qnag")])
+script = ExtResource("8_jlxf0")
+_blank = ExtResource("1_3nbjf")
+_textures = Array[Texture2D]([ExtResource("2_sca45"), ExtResource("3_6f2ai"), ExtResource("4_ijofs"), ExtResource("5_dloqh"), null, null, null, ExtResource("6_mhvml"), ExtResource("7_dukxc"), ExtResource("6_3mx7l"), ExtResource("7_dxnqw")])

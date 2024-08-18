@@ -32,32 +32,13 @@ func _input(event: InputEvent) -> void:
 	if not _listening:
 		return
 		
-	# check for escape request
-	var key := event as InputEventKey
-	if key and key.pressed and key.keycode == KEY_ESCAPE:
+	# check for escape requests
+	if _is_escape_request(event):
 		reset()
-		accept_event()
-		return
-	
-	# check for valid remap request
-	var valid = false
-	if _type == InputMapper.InputType.Keyboard:
-		if key and key.pressed:
-			valid = true
-		var mouse := event as InputEventMouseButton	
-		if mouse and mouse.pressed and not mouse.double_click:
-			valid = true
-	
-	if _type == InputMapper.InputType.Pad:
-		var button := event as InputEventJoypadButton
-		if button and button.pressed:
-			valid = true
-	
-	# apply valid requests
-	if valid:
+	elif _is_valid_mapping(event):
 		_remap(event)
-		accept_event()
-		return
+				
+	accept_event()
 	
 		
 # Public Functions
@@ -112,3 +93,39 @@ func _pressed() -> void:
 	_listening = true
 	remap_begin.emit()
 	
+
+func _is_escape_request(event: InputEvent) -> bool:
+	var key := event as InputEventKey
+	if key and key.pressed and key.keycode == KEY_ESCAPE:
+		return true
+	return false
+	
+
+func _is_valid_mapping(event: InputEvent) -> bool:
+	var key := event as InputEventKey
+	if key:
+		if not _type == InputMapper.InputType.Keyboard:
+			return false
+		if not key.pressed:
+			return false
+		return true
+		
+	var mouse := event as InputEventMouseButton
+	if mouse:
+		if not _type == InputMapper.InputType.Keyboard:
+			return false
+		if not mouse.pressed:
+			return false
+		return true
+	
+	var button := event as InputEventJoypadButton
+	if button:
+		if not _type == InputMapper.InputType.Pad:
+			return false
+		if not button.pressed:
+			return false
+		if button.button_index == 4 or button.button_index == 6:
+			return false
+		return true
+	
+	return false
