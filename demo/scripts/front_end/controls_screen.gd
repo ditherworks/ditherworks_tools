@@ -22,9 +22,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key and key.pressed and key.keycode == KEY_ESCAPE:
-		if _key_mapper.visible:
+		if _key_mapper.is_active() or _pad_mapper.is_active():
 			_key_mapper.activate(false)
-		elif _pad_mapper.visible:
 			_pad_mapper.activate(false)
 		else:
 			_front_end.go_back()

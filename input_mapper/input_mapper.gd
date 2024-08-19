@@ -14,6 +14,7 @@ const FILE_PATH := "user://input.tres"
 # Members
 @export var _button_scene : PackedScene
 @export var _action_labels : Dictionary
+@export var _header : Label
 @export var _buttons_parent : Control
 @export var _reset_button : Button
 @export var _type : InputType
@@ -24,12 +25,15 @@ var _dirty := false
 
 # Default Callbacks
 func _ready() -> void:
+	if _header:
+		_header.text = "Keyboard Controls" if _type == InputType.Keyboard else "Joypad Controls"
+		
 	_reset_button.pressed.connect(_reset)
 	
 	_load()
 	
 	_rebuild_buttons()
-		
+	
 	
 # Public Functions
 func activate(enable := true) -> void:
@@ -38,6 +42,10 @@ func activate(enable := true) -> void:
 	
 	if not enable:
 		_save()
+		
+		
+func is_active() -> bool:
+	return visible
 	
 	
 # Private Functions

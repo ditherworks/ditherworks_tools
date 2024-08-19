@@ -34,7 +34,7 @@ offset_bottom = 57.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Header" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "CONTROLS"
 label_settings = SubResource("LabelSettings_dmouo")
@@ -46,11 +46,11 @@ layout_mode = 2
 
 [node name="Keys" type="Button" parent="VBoxContainer/ButtonList"]
 layout_mode = 2
-text = "Edit Keys"
+text = "Keyboard Controls"
 
 [node name="Pad" type="Button" parent="VBoxContainer/ButtonList"]
 layout_mode = 2
-text = "Edit Joypad
+text = "Joypad Controls
 "
 
 [node name="KeyMapper" parent="." instance=ExtResource("2_eka2q")]

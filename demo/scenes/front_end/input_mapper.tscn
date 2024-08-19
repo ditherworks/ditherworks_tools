@@ -9,7 +9,7 @@ font_size = 32
 [sub_resource type="LabelSettings" id="LabelSettings_vn2kw"]
 font_size = 24
 
-[node name="InputMapper" type="PanelContainer" node_paths=PackedStringArray("_buttons_parent", "_reset_button")]
+[node name="InputMapper" type="PanelContainer" node_paths=PackedStringArray("_header", "_buttons_parent", "_reset_button")]
 offset_right = 500.0
 offset_bottom = 52.0
 script = ExtResource("1_bk6er")
@@ -22,6 +22,7 @@ _action_labels = {
 "move_right": "Strafe Right",
 "shoot": "Fire1"
 }
+_header = NodePath("Content/Header")
 _buttons_parent = NodePath("Content/Buttons")
 _reset_button = NodePath("Content/Reset")
 
@@ -30,7 +31,7 @@ layout_mode = 2
 
 [node name="Header" type="Label" parent="Content"]
 layout_mode = 2
-text = "Input Mapper"
+text = "Controls"
 label_settings = SubResource("LabelSettings_f65lp")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -38,7 +39,7 @@ vertical_alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="Content"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Content/HBoxContainer"]
+[node name="ActionHeader" type="Label" parent="Content/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Action"
@@ -46,7 +47,7 @@ label_settings = SubResource("LabelSettings_vn2kw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Content/HBoxContainer"]
+[node name="InputHeader" type="Label" parent="Content/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Input"
