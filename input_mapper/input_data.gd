@@ -26,8 +26,8 @@ func save(save_list: Array, path: String, ) -> void:
 		
 		
 func apply() -> void:
-	for action in _mappings:
+	for action : String in _mappings:
 		InputMap.action_erase_events(action)
-		for event in _mappings[action]:
+		for event : InputEvent in _mappings[action]:
 			InputMap.action_add_event(action, event)
 	

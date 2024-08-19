@@ -78,7 +78,7 @@ func _rebuild_buttons() -> void:
 		
 	# create new buttons
 	if _button_scene:
-		for action in _action_labels:
+		for action : String in _action_labels:
 			_add_button(action)
 		
 		

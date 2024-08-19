@@ -31,7 +31,7 @@ func _ready() -> void:
 	else:
 		_hitboxes = _get_all_hitboxes(get_node(_hitbox_root_path))
 		
-	for hitbox in _hitboxes:
+	for hitbox : HitBox in _hitboxes:
 		(hitbox as HitBox).connect_to_health(self)
 	
 			

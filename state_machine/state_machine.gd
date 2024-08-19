@@ -17,7 +17,7 @@ var _time_in_state := 0.0
 
 # Default Callbacks
 func _ready() -> void:
-	var states = _get_all_states(self)
+	var states := _get_all_states(self)
 	
 	# link to state change request signals
 	for state : BaseState in states:
