@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="InputIcons" load_steps=13 format=3 uid="uid://bjnes0yu6k8ds"]
+[gd_resource type="Resource" script_class="InputIcons" load_steps=19 format=3 uid="uid://bjnes0yu6k8ds"]
 
 [ext_resource type="Texture2D" uid="uid://cjk3o7t2nwb2p" path="res://demo/materials/ui/buttons_pc/steamdeck_blank.png" id="1_3nbjf"]
 [ext_resource type="Texture2D" uid="uid://cq8cqp4wlgkpu" path="res://demo/materials/ui/buttons_pc/steamdeck_button_l2.png" id="1_hy7mr"]
@@ -11,10 +11,16 @@
 [ext_resource type="Texture2D" uid="uid://tpoib46uyw80" path="res://demo/materials/ui/buttons_pc/steamdeck_stick_l_down.png" id="6_mhvml"]
 [ext_resource type="Texture2D" uid="uid://8vkblojpko7r" path="res://demo/materials/ui/buttons_pc/steamdeck_stick_r_down.png" id="7_dukxc"]
 [ext_resource type="Texture2D" uid="uid://c2sp80ii4s0qj" path="res://demo/materials/ui/buttons_pc/steamdeck_button_r1.png" id="7_dxnqw"]
+[ext_resource type="Texture2D" uid="uid://blcrfjhef48oy" path="res://demo/materials/ui/buttons_pc/xbox_button_back_icon.png" id="8_dthce"]
 [ext_resource type="Script" path="res://input_mapper/input_icons.gd" id="8_jlxf0"]
+[ext_resource type="Texture2D" uid="uid://cyytig6bo2wm3" path="res://demo/materials/ui/buttons_pc/xbox_button_start_icon.png" id="9_0p4do"]
+[ext_resource type="Texture2D" uid="uid://28l8d7t46sxl" path="res://demo/materials/ui/buttons_pc/xbox_dpad_up_outline.png" id="14_72vvl"]
+[ext_resource type="Texture2D" uid="uid://l17xwwe6ycrs" path="res://demo/materials/ui/buttons_pc/xbox_dpad_down_outline.png" id="15_0mrxl"]
+[ext_resource type="Texture2D" uid="uid://bx0h1qijdljig" path="res://demo/materials/ui/buttons_pc/xbox_dpad_left_outline.png" id="16_3mwy7"]
+[ext_resource type="Texture2D" uid="uid://dc36walu86u7d" path="res://demo/materials/ui/buttons_pc/xbox_dpad_right_outline.png" id="17_irw8p"]
 
 [resource]
 script = ExtResource("8_jlxf0")
 _blank = ExtResource("1_3nbjf")
-_buttons = Array[Texture2D]([ExtResource("2_sca45"), ExtResource("3_6f2ai"), ExtResource("4_ijofs"), ExtResource("5_dloqh"), null, null, null, ExtResource("6_mhvml"), ExtResource("7_dukxc"), ExtResource("6_3mx7l"), ExtResource("7_dxnqw")])
+_buttons = Array[Texture2D]([ExtResource("2_sca45"), ExtResource("3_6f2ai"), ExtResource("4_ijofs"), ExtResource("5_dloqh"), ExtResource("8_dthce"), null, ExtResource("9_0p4do"), ExtResource("6_mhvml"), ExtResource("7_dukxc"), ExtResource("6_3mx7l"), ExtResource("7_dxnqw"), ExtResource("14_72vvl"), ExtResource("15_0mrxl"), ExtResource("16_3mwy7"), ExtResource("17_irw8p")])
 _axes = Array[Texture2D]([null, null, null, null, ExtResource("1_hy7mr"), ExtResource("2_ds6uo")])
