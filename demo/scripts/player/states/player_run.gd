@@ -25,7 +25,7 @@ func unhandled_input(event: InputEvent) -> void:
 	_default_look(event)
 	_default_shoot(event)
 	
-	if event.is_action("jump"):
+	if Utils.action_just_pressed(event, "jump"):
 		change_state.emit(get_node(_jump_path))
 		
 # Private Functions
