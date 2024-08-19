@@ -124,7 +124,7 @@ func _is_valid_mapping(event: InputEvent) -> bool:
 				
 			var mouse := event as InputEventMouseButton
 			if mouse:
-				if not mouse.pressed:
+				if not mouse.pressed or mouse.double_click:
 					return false
 				return true
 				
