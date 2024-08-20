@@ -36,7 +36,9 @@ func activate(enable := true) -> void:
 	visible = enable
 	set_process_input(enable)
 	
-	if not enable:
+	if enable:
+		(_buttons_parent.get_child(0) as Button).grab_focus()
+	else:
 		_save()
 		
 		
@@ -124,5 +126,3 @@ func _reset() -> void:
 	InputMap.load_from_project_settings()
 	_dirty = true
 	_rebuild_buttons()
-	
-		
