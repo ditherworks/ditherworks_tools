@@ -36,7 +36,7 @@ grow_vertical = 2
 
 [node name="Header" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "CONTROLS"
+text = "Controls"
 label_settings = SubResource("LabelSettings_dmouo")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -67,14 +67,6 @@ offset_right = 250.0
 offset_bottom = 81.5
 grow_horizontal = 2
 grow_vertical = 2
-_action_labels = {
-"jump": "Jump",
-"move_backward": "Move Back",
-"move_forward": "Move Forward",
-"move_left": "Strafe Left",
-"move_right": "Strafe Right",
-"shoot": "Fire"
-}
 
 [node name="PadMapper" parent="." instance=ExtResource("2_eka2q")]
 visible = false
@@ -90,9 +82,6 @@ offset_right = 250.0
 offset_bottom = 81.5
 grow_horizontal = 2
 grow_vertical = 2
-_action_labels = {
-"jump": "Jump",
-"shoot": "Fire"
-}
+_valid_actions = Array[PackedStringArray]([PackedStringArray("jump", "Jump"), PackedStringArray("shoot", "Fire")])
 _type = 1
 _pad_icons = ExtResource("3_mxk5n")

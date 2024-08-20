@@ -13,8 +13,7 @@ const FILE_PATH := "user://input.tres"
 
 # Members
 @export var _button_scene : PackedScene
-@export var _action_labels : Dictionary
-@export var _header : Label
+@export var _valid_actions : Array[PackedStringArray]	# [action_name, in-game text label]
 @export var _buttons_parent : Control
 @export var _reset_button : Button
 @export var _type : InputType
@@ -25,9 +24,6 @@ var _dirty := false
 
 # Default Callbacks
 func _ready() -> void:
-	if _header:
-		_header.text = "Keyboard Controls" if _type == InputType.Keyboard else "Joypad Controls"
-		
 	_reset_button.pressed.connect(_reset)
 	
 	_load()
@@ -51,7 +47,7 @@ func is_active() -> bool:
 # Private Functions
 func _save() -> void:
 	if _dirty:
-		InputData.new().save(_action_labels.keys(), FILE_PATH)	
+		InputData.new().save(_get_valid_action_names(), FILE_PATH)	
 		_dirty = false
 	
 	
@@ -78,17 +74,17 @@ func _rebuild_buttons() -> void:
 		
 	# create new buttons
 	if _button_scene:
-		for action : String in _action_labels:
-			_add_button(action)
+		for action : PackedStringArray in _valid_actions:
+			_add_button(action[0], action[1])
 		
 		
-func _add_button(action: String) -> void:
+func _add_button(action: String, label: String) -> void:
 	var event := _get_first_event(InputMap.action_get_events(action))
 	if event:
 		var button := _button_scene.instantiate() as InputMapperButton
 		button.register_icons(_pad_icons)
 		_buttons_parent.add_child(button)
-		button.configure(action, _action_labels[action], event)
+		button.configure(action, label, event)
 		button.remap_begin.connect(_enable_buttons.bind(false))
 		button.remap_complete.connect(_enable_buttons.bind(true))
 		
@@ -106,6 +102,13 @@ func _get_first_event(events: Array) -> InputEvent:
 				return event
 	return null
 	
+	
+func _get_valid_action_names() -> Array[String]:
+	var list : Array[String]
+	for entry : PackedStringArray in _valid_actions:
+		list.push_back(entry[0])
+	return list
+		
 
 func _enable_buttons(enable : bool) -> void:
 	for button : Button in _buttons_parent.get_children():

@@ -9,20 +9,12 @@ font_size = 32
 [sub_resource type="LabelSettings" id="LabelSettings_vn2kw"]
 font_size = 24
 
-[node name="InputMapper" type="PanelContainer" node_paths=PackedStringArray("_header", "_buttons_parent", "_reset_button")]
+[node name="InputMapper" type="PanelContainer" node_paths=PackedStringArray("_buttons_parent", "_reset_button")]
 offset_right = 500.0
 offset_bottom = 52.0
 script = ExtResource("1_bk6er")
 _button_scene = ExtResource("2_gsnpu")
-_action_labels = {
-"jump": "Jump",
-"move_backward": "Move Back",
-"move_forward": "Move Forward",
-"move_left": "Strafe Left",
-"move_right": "Strafe Right",
-"shoot": "Fire1"
-}
-_header = NodePath("Content/Header")
+_valid_actions = Array[PackedStringArray]([PackedStringArray("move_forward", "Move Forward"), PackedStringArray("move_backward", "Move Backward"), PackedStringArray("move_left", "Strafe Left"), PackedStringArray("move_right", "Stafe Right"), PackedStringArray("jump", "Jump"), PackedStringArray("shoot", "Fire")])
 _buttons_parent = NodePath("Content/Buttons")
 _reset_button = NodePath("Content/Reset")
 
