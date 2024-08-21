@@ -79,15 +79,15 @@ func switch_to_world(use_transition := true) -> void:
 # Private Functions
 func _prep_defaults() -> void:
 	if not _hud:
-		_hud = Control.new()
+		_hud = Hud.new()
 		add_child(_hud)
 		
 	if not _pause:
-		_pause = Control.new()
+		_pause = PauseScreen.new()
 		add_child(_pause)
 	
 	if not _front_end:
-		_front_end = Control.new()
+		_front_end = FrontEnd.new()
 		add_child(_front_end)
 		
 	var root := get_tree().root
