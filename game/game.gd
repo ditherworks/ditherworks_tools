@@ -9,6 +9,7 @@ extends Node
 @export var _hud : Hud
 @export var _pause : PauseScreen
 @export var _front_end : FrontEnd
+@export var _transition : Transition
 
 @export_group("Config")
 @export var _start_in_game := false
@@ -27,8 +28,8 @@ func _ready() -> void:
 		switch_to_world()
 	else:
 		switch_to_front_end()
-	
-	
+		
+			
 # Public Functions
 func pause(enable: bool) -> void:
 	get_tree().paused = enable
