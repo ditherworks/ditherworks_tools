@@ -23,6 +23,8 @@ const ROUND_TO_WHOLE := false
 var _current_value := _max_value
 var _hitboxes : Array
 
+var _damage_requests : Array[Dictionary]
+
 
 # Default Callbacks	
 func _ready() -> void:
@@ -52,9 +54,27 @@ func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bo
 	return true
 	
 	
-func queue_damage(amount: float, source: HitBox) -> void:
-	pass
-
+func request_damage(amount: float, hitbox: HitBox, creator: Node3D) -> void:
+	_damage_requests.push_back({ "amount": amount, "hitbox": hitbox, "creator": creator })
+	
+	
+func trigger_requested_damage() -> void:
+	if _damage_requests.is_empty():
+		return
+	
+	var best := _damage_requests[0]
+	for request in _damage_requests:
+		if request["amount"] as float > best["amount"] as float:
+			best = request
+	
+	if not best.is_empty():
+		var hitbox := best["hitbox"] as HitBox
+		var creator := best["creator"] as Node3D
+		var direction := hitbox.global_position.direction_to(creator.global_position)
+		hurt(best["amount"], hitbox.global_position, direction, creator)
+		
+	_damage_requests.clear()
+	
 
 func is_dead() -> bool:
 	return _current_value <= 0.0

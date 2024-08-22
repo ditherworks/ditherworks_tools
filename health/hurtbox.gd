@@ -17,44 +17,55 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
+	if not monitoring:
+		return
+		
+	var health_overlaps : Array[Health]
+	
+	for area in get_overlapping_areas():
+		# ignore if not a hitbox
+		var hitbox := area as HitBox
+		if not hitbox:
+			continue
+		
+		# ignore if they have not associated health
+		var health := hitbox._health
+		if not health:
+			continue
+		
+		# ignore if we alreayd hurt them	
+		if _recipients.has(health):
+			continue
+				
+		if not health_overlaps.has(health):
+			health_overlaps.push_back(health)
+			
+		hitbox.request_damage(_damage, owner)
+			
+	for health in health_overlaps:
+		health.trigger_requested_damage()
+		if not _recipients.has(health):
+			_recipients.push_back(health)
+			
 	# update life
 	if _life > 0.0:
 		_life -= delta
 		if _life <= 0.0:
 			deactivate()
-	
-	if not monitoring:
-		return
-		
-	#var health_overlaps : Array[Health]
-	
-	for area in get_overlapping_areas():
-		# check it's a hitbox
-		var hitbox := area as HitBox
-		if not hitbox:
-			continue
-			
-		#var health := hitbox.queue_damage(_damage)
-		#if health and not health_overlaps.has(health):
-			#health_overlaps.push_back(health)
-			
-		# check if they're new to us
-		if hitbox._health and not _recipients.has(hitbox._health):
-			# apply the damage
-			hitbox.hurt(_damage, global_position, global_position - area.global_position, _creator)
-			_recipients.append(hitbox._health)
 
 
 # Public Functions
 func activate(damage: float, duration: float, creator: Node3D) -> void:
+	_damage = damage
+	_life = duration
+	_creator = creator
+	
 	var collision := get_child(0) as CollisionShape3D
 	if collision:
 		collision.disabled = false 
 		
-	_damage = damage
-	_life = duration
-	_creator = creator
 	_recipients.clear()
+		
 	monitoring = true
 	
 	set_physics_process(true)
@@ -67,3 +78,6 @@ func deactivate() -> void:
 		
 	monitoring = false
 	set_physics_process(false)
+	
+	
+# Private Functions

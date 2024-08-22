@@ -29,9 +29,7 @@ func calculate_damage(hurt_amount: float) -> float:
 	return hurt_amount * _multiplier
 	
 	
-func queue_damage(amount: float) -> Health:
+func request_damage(amount: float, creator: Node3D) -> void:
 	if _health:
-		_health.queue_damage(calculate_damage(amount), self)
-		return _health
+		_health.request_damage(calculate_damage(amount), self, creator)
 		
-	return null
