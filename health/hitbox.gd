@@ -19,5 +19,19 @@ func connect_to_health(health: Health) -> void:
 
 func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bool:
 	if _health:
-		return _health.hurt(amount * _multiplier, point, normal, creator)
+		return _health.hurt(calculate_damage(amount), point, normal, creator)
 	return false
+	
+
+func calculate_damage(hurt_amount: float) -> float:
+	if not _health or _health.is_dead():
+		return 0.0
+	return hurt_amount * _multiplier
+	
+	
+func queue_damage(amount: float) -> Health:
+	if _health:
+		_health.queue_damage(calculate_damage(amount), self)
+		return _health
+		
+	return null

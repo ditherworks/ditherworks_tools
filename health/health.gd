@@ -50,6 +50,10 @@ func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bo
 	value_changed.emit(amount)
 	
 	return true
+	
+	
+func queue_damage(amount: float, source: HitBox) -> void:
+	pass
 
 
 func is_dead() -> bool:
@@ -70,3 +74,4 @@ func _get_all_hitboxes(node: Node, hitboxes := []) -> Array:
 		hitboxes = _get_all_hitboxes(child, hitboxes)
 		
 	return hitboxes
+	

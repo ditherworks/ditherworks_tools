@@ -24,8 +24,8 @@ emission_energy_multiplier = 2.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_3no45"]
 material = SubResource("StandardMaterial3D_ews3i")
-radius = 0.3
-height = 0.6
+radius = 0.2
+height = 0.4
 radial_segments = 16
 rings = 8
 

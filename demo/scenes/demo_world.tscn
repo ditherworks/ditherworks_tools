@@ -137,6 +137,8 @@ _hitbox_root_path = NodePath("..")
 
 [node name="Head_HitBox" type="Area3D" parent="Dummy/Health"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("8_u11ks")
 _multiplier = 3.0
 
@@ -145,6 +147,8 @@ shape = SubResource("SphereShape3D_inwm1")
 
 [node name="Body_HitBox" type="Area3D" parent="Dummy/Health"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("8_u11ks")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dummy/Health/Body_HitBox"]

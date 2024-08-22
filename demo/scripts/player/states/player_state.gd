@@ -31,7 +31,8 @@ func _default_look(event: InputEvent) -> void:
 
 func _default_shoot(event: InputEvent) -> void:
 	if Utils.action_just_pressed(event, "shoot"):
-		_player.shoot()
+		if _player._bullet_cast:
+			_player._bullet_cast.shoot()
 		
 	
 # Signal Functions

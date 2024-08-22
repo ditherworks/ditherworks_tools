@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ct81dwgxecd4w"]
+[gd_scene load_steps=14 format=3 uid="uid://ct81dwgxecd4w"]
 
 [ext_resource type="Script" path="res://demo/scripts/player/player.gd" id="1_6x5ip"]
 [ext_resource type="PackedScene" uid="uid://46avmnm8sxr7" path="res://demo/scenes/spark_fx.tscn" id="2_vtqkh"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_run.gd" id="5_ojjch"]
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_fall.gd" id="6_sym58"]
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_jump.gd" id="7_2ga8r"]
+[ext_resource type="Script" path="res://health/bullet_cast.gd" id="7_r1mxd"]
+[ext_resource type="Script" path="res://health/hurtbox.gd" id="8_nafdf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_myg2a"]
 radius = 0.3
@@ -21,12 +23,14 @@ material = SubResource("StandardMaterial3D_f0vkr")
 radius = 0.3
 height = 1.8
 
-[node name="Player" type="CharacterBody3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_v5om4"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera", "_bullet_cast", "_state_machine", "_melee_hurtbox")]
 script = ExtResource("1_6x5ip")
-_camera_path = NodePath("Camera3D")
-_raycast_path = NodePath("Camera3D/RayCast3D")
-_state_machine_path = NodePath("StateMachine")
-_spark_fx = ExtResource("2_vtqkh")
+_camera = NodePath("Camera3D")
+_bullet_cast = NodePath("Camera3D/BulletCast")
+_state_machine = NodePath("StateMachine")
+_melee_hurtbox = NodePath("HurtBox")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_wdl16")
@@ -61,10 +65,23 @@ shape = SubResource("CapsuleShape3D_myg2a")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 current = true
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="BulletCast" type="RayCast3D" parent="Camera3D"]
+enabled = false
 target_position = Vector3(0, 0, -100)
+collision_mask = 5
 collide_with_areas = true
+script = ExtResource("7_r1mxd")
+_impact_fx = ExtResource("2_vtqkh")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 mesh = SubResource("CapsuleMesh_w4w8f")
+
+[node name="HurtBox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -0.75)
+monitorable = false
+script = ExtResource("8_nafdf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+shape = SubResource("BoxShape3D_v5om4")
+disabled = true
