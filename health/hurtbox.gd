@@ -12,6 +12,7 @@ var _recipients := []
 # Default Callbacks	
 func _ready() -> void:
 	monitoring = false
+	monitorable = false
 	deactivate()
 	
 	
@@ -38,7 +39,7 @@ func _physics_process(delta: float) -> void:
 			#health_overlaps.push_back(health)
 			
 		# check if they're new to us
-		if hitbox._health and _recipients.has(hitbox._health):
+		if hitbox._health and not _recipients.has(hitbox._health):
 			# apply the damage
 			hitbox.hurt(_damage, global_position, global_position - area.global_position, _creator)
 			_recipients.append(hitbox._health)
