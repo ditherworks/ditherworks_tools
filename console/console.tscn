@@ -1,0 +1,100 @@
+[gd_scene load_steps=10 format=3 uid="uid://bqpx3s3lx14pi"]
+
+[ext_resource type="FontFile" uid="uid://eap6dqmmxbn3" path="res://console/ShareTechMono-Regular.ttf" id="1_x5tsq"]
+[ext_resource type="Script" path="res://console/console.gd" id="2_si4vv"]
+
+[sub_resource type="Theme" id="Theme_x2nyh"]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/fonts/font = ExtResource("1_x5tsq")
+LineEdit/fonts/font = ExtResource("1_x5tsq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyr8i"]
+content_margin_left = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0.733333)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xuhm"]
+content_margin_left = 8.0
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7lnj5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_18es0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uua6j"]
+
+[sub_resource type="GDScript" id="GDScript_6lsih"]
+resource_name = "console_input"
+script/source = "extends LineEdit
+
+
+# Signals
+# Enums
+# Constants
+# Members
+# Default Callbacks
+func _gui_input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if key and not key.pressed:
+		accept_event()
+		
+		
+# Public Functions
+# Private Functions
+"
+
+[node name="Console" type="Control" node_paths=PackedStringArray("_output", "_input_line")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_x2nyh")
+script = ExtResource("2_si4vv")
+_output = NodePath("Output")
+_input_line = NodePath("PanelContainer/HBoxContainer/LineEdit")
+
+[node name="Output" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.552955, 0.552956, 0.552955, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_jyr8i")
+text = "output shown here"
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3xuhm")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = ">"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7lnj5")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_18es0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uua6j")
+placeholder_text = "enter command"
+middle_mouse_paste_enabled = false
+caret_blink = true
+caret_blink_interval = 0.3
+script = SubResource("GDScript_6lsih")
