@@ -19,16 +19,19 @@ const SPEED := 300.0
 
 
 # Members
-@export var _output : Label
+@export var _output_line : Label
 @export var _input_line : LineEdit
 
 
 var _active := true
+var _commands : Array[Command]
 
 
 # Default Callbacks
 func _ready() -> void:
-	pass
+	_input_line.text_submitted.connect(_line_submitted)
+	
+	register_command("quit", _quit)
 	
 	
 func _input(event: InputEvent) -> void:
@@ -48,6 +51,13 @@ func _process(delta: float) -> void:
 
 
 # Public Functions
+func register_command(handle: String, callable: Callable) -> void:
+	for com : Command in _commands:
+		if com.handle == handle:
+			return
+	
+	_commands.push_back(Command.new(handle, callable))
+
 
 # Private Functions
 func _activate(active := true) -> void:
@@ -57,6 +67,33 @@ func _activate(active := true) -> void:
 		_input_line.grab_focus()
 	else:
 		get_viewport().gui_release_focus()
+		
+		
+func _line_submitted(text: String) -> void:
+	_parse_input(text)
+	_input_line.clear()
+	
+	
+func _parse_input(input: String) -> void:
+	var handle := input.substr(0, input.find(" "))
+	for com : Command in _commands:
+		if com.handle == handle:
+			var args := input.substr(input.find(" ") + 1).split(" ")
+			com.callable.call(args)
+			#_append_history(text)
+			_output(handle)
+			return
+	
+	_output("unrecognised command: " + handle)
+	
+		
+func _output(text: String) -> void:
+	_output_line.text = text
+	
+	
+func _quit(args: PackedStringArray) -> void:
+	get_tree().quit()
+
 	
 
 #@onready var _line := %LineEdit as LineEdit

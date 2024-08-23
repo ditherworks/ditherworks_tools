@@ -43,7 +43,7 @@ func _gui_input(event: InputEvent) -> void:
 # Private Functions
 "
 
-[node name="Console" type="Control" node_paths=PackedStringArray("_output", "_input_line")]
+[node name="Console" type="Control" node_paths=PackedStringArray("_output_line", "_input_line")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 12
@@ -55,7 +55,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_x2nyh")
 script = ExtResource("2_si4vv")
-_output = NodePath("Output")
+_output_line = NodePath("Output")
 _input_line = NodePath("PanelContainer/HBoxContainer/LineEdit")
 
 [node name="Output" type="Label" parent="."]
