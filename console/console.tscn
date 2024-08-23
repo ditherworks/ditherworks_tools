@@ -1,12 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqpx3s3lx14pi"]
+[gd_scene load_steps=9 format=3 uid="uid://bqpx3s3lx14pi"]
 
-[ext_resource type="FontFile" uid="uid://eap6dqmmxbn3" path="res://console/ShareTechMono-Regular.ttf" id="1_x5tsq"]
 [ext_resource type="Script" path="res://console/console.gd" id="2_si4vv"]
 
 [sub_resource type="Theme" id="Theme_x2nyh"]
 Label/colors/font_color = Color(1, 1, 1, 1)
-Label/fonts/font = ExtResource("1_x5tsq")
-LineEdit/fonts/font = ExtResource("1_x5tsq")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyr8i"]
 content_margin_left = 8.0

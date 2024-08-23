@@ -3,6 +3,9 @@ This is an assortment of helper classes and functions that I use on all projects
 
 Each tool is self-reliant and kept in it's own folder so pick and choose whatever bits you might need and run the demo scene if you want to see them in action
 
+### console
+A simple debug console for registering and parsing commands linked to custom callables
+
 ### debug_lines
 An autoload class allowing that will render lines and points in 3D, quickly and easily. They can last a single frame or hold for a fixed period.
 

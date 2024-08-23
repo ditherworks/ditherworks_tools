@@ -23,7 +23,7 @@ const SPEED := 300.0
 @export var _input_line : LineEdit
 
 
-var _active := true
+var _active := false
 var _commands : Array[Command]
 var _history : Array[String]
 var _history_index := -1
@@ -33,7 +33,14 @@ var _history_index := -1
 func _ready() -> void:
 	_input_line.text_submitted.connect(_line_submitted)
 	
+	global_position = Vector2(0.0, get_viewport_rect().size.y)
+	
 	register_command("quit", _quit)
+	
+	# disable in non-editor builds
+	if not OS.has_feature("editor"):
+		set_process_input(false)
+		set_process(false)
 	
 	
 func _input(event: InputEvent) -> void:
