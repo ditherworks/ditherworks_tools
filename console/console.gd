@@ -36,7 +36,8 @@ func _ready() -> void:
 	global_position = Vector2(0.0, get_viewport_rect().size.y)
 	
 	register_command("quit", _quit)
-	
+	register_command("fullscreen", _fullscreen)
+		
 	# disable in non-editor builds
 	if not OS.has_feature("editor"):
 		set_process_input(false)
@@ -92,25 +93,34 @@ func _line_submitted(text: String) -> void:
 	
 	
 func _parse_input(input: String) -> void:
-	var handle := input.substr(0, input.find(" "))
+	var handle := _extract_handle(input)
 	for com : Command in _commands:
 		if com.handle == handle:
-			var args := input.substr(input.find(" ") + 1).split(" ")
-			com.callable.call(args)
-			_append_history(input)
+			com.callable.call(_extract_args(input))
+			_append_history(handle)
 			_output(handle)
 			return
 	
 	_output("unrecognised command: " + handle)
 	
+	
+func _extract_handle(line: String) -> String:
+	return line.substr(0, line.find(" "))
+	
+	
+func _extract_args(line: String) -> PackedStringArray:
+	var start := line.find(" ")
+	if start == -1:
+		return PackedStringArray([""])
+	else:
+		return line.substr(start + 1).split(" ")
+
 
 func _append_history(line: String) -> void:
-	# remove oldest entry if this is a duplicate
 	var index := _history.find(line)
 	if index > -1:
 		_history.remove_at(index)
 	
-	# add this line to the history	
 	_history.push_back(line)
 	
 	
@@ -118,7 +128,12 @@ func _cycle_history(step: int) -> void:
 	if _history.is_empty():
 		return
 	
-	_history_index = wrapi(_history_index + step, 0, _history.size())
+	_history_index = _history_index + step
+	if _history_index < 0:
+		_history_index = _history.size() - 1
+	if _history_index >= _history.size():
+		_history_index = 0
+	
 	_input_line.text = _history[_history_index]
 	_input_line.caret_column = _input_line.text.length()
 		
@@ -126,7 +141,19 @@ func _cycle_history(step: int) -> void:
 func _output(text: String) -> void:
 	_output_line.text = text
 	
-	
+
 func _quit(args: PackedStringArray) -> void:
 	get_tree().quit()
 	
+
+func _fullscreen(args: PackedStringArray) -> void:
+	if args[0] == "":
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	else:
+		if args[0] == "0":
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)

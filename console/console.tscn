@@ -63,7 +63,6 @@ offset_bottom = 31.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.552955, 0.552956, 0.552955, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_jyr8i")
-text = "output shown here"
 vertical_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
@@ -90,8 +89,9 @@ size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7lnj5")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_18es0")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_uua6j")
-placeholder_text = "enter command"
+virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
 caret_blink = true
 caret_blink_interval = 0.3
 script = SubResource("GDScript_6lsih")
