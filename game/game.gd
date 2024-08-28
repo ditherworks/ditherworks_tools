@@ -19,12 +19,21 @@ var _world : Node3D
 
 # Default Callbacks
 func _ready() -> void:
+	g_console.register_command("quit", _quit)
+	g_console.register_command("fullscreen", _fullscreen)
+	
 	_prep_defaults()
 		
 	if _start_in_game:
 		switch_to_world(false)
 	else:
 		switch_to_front_end(false)
+		
+		
+func _unhandled_input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if key and key.pressed and key.keycode == KEY_F and key.shift_pressed:
+		g_console.submit_command("fullscreen")
 	
 	
 # Public Functions
@@ -103,3 +112,19 @@ func _prep_defaults() -> void:
 	_front_end.process_mode = Node.PROCESS_MODE_ALWAYS
 	_transition.process_mode = Node.PROCESS_MODE_ALWAYS
 	
+
+func _quit(args: PackedStringArray) -> void:
+	get_tree().quit()
+	
+
+func _fullscreen(args: PackedStringArray) -> void:
+	if args[0] == "":
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	else:
+		if args[0] == "0":
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
