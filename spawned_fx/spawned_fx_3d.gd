@@ -39,7 +39,7 @@ func _ready() -> void:
 			audio.play()
 			duration = max(duration, audio.stream.get_length())
 	
-	await get_tree().create_timer(duration).timeout		
+	await get_tree().create_timer(duration, false, false, false).timeout		
 	
 	queue_free()
 	
