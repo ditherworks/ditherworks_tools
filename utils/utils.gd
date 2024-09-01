@@ -19,7 +19,10 @@ static func stick_deadzone_adjust(input: Vector2, deadzone := 0.18) -> Vector2:
 		
 		
 # rescale single axis input so deadzone threshold is zero	
-static func axis_deadzone_adjust(input: float, deadzone := 0.18) -> float:
-	if input <= deadzone and input >= -deadzone:
-		return 0.0
-	return clampf(input, -1.0, 1.0)
+static func axis_deadzone_adjust(value: float, deadzone := 0.18) -> float:
+	if value > deadzone:
+		return inverse_lerp(deadzone, 1.0, value)
+	if value < -deadzone:
+		return -inverse_lerp(-deadzone, -1.0, value)
+		
+	return 0.0
