@@ -75,6 +75,10 @@ func register_command(handle: String, callable: Callable) -> void:
 func submit_command(text: String) -> void:
 	_input_line.clear()
 	_parse_input(text)
+	
+	
+func print_line(line: String, color := Color.WHITE) -> void:
+	_output.print_line(line, color)
 
 
 # Private Functions

@@ -33,6 +33,7 @@ func _default_shoot(event: InputEvent) -> void:
 	if Utils.action_just_pressed(event, "shoot"):
 		if _player._bullet_cast:
 			_player._bullet_cast.shoot()
+			g_console.print_line("pew", Color.LIME_GREEN)
 		
 	
 # Signal Functions
