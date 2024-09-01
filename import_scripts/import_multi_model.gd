@@ -6,7 +6,7 @@ extends EditorScenePostImport
 # ===================================
 # Extracts multiple models from a single blender file
 # It zeroes their origin and saves them out to their own scene file
-# Useful for collections of props meshes
+# Useful for collections of props
 
 
 # called after the scene is imported and gets the root node
