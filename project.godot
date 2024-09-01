@@ -22,8 +22,9 @@ run/bg_color=Color(0, 0, 0, 1)
 [autoload]
 
 g_console="*res://console/console.tscn"
-g_game="*res://demo/scenes/game.tscn"
+g_god_camera="*res://god_camera/god_camera.gd"
 g_lines="*res://debug_lines/debug_lines.gd"
+g_game="*res://demo/scenes/game.tscn"
 
 [debug]
 
