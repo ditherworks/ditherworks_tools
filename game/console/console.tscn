@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bqpx3s3lx14pi"]
 
-[ext_resource type="Script" path="res://console/console_output.gd" id="2_a8owa"]
-[ext_resource type="Script" path="res://console/console.gd" id="2_si4vv"]
+[ext_resource type="Script" path="res://game/console/console_output.gd" id="2_a8owa"]
+[ext_resource type="Script" path="res://game/console/console.gd" id="2_si4vv"]
 
 [sub_resource type="Theme" id="Theme_x2nyh"]
 Label/colors/font_color = Color(1, 1, 1, 1)

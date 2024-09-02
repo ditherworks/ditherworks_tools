@@ -24,5 +24,13 @@ static func axis_deadzone_adjust(value: float, deadzone := 0.18) -> float:
 		return inverse_lerp(deadzone, 1.0, value)
 	if value < -deadzone:
 		return -inverse_lerp(-deadzone, -1.0, value)
-		
+
 	return 0.0
+
+
+static func get_unique_timestamp() -> String:
+	var time := Time.get_time_dict_from_system()
+	var seconds := int(time["hour"]) * 60 * 60
+	seconds += int(time["minute"]) * 60
+	seconds += int(time["second"])
+	return Time.get_date_string_from_system().replace("-", ".") + "_" + str(seconds)

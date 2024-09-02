@@ -5,7 +5,8 @@ extends Camera3D
 # Signals
 # Enums
 # Constants
-const ACTION_NAME := "god_cam"
+const ACTION_TOGGLE := "god_cam"
+const ACTION_SCREENSHOT := "screenshot"
 const MOVE_SPEED := 5.0
 const LOOK_SPEED := 3.0
 
@@ -14,7 +15,7 @@ const LOOK_SPEED := 3.0
 # Default Callbacks
 func _ready() -> void:
 	clear_current()
-	_create_input_action()
+	_create_input_actions()
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -26,7 +27,7 @@ func _process(delta: float) -> void:
 # Public Functions	
 # Private Functions
 func _proces_input(delta: float) -> void:
-	if Input.is_action_just_released(ACTION_NAME):
+	if Input.is_action_just_pressed(ACTION_TOGGLE):
 		_activate(not current)
 		
 	# movement input
@@ -48,12 +49,18 @@ func _proces_input(delta: float) -> void:
 	pitch = clampf(pitch, deg_to_rad(-89.0), deg_to_rad(89.0))
 	rotation.x = pitch
 	
+	# screenshotter
+	if Input.is_action_just_pressed(ACTION_SCREENSHOT):
+		g_game.take_screenshot()
+	
 	
 func _activate(enable: bool) -> void:
 	if enable:
 		_overrule_camera(get_viewport().get_camera_3d())
+		g_game._hud.visible = false
 	else:
 		clear_current()
+		g_game._hud.visible = true
 		
 	get_tree().paused = enable	#! this clashes with my pause menu slightly (perhaps don't have game rely on paused flag for logic)
 
@@ -66,11 +73,15 @@ func _overrule_camera(camera: Camera3D) -> void:
 	make_current()
 
 
-func _create_input_action() -> void:
-	InputMap.add_action(ACTION_NAME)
+func _create_input_actions() -> void:
 	
-	var joy_event := InputEventJoypadButton.new()
-	joy_event.button_index = JOY_BUTTON_LEFT_STICK
-	InputMap.action_add_event(ACTION_NAME, joy_event)
-		
+	InputMap.add_action(ACTION_TOGGLE)
+	var button_event := InputEventJoypadButton.new()
+	button_event.button_index = JOY_BUTTON_LEFT_STICK
+	InputMap.action_add_event(ACTION_TOGGLE, button_event)
+	
+	InputMap.add_action(ACTION_SCREENSHOT)
+	button_event = InputEventJoypadButton.new()
+	button_event.button_index = JOY_BUTTON_Y
+	InputMap.action_add_event(ACTION_SCREENSHOT, button_event)	
 			

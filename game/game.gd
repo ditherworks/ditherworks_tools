@@ -32,9 +32,9 @@ func _ready() -> void:
 		
 func _unhandled_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
-	if key and key.pressed and key.keycode == KEY_F and key.shift_pressed:
+	if key and key.pressed and key.keycode == KEY_F5:
 		g_console.submit_command("fullscreen")
-	
+		
 	
 # Public Functions
 func pause(enable: bool) -> void:
@@ -83,6 +83,21 @@ func switch_to_world(use_transition := true) -> void:
 	get_tree().paused = false
 	if use_transition and _transition:
 		_transition.transition_in()
+		
+		
+func take_screenshot(show_hud := false) -> void:
+	var hud_got_hidden := _hud.visible and not show_hud
+	_hud.visible = show_hud
+	
+	await RenderingServer.frame_post_draw
+	
+	var image := get_viewport().get_texture().get_image()
+	var path := "user://screen_" + Utils.get_unique_timestamp() + ".png"
+	image.save_png(path)
+	prints("screenshot_taken...", path)
+	
+	if hud_got_hidden:
+		_hud.visible = true 
 		
 				
 # Private Functions
