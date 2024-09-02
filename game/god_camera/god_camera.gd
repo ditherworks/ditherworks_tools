@@ -9,9 +9,13 @@ const ACTION_TOGGLE := "god_cam"
 const ACTION_SCREENSHOT := "screenshot"
 const MOVE_SPEED := 5.0
 const LOOK_SPEED := 3.0
+const MOUSE_SENSITIVITY := 0.3
 
 
 # Members
+var _mouse_input : Vector2
+
+
 # Default Callbacks
 func _ready() -> void:
 	clear_current()
@@ -21,33 +25,53 @@ func _ready() -> void:
 	
 	
 func _process(delta: float) -> void:
-	_proces_input(delta)
+	_process_input(delta)
+	
+	
+func _input(event: InputEvent) -> void:
+	var mouse := event as InputEventMouseMotion
+	if mouse:
+		_mouse_input += mouse.relative
 	
 
 # Public Functions	
 # Private Functions
-func _proces_input(delta: float) -> void:
+func _process_input(delta: float) -> void:
 	if Input.is_action_just_pressed(ACTION_TOGGLE):
 		_activate(not current)
 		
 	# movement input
-	var stick := Vector2(Input.get_joy_axis(0, JOY_AXIS_LEFT_X), Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
-	stick = Utils.stick_deadzone_adjust(stick)
-	if Input.is_joy_button_pressed(0, JOY_BUTTON_RIGHT_SHOULDER):
-		global_position += global_basis * Vector3(stick.x * MOVE_SPEED, -stick.y * MOVE_SPEED, 0.0) * delta	
-	else:
-		global_position += global_basis * Vector3(stick.x * MOVE_SPEED, 0.0, stick.y * MOVE_SPEED) * delta
+	var movement := Vector3()
+	movement.x = -1.0 if Input.is_key_pressed(KEY_A) else 1.0 if Input.is_key_pressed(KEY_D) else 0.0
+	movement.z = -1.0 if Input.is_key_pressed(KEY_W) else 1.0 if Input.is_key_pressed(KEY_S) else 0.0
+	movement.y = -1.0 if Input.is_key_pressed(KEY_Q) else 1.0 if Input.is_key_pressed(KEY_E) else 0.0
+	
+	if is_zero_approx(movement.x):
+		movement.x = Input.get_joy_axis(0, JOY_AXIS_LEFT_X)
+	if is_zero_approx(movement.y):
+		if Input.is_joy_button_pressed(0, JOY_BUTTON_RIGHT_SHOULDER):
+			movement.y = -Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+	if is_zero_approx(movement.z):
+		if not Input.is_joy_button_pressed(0, JOY_BUTTON_RIGHT_SHOULDER):
+			movement.z = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+			
+	movement = Utils.vector3_deadzone_adjust(movement)
+	global_position += global_basis * (movement * MOVE_SPEED * delta)
 	
 	# look input
 	var yaw_input := Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 	rotate_y(-Utils.axis_deadzone_adjust(yaw_input, 0.2) * LOOK_SPEED * delta)
+	rotate_y(-_mouse_input.x * deg_to_rad(MOUSE_SENSITIVITY))
 	
 	var pitch := rotation.x
 	var pitch_input := Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
 	pitch_input = Utils.axis_deadzone_adjust(pitch_input, 0.2)
 	pitch += -pitch_input * LOOK_SPEED * delta
+	pitch -= _mouse_input.y * deg_to_rad(MOUSE_SENSITIVITY)
 	pitch = clampf(pitch, deg_to_rad(-89.0), deg_to_rad(89.0))
 	rotation.x = pitch
+	
+	_mouse_input = Vector2.ZERO
 	
 	# screenshotter
 	if Input.is_action_just_pressed(ACTION_SCREENSHOT):
@@ -74,14 +98,18 @@ func _overrule_camera(camera: Camera3D) -> void:
 
 
 func _create_input_actions() -> void:
-	
 	InputMap.add_action(ACTION_TOGGLE)
-	var button_event := InputEventJoypadButton.new()
-	button_event.button_index = JOY_BUTTON_LEFT_STICK
-	InputMap.action_add_event(ACTION_TOGGLE, button_event)
+	var joy_button := InputEventJoypadButton.new()
+	joy_button.button_index = JOY_BUTTON_LEFT_STICK
+	InputMap.action_add_event(ACTION_TOGGLE, joy_button)
+	var key := InputEventKey.new()
+	key.keycode = KEY_F12
+	InputMap.action_add_event(ACTION_TOGGLE, key)
 	
 	InputMap.add_action(ACTION_SCREENSHOT)
-	button_event = InputEventJoypadButton.new()
-	button_event.button_index = JOY_BUTTON_Y
-	InputMap.action_add_event(ACTION_SCREENSHOT, button_event)	
-			
+	joy_button = InputEventJoypadButton.new()
+	joy_button.button_index = JOY_BUTTON_Y
+	InputMap.action_add_event(ACTION_SCREENSHOT, joy_button)	
+	var mouse_button := InputEventMouseButton.new()
+	mouse_button.button_index = MOUSE_BUTTON_MIDDLE
+	InputMap.action_add_event(ACTION_SCREENSHOT, mouse_button)
