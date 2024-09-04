@@ -41,6 +41,7 @@ func pause(enable: bool) -> void:
 	get_tree().paused = enable
 	_hud.visible = not enable
 	_pause.visible = enable
+	_pause.process_mode = Node.PROCESS_MODE_INHERIT if enable else Node.PROCESS_MODE_DISABLED
 		
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if enable else Input.MOUSE_MODE_CAPTURED
 	
@@ -57,6 +58,7 @@ func switch_to_front_end(use_transition := true) -> void:
 	
 	_hud.visible = false
 	_pause.visible = false
+	_pause.process_mode = Node.PROCESS_MODE_DISABLED
 	_front_end.visible = true
 	_front_end.process_mode = Node.PROCESS_MODE_INHERIT
 	_world.visible = false
