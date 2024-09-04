@@ -26,7 +26,7 @@ func _default_movement(event: InputEvent) -> void:
 func _default_look(event: InputEvent) -> void:
 	var mouse := event as InputEventMouseMotion
 	if mouse:
-		_player.update_look_input(mouse.relative * MOUSELOOK_SCALING)
+		_player.update_look_input(mouse.screen_relative * MOUSELOOK_SCALING)
 
 
 func _default_shoot(event: InputEvent) -> void:

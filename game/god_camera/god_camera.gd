@@ -7,6 +7,7 @@ extends Camera3D
 # Constants
 const ACTION_TOGGLE := "god_cam"
 const ACTION_SCREENSHOT := "screenshot"
+
 const MOVE_SPEED := 5.0
 const LOOK_SPEED := 3.0
 const MOUSE_SENSITIVITY := 0.3
@@ -31,7 +32,7 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	var mouse := event as InputEventMouseMotion
 	if mouse:
-		_mouse_input += mouse.relative
+		_mouse_input += mouse.screen_relative
 	
 
 # Public Functions	
