@@ -14,6 +14,7 @@ extends Node
 @export_group("Config")
 @export var _start_in_game := false
 
+
 var _world : Node3D
 
 
@@ -57,11 +58,10 @@ func switch_to_front_end(use_transition := true) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	_hud.visible = false
-	_pause.visible = false
-	_pause.process_mode = Node.PROCESS_MODE_DISABLED
-	_front_end.visible = true
-	_front_end.process_mode = Node.PROCESS_MODE_INHERIT
-	_world.visible = false
+	
+	_set_state(_pause, Node.PROCESS_MODE_DISABLED)
+	_set_state(_front_end, Node.PROCESS_MODE_INHERIT)
+	_set_state(_world, Node.PROCESS_MODE_DISABLED)
 	
 	if use_transition and _transition:
 		_transition.transition_in()
@@ -75,10 +75,10 @@ func switch_to_world(use_transition := true) -> void:
 		await _transition.out_complete
 
 	_hud.visible = true
-	_pause.visible = false
-	_front_end.visible = false
-	_world.visible = true
-	_world.process_mode = Node.PROCESS_MODE_PAUSABLE
+	
+	_set_state(_pause, Node.PROCESS_MODE_DISABLED)
+	_set_state(_front_end, Node.PROCESS_MODE_DISABLED)
+	_set_state(_world, Node.PROCESS_MODE_PAUSABLE)
 		
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
@@ -123,11 +123,12 @@ func _prep_defaults() -> void:
 		add_child(_world)
 		
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	_world.process_mode = Node.PROCESS_MODE_PAUSABLE
-	_hud.process_mode = Node.PROCESS_MODE_PAUSABLE
-	_pause.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	_front_end.process_mode = Node.PROCESS_MODE_ALWAYS
-	_transition.process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func _set_state(element: Node, mode: ProcessMode) -> void:
+	element.visible = false if (mode == PROCESS_MODE_DISABLED) else true
+	element.process_mode = mode
+	element.set_process_input(false if mode == PROCESS_MODE_DISABLED else true)
 	
 
 func _quit(args: PackedStringArray) -> void:
