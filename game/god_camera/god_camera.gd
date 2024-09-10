@@ -7,6 +7,7 @@ extends Camera3D
 # Constants
 const ACTION_TOGGLE := "god_cam"
 const ACTION_SCREENSHOT := "screenshot"
+const ACTION_SPEED_UP := "speedup"
 
 const MOVE_SPEED := 5.0
 const LOOK_SPEED := 3.0
@@ -14,7 +15,7 @@ const MOUSE_SENSITIVITY := 0.3
 
 
 # Members
-var _mouse_input : Vector2
+var _mouse_input := Vector2.ZERO
 
 
 # Default Callbacks
@@ -33,7 +34,7 @@ func _input(event: InputEvent) -> void:
 	var mouse := event as InputEventMouseMotion
 	if mouse:
 		_mouse_input += mouse.screen_relative
-	
+				
 
 # Public Functions	
 # Private Functions
@@ -56,17 +57,18 @@ func _process_input(delta: float) -> void:
 		if not Input.is_joy_button_pressed(0, JOY_BUTTON_RIGHT_SHOULDER):
 			movement.z = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
 			
-	movement = Utils.vector3_deadzone_adjust(movement)
-	global_position += global_basis * (movement * MOVE_SPEED * delta)
+	movement = Utils.deadzone_adjust_vec3(movement)
+	var speed := MOVE_SPEED * 2.0 if Input.is_action_pressed(ACTION_SPEED_UP) else MOVE_SPEED
+	global_position += global_basis * (movement * speed * delta)
 	
 	# look input
 	var yaw_input := Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-	rotate_y(-Utils.axis_deadzone_adjust(yaw_input, 0.2) * LOOK_SPEED * delta)
+	rotate_y(-Utils.deadzone_adjust_float(yaw_input, 0.2) * LOOK_SPEED * delta)
 	rotate_y(-_mouse_input.x * deg_to_rad(MOUSE_SENSITIVITY))
 	
 	var pitch := rotation.x
 	var pitch_input := Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
-	pitch_input = Utils.axis_deadzone_adjust(pitch_input, 0.2)
+	pitch_input = Utils.deadzone_adjust_float(pitch_input, 0.2)
 	pitch += -pitch_input * LOOK_SPEED * delta
 	pitch -= _mouse_input.y * deg_to_rad(MOUSE_SENSITIVITY)
 	pitch = clampf(pitch, deg_to_rad(-89.0), deg_to_rad(89.0))
@@ -81,13 +83,15 @@ func _process_input(delta: float) -> void:
 	
 func _activate(enable: bool) -> void:
 	if enable:
+		if get_tree().paused:
+			return
 		_overrule_camera(get_viewport().get_camera_3d())
 		g_game._hud.visible = false
 	else:
 		clear_current()
 		g_game._hud.visible = true
 		
-	get_tree().paused = enable	#! this clashes with my pause menu slightly (perhaps don't have game rely on paused flag for logic)
+	get_tree().paused = enable
 
 
 func _overrule_camera(camera: Camera3D) -> void:
@@ -114,3 +118,12 @@ func _create_input_actions() -> void:
 	var mouse_button := InputEventMouseButton.new()
 	mouse_button.button_index = MOUSE_BUTTON_MIDDLE
 	InputMap.action_add_event(ACTION_SCREENSHOT, mouse_button)
+	
+	InputMap.add_action(ACTION_SPEED_UP)
+	joy_button = InputEventJoypadButton.new()
+	joy_button.button_index = JOY_BUTTON_B
+	InputMap.action_add_event(ACTION_SPEED_UP, joy_button)	
+	key = InputEventKey.new()
+	key.keycode = KEY_SHIFT
+	InputMap.action_add_event(ACTION_SPEED_UP, key)
+	
