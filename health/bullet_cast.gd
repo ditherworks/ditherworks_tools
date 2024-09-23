@@ -48,4 +48,4 @@ func _show_impact() -> void:
 	g_lines.draw_line(global_position, get_collision_point(), Color.ORANGE_RED, 1.0)
 	g_lines.draw_point(get_collision_point(), 0.1, Color.RED, 1.0)
 	if _impact_fx:
-		SpawnedFX3D.spawn_aimed(_impact_fx, self, get_collision_point(), get_collision_normal())
+		SpawnedFX3D.spawn_aimed(_impact_fx, get_tree().root, get_collision_point(), get_collision_normal())

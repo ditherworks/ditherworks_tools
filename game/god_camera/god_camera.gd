@@ -7,7 +7,7 @@ extends Camera3D
 # Constants
 const ACTION_TOGGLE := "god_cam"
 const ACTION_SCREENSHOT := "screenshot"
-const ACTION_SPEED_UP := "speedup"
+const ACTION_SPEED_UP := "speed_up"
 
 const MOVE_SPEED := 5.0
 const LOOK_SPEED := 3.0
@@ -86,7 +86,7 @@ func _activate(enable: bool) -> void:
 		if get_tree().paused:
 			return
 		_overrule_camera(get_viewport().get_camera_3d())
-		g_game._hud.visible = false
+		g_game._hud.visible = false		
 	else:
 		clear_current()
 		g_game._hud.visible = true

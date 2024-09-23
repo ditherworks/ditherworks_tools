@@ -1,6 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://46avmnm8sxr7"]
+[gd_scene load_steps=13 format=3 uid="uid://46avmnm8sxr7"]
 
 [ext_resource type="Script" path="res://spawned_fx/spawned_fx_3d.gd" id="1_5qd47"]
+
+[sub_resource type="Curve" id="Curve_acadv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Curve" id="Curve_vji2l"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -58,7 +62,7 @@ rings = 8
 
 [node name="SpawnedFX" type="Node3D"]
 script = ExtResource("1_5qd47")
-_light_duration = 0.1
+_light_curve = SubResource("Curve_acadv")
 
 [node name="Flash" type="GPUParticles3D" parent="."]
 emitting = false
