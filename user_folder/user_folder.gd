@@ -4,7 +4,7 @@ extends Node
 
 # U S E R   F O L D E R
 # =====================
-# A singleton that abstracts away a folder for holding all user files (config, gamesaves etc)
+# A static class that abstracts away a folder for holding all user files (config, gamesaves etc)
 # File contents is initially defined by a dictionary of default data
 # It will load from existing files, ensure all default values are in and prune old, invalid ones
 # Data is stored in memory for reading and writing before saving/syncing the file
@@ -17,27 +17,13 @@ const DEFAULT_SECTION := "data"
 
 
 # Members
-var _loaded_files := {}
+static var _loaded_files := {}
 
 
 # Default Callbacks
-func _ready() -> void:
-	#! test process, mimicking an external class accessing this class
-	var display := { "fullscreen": false, "vsync": true }
-	var controls := { "fire": 1, "invert_mouse": false }
-	var records := { "level": 69, "alive": true }
-	
-	load_file("config/display.cfg", display)
-	load_file("config/controls.cfg", controls)
-	load_file("saves/records.sav", records)
-	
-	save_file("config/display.cfg")
-	save_file("config/controls.cfg")
-	save_file("saves/records.sav")
-	
 	
 # Public Functions
-func load_file(local_path: String, defaults: Dictionary) -> void:
+static func load_file(local_path: String, defaults: Dictionary) -> void:
 	var file_path := _get_full_valid_path(local_path)
 	
 	# check if we've already loaded this file
@@ -49,26 +35,27 @@ func load_file(local_path: String, defaults: Dictionary) -> void:
 	_loaded_files[local_path] = file
 	
 	
-func save_file(local_path: String) -> void:
+static func save_file(local_path: String) -> void:
 	if _loaded_files.has(local_path):
 		var file := _loaded_files[local_path] as UserFile
 		file.save(_get_full_valid_path(local_path))
+		_loaded_files.erase(local_path)
 		
 
-func save_changed_files() -> void:
+static func save_changed_files() -> void:
 	for local_path : String in _loaded_files:
 		var file := _loaded_files[local_path] as UserFile
 		file.save_if_changed(_get_full_valid_path(local_path))
 			
 	
-func set_value(local_path: String, key: String, value: Variant) -> void:
+static func set_value(local_path: String, key: String, value: Variant) -> void:
 	if _loaded_files.has(local_path):
 		var file := _loaded_files[local_path] as UserFile
 		file.set_value(DEFAULT_SECTION, key, value)
 		file.mark_as_changed()
 	
 	
-func get_value(local_path: String, key: String) -> Variant:
+static func get_value(local_path: String, key: String) -> Variant:
 	if _loaded_files.has(local_path):
 		var file := _loaded_files[local_path] as UserFile
 		return file.get_value(DEFAULT_SECTION, key)
@@ -77,7 +64,7 @@ func get_value(local_path: String, key: String) -> Variant:
 
 
 # Private Functions
-func _get_storage_root_path() -> String:
+static func _get_storage_root_path() -> String:
 	# get storage path based on OS
 	var storage := ""
 	if OS.has_feature("windows"):
@@ -89,14 +76,14 @@ func _get_storage_root_path() -> String:
 	var project_name : String = ProjectSettings.get_setting("application/config/name")
 	var path := storage.path_join(project_name)
 	
-	#.. add a folder for the user id (if on steam for example)
+	#.. add a sub folder for the user id (if on steam for example)
 	#if is_steam:
 		#path = path.path_join(get_steam_user_id)
 		
 	return path
 
 
-func _get_full_valid_path(local_path: String) -> String:
+static func _get_full_valid_path(local_path: String) -> String:
 	var path := _get_storage_root_path()
 	path = path.path_join(local_path)
 	path = path.replace("\\", "/")

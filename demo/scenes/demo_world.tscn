@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://2eahjvvuqm1v"]
+[gd_scene load_steps=27 format=3 uid="uid://2eahjvvuqm1v"]
 
 [ext_resource type="PackedScene" uid="uid://b01tt6armfu7j" path="res://demo/scenes/default_environment.tscn" id="1_5eqw7"]
 [ext_resource type="Material" uid="uid://bhcsdgs5j6fxw" path="res://demo/materials/grey_checker.tres" id="2_uabkg"]
@@ -10,6 +10,37 @@
 [ext_resource type="Script" path="res://health/hitbox.gd" id="8_u11ks"]
 [ext_resource type="Material" uid="uid://j8r223yo0m3c" path="res://demo/materials/grey.tres" id="9_q6lik"]
 [ext_resource type="PackedScene" uid="uid://ct81dwgxecd4w" path="res://demo/scenes/player.tscn" id="10_urfi4"]
+
+[sub_resource type="GDScript" id="GDScript_u7i2f"]
+resource_name = "user_test"
+script/source = "class_name DemoWorld
+extends Node3D
+
+
+# Signals
+# Enums
+# Constants
+# Members
+
+# Default Callbacks
+func _ready() -> void:
+	#! test process for user folder class
+	var display := { \"fullscreen\": false, \"vsync\": true }
+	var controls := { \"fire\": 1, \"invert_mouse\": false }
+	var records := { \"level\": 69, \"alive\": true }
+	
+	UserFolder.load_file(\"config/display.cfg\", display)
+	UserFolder.load_file(\"config/controls.cfg\", controls)
+	UserFolder.load_file(\"saves/records.sav\", records)
+	
+	UserFolder.save_file(\"config/display.cfg\")
+	UserFolder.save_file(\"config/controls.cfg\")
+	UserFolder.save_file(\"saves/records.sav\")
+	
+	
+# Public Functions
+# Private Functions
+"
 
 [sub_resource type="Gradient" id="Gradient_84ynw"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -104,6 +135,7 @@ height = 1.2
 radial_segments = 32
 
 [node name="DemoWorld" type="Node3D"]
+script = SubResource("GDScript_u7i2f")
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("1_5eqw7")]
 

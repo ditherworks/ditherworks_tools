@@ -20,7 +20,7 @@ func load_with_defaults(path: String, defaults: Dictionary, remove_invalid := tr
 		_remove_invalid(defaults)
 	
 	
-func save_if_changed(path) -> void:
+func save_if_changed(path: String) -> void:
 	if _changed:
 		self.save(path)
 		_changed = false
