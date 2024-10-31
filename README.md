@@ -16,10 +16,10 @@ A base framework for the typical, major components of a game architecture: front
 A health and hitbox system for detecting and managing damage.
 
 ### input_mapper
-A panel and buttons for viewing and remapping actions
+A panel and buttons for viewing and remapping actions.
 
-### save_file
-A simple extension of the config_file class that allows for a dictionary of "default values" to be passed in while removing old, redundant entries.
+### user_folder
+A singleton that abstracts access to saving and loading user data such as configuration settings or savegame data.
 
 ### spawned_fx
 A system for bundling multiple GPUParticle3Ds along with a flash of light and sound effects. These can then be instanced quickly and left to free themselves when complete. It's not the most performant solution but it's great for early prototyping until you know you need something bespoke.

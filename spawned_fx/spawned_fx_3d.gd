@@ -11,6 +11,7 @@ extends Node3D
 
 
 # Export Members
+@export var _animation_player : AnimationPlayer
 @export var _light_duration := 0.2
 @export var _light_curve : Curve
 
@@ -20,27 +21,39 @@ var _light : Light3D
 var _light_energy := 1.0
 var _lifetime := 0.0
 
+static var _instances : Array[SpawnedFX3D]
+
 
 # Default Callbacks
 func _ready() -> void:
-	var duration := 0.0
-	for child in get_children():
-		if child is GPUParticles3D:
-			var fx := (child as GPUParticles3D)
-			fx.emitting = true
-			fx.one_shot = true
-			duration = max(duration, fx.lifetime)
-		elif child is Light3D:
-			_light = child as Light3D
-			_light_energy = _light.light_energy
-			duration = max(duration, _light_duration)
-		elif child is AudioStreamPlayer3D:
-			var audio := child as AudioStreamPlayer3D
-			audio.play()
-			duration = max(duration, audio.stream.get_length())
+	var duration := 0.1
 	
-	await get_tree().create_timer(duration, false, false, false).timeout		
+	if _animation_player == null:
+		# automatic triggers
+		for child in get_children():
+			if child is GPUParticles3D:
+				var fx := (child as GPUParticles3D)
+				fx.emitting = true
+				fx.one_shot = true
+				duration = max(duration, fx.lifetime)
+			elif child is Light3D:
+				_light = child as Light3D
+				_light_energy = _light.light_energy
+				duration = max(duration, _light_duration)
+			elif child is AudioStreamPlayer3D:
+				var audio := child as AudioStreamPlayer3D
+				audio.play()
+				duration = max(duration, audio.stream.get_length())
+	else:
+		# let the animation handle the triggering
+		var anim := _animation_player.get_animation("spawn")
+		if anim:
+			_animation_player.play("spawn")
+			duration = anim.length
+		
+	await get_tree().create_timer(duration, false, false, false).timeout
 	
+	_instances.remove_at(_instances.find(self))
 	queue_free()
 	
 	
@@ -60,6 +73,9 @@ static func spawn(scene: PackedScene, parent: Node, point: Vector3) -> SpawnedFX
 		
 	parent.add_child(fx)
 	fx.global_position = point
+	
+	_instances.push_back(fx)
+	
 	return fx
 
 
@@ -69,8 +85,17 @@ static func spawn_aimed(scene: PackedScene, parent: Node, point: Vector3, forwar
 		return null
 	
 	# prevent an identical up vector and look vector when spawning on floors or ceilings
-	if forward.is_equal_approx(Vector3.UP) or forward.is_equal_approx(-Vector3.UP):
+	if forward.normalized().is_equal_approx(Vector3.UP) or forward.normalized().is_equal_approx(-Vector3.UP):
 		up = Vector3.FORWARD
 			
 	fx.look_at(point + forward, up)
 	return fx
+
+
+static func clear_all() -> void:
+	for instance in _instances:
+		instance.queue_free()
+		
+	_instances.clear()
+	
+	
