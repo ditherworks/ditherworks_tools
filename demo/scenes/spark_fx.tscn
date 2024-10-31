@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://46avmnm8sxr7"]
+[gd_scene load_steps=16 format=3 uid="uid://46avmnm8sxr7"]
 
 [ext_resource type="Script" path="res://spawned_fx/spawned_fx_3d.gd" id="1_5qd47"]
 
@@ -60,14 +60,101 @@ height = 0.3
 radial_segments = 16
 rings = 8
 
-[node name="SpawnedFX" type="Node3D"]
+[sub_resource type="Animation" id="Animation_nllwl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OmniLight3D:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flash:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sparks:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_27id4"]
+resource_name = "spawn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OmniLight3D:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flash:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sparks:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k1k51"]
+_data = {
+"RESET": SubResource("Animation_nllwl"),
+"spawn": SubResource("Animation_27id4")
+}
+
+[node name="SparkFX" type="Node3D" node_paths=PackedStringArray("_animation_player")]
 script = ExtResource("1_5qd47")
+_animation_player = NodePath("AnimationPlayer")
 _light_curve = SubResource("Curve_acadv")
 
 [node name="Flash" type="GPUParticles3D" parent="."]
 emitting = false
 amount = 1
 lifetime = 0.15
+one_shot = true
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_rwwn6")
 draw_pass_1 = SubResource("SphereMesh_3no45")
@@ -76,6 +163,7 @@ draw_pass_1 = SubResource("SphereMesh_3no45")
 emitting = false
 amount = 4
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 fixed_fps = 60
@@ -87,3 +175,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0777806)
 light_color = Color(1, 0.827451, 0.54902, 1)
 light_energy = 2.0
 omni_range = 3.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k1k51")
+}

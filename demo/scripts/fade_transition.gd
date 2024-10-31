@@ -5,7 +5,7 @@ extends Transition
 # Signals
 # Enums
 # Constants
-const DURATION : = 0.3
+const DURATION : = 0.2
 
 
 # Members

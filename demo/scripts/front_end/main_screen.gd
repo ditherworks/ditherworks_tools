@@ -9,12 +9,14 @@ extends MenuScreen
 @export var _controls_screen : MenuScreen
 @export var _continue_button : Button
 @export var _controls_button : Button
+@export var _exit_button : Button
 
 
 # Default Callbacks
 func _ready() -> void:
 	_continue_button.pressed.connect(_button_pressed.bind(_continue_button))
 	_controls_button.pressed.connect(_button_pressed.bind(_controls_button))
+	_exit_button.pressed.connect(_button_pressed.bind(_exit_button))
 	
 	
 func _input(event: InputEvent) -> void:
@@ -31,3 +33,5 @@ func _button_pressed(button: Button) -> void:
 		g_game.switch_to_world()
 	if button == _controls_button:
 		_front_end.goto_screen(_controls_screen)
+	if button == _exit_button:
+		get_tree().quit()
