@@ -4,6 +4,9 @@ extends ConfigFile
 
 # Constants
 # Private Members
+var _changed := false
+
+
 # Default Callbacks
 
 
@@ -14,8 +17,18 @@ func load_with_defaults(path: String, defaults: Dictionary, remove_invalid := tr
 	_add_defaults(defaults)
 	
 	if remove_invalid:
-		_remove_invalid(defaults)	
+		_remove_invalid(defaults)
 	
+	
+func save_if_changed(path) -> void:
+	if _changed:
+		self.save(path)
+		_changed = false
+	
+	
+func mark_as_changed() -> void:
+	_changed = true
+
 	
 # Private Functions
 func _add_defaults(defaults: Dictionary) -> void:

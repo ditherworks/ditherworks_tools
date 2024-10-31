@@ -2,6 +2,14 @@ class_name UserFolder
 extends Node
 
 
+# U S E R   F O L D E R
+# =====================
+# A singleton that abstracts away a folder for holding all user files (config, gamesaves etc)
+# File contents is initially defined by a dictionary of default data
+# It will load from existing files, ensure all default values are in and prune old, invalid ones
+# Data is stored in memory for reading and writing before saving/syncing the file
+
+
 # Signals
 # Enums
 # Constants
@@ -42,17 +50,22 @@ func load_file(local_path: String, defaults: Dictionary) -> void:
 	
 	
 func save_file(local_path: String) -> void:
-	var file_path := _get_full_valid_path(local_path)
-	
 	if _loaded_files.has(local_path):
 		var file := _loaded_files[local_path] as UserFile
-		file.save(file_path)
-	
+		file.save(_get_full_valid_path(local_path))
+		
+
+func save_changed_files() -> void:
+	for local_path : String in _loaded_files:
+		var file := _loaded_files[local_path] as UserFile
+		file.save_if_changed(_get_full_valid_path(local_path))
+			
 	
 func set_value(local_path: String, key: String, value: Variant) -> void:
 	if _loaded_files.has(local_path):
 		var file := _loaded_files[local_path] as UserFile
 		file.set_value(DEFAULT_SECTION, key, value)
+		file.mark_as_changed()
 	
 	
 func get_value(local_path: String, key: String) -> Variant:
