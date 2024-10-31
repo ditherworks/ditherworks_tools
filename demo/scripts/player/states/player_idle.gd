@@ -15,6 +15,8 @@ extends PlayerState
 # Default Callbacks
 # Public Functions
 func fixed_update(delta: float, time_in_state: float) -> void:
+	_default_movement()
+	
 	if not _player.is_on_floor():
 		change_state.emit(get_node(_fall_path))
 		return
@@ -25,7 +27,6 @@ func fixed_update(delta: float, time_in_state: float) -> void:
 	
 	
 func unhandled_input(event: InputEvent) -> void:
-	_default_movement(event)
 	_default_look(event)
 	_default_shoot(event)
 	

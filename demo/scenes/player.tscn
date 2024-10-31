@@ -31,6 +31,11 @@ _camera = NodePath("Camera3D")
 _bullet_cast = NodePath("Camera3D/BulletCast")
 _state_machine = NodePath("StateMachine")
 _melee_hurtbox = NodePath("HurtBox")
+_acceleration = null
+_deceleration = null
+_air_modifier = null
+_rotate_rate = null
+_gravity_multiplier = null
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_wdl16")

@@ -16,11 +16,9 @@ const MOUSELOOK_SCALING := 0.01
 # Default Callbacks
 # Public Functions
 # Private Functions
-func _default_movement(event: InputEvent) -> void:
-	var left_right := event.is_action("move_left") or event.is_action("move_right")
-	var forward_back := event.is_action("move_forward") or event.is_action("move_backward")
-	if left_right or forward_back:
-		_player.set_move_input(Vector3(Input.get_axis("move_left", "move_right"), 0.0, Input.get_axis("move_forward", "move_backward")))
+func _default_movement() -> void:	
+	var dir := Vector3(Input.get_axis("move_left", "move_right"), 0.0, Input.get_axis("move_forward", "move_backward"))
+	_player._set_move_direction(_player.global_basis * dir, _player.SPEED)
 
 
 func _default_look(event: InputEvent) -> void:

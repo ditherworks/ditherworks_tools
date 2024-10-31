@@ -16,12 +16,13 @@ extends PlayerState
 # Public Functions
 	
 func fixed_update(delta: float, time_in_state: float) -> void:	
+	_default_movement()
+		
 	if _player.get_flat_velocity().is_zero_approx():
 		change_state.emit(get_node(_idle_path))
 		
 
 func unhandled_input(event: InputEvent) -> void:
-	_default_movement(event)
 	_default_look(event)
 	_default_shoot(event)
 	

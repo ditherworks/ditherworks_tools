@@ -1,5 +1,5 @@
 class_name Player
-extends CharacterBody3D
+extends Character
 
 
 # Enums and Constants
@@ -15,21 +15,16 @@ const LOOK_LIMIT := deg_to_rad(89.0)
 @export var _melee_hurtbox : HurtBox
 
 
-# Private Members
-@onready var _gravity := ProjectSettings.get_setting("physics/3d/default_gravity") as float
-
-var _move_input : Vector3
+# Members
 var _mouse_input : Vector2
 
 
 # Default Callbacks
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	super(delta)
+	
 	_mouse_look()
 	
-	
-func _physics_process(delta: float) -> void:
-	_apply_physics(delta)
-		
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -42,10 +37,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 
 # Public Functions	
-func set_move_input(input: Vector3) -> void:
-	_move_input = input.limit_length(1.0) * Vector3(1.0, 0.0, 1.0)
-	
-	
 func update_look_input(look_input: Vector2) -> void:
 	_mouse_input += look_input
 	
@@ -55,22 +46,12 @@ func get_flat_velocity() -> Vector3:
 
 
 # Private Functions
-func _apply_physics(delta: float) -> void:
-	# gravity
-	if not is_on_floor():
-		velocity.y -= (_gravity * delta)
-		
-	# movement
-	var vertical := Vector3.UP * velocity.y
-	velocity = (global_basis * (_move_input * SPEED)) + vertical
-	move_and_slide()
-	g_lines.draw_ray(global_position + Vector3(0.0, 0.1, 0.0), -velocity * delta, Color.GREEN, 1.0)
+func _mouse_look() -> void:	
+	_set_rotation_heading(-global_basis.z.rotated(Vector3.UP, -_mouse_input.x * SENSITIVITY))
 	
-	
-func _mouse_look() -> void:
-	rotate_y(-_mouse_input.x * SENSITIVITY)
 	var pitch := _camera.rotation.x - (_mouse_input.y * SENSITIVITY)
-	_camera.rotation.x = clampf(pitch, -LOOK_LIMIT, LOOK_LIMIT)
+	var limit := deg_to_rad(89.0)
+	_camera.rotation.x = clampf(pitch, -limit, limit)
 	
 	# clear mouse input buffer, ready for next frame
 	_mouse_input = Vector2.ZERO
