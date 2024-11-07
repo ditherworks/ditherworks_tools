@@ -13,10 +13,6 @@ func fixed_update(delta: float, time_in_state: float) -> void:
 	pass
 	
 	
-func unhandled_input(event: InputEvent) -> void:
-	pass
-	
-
 func exit() -> void:
 	pass
 	

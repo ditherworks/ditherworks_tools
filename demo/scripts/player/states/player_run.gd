@@ -6,9 +6,9 @@ extends PlayerState
 # Enums
 # Constants
 # Export Members
-@export var _idle_path : NodePath
-@export var _jump_path : NodePath
-@export var _fall_path : NodePath
+@export var _idle_state : PlayerIdle
+@export var _jump_state : PlayerJump
+@export var _fall_state : PlayerFall
 
 
 # Private Members
@@ -17,17 +17,16 @@ extends PlayerState
 	
 func fixed_update(delta: float, time_in_state: float) -> void:	
 	_default_movement()
+	_default_shoot()
 		
 	if _player.get_flat_velocity().is_zero_approx():
-		change_state.emit(get_node(_idle_path))
+		change_state.emit(_idle_state)
+		return
 		
-
-func unhandled_input(event: InputEvent) -> void:
-	_default_look(event)
-	_default_shoot(event)
-	
-	if Utils.action_just_pressed(event, "jump"):
-		change_state.emit(get_node(_jump_path))
+	if Input.is_action_just_pressed("jump"):
+		change_state.emit(_jump_state)
+		return
+		
 		
 # Private Functions
 # Signal Functions

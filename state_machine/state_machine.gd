@@ -36,27 +36,19 @@ func _physics_process(delta: float) -> void:
 		_active_state.fixed_update(delta, _time_in_state)
 
 
-#func _input(event: InputEvent) -> void:
-	#if event is InputEventMouseMotion:
-		#_active_state.unhandled_input(event)
-		
-		
-func _unhandled_input(event: InputEvent) -> void:
-	_active_state.unhandled_input(event)
-
-
 # Public Functions	
-func set_state(next: BaseState) -> void:
-	if next == null or next == _active_state:
+func set_state(next: BaseState, allow_repeat := false) -> void:
+	if next == null:
+		return
+		
+	if next == _active_state and not allow_repeat:
 		return
 		
 	if _active_state:
 		_active_state.exit()
 	_active_state = next
 	_active_state.enter()
-	
 	_time_in_state = 0.0
-	
 	state_changed.emit(_active_state)
 
 
@@ -65,7 +57,6 @@ func get_state(node_name: String) -> BaseState:
 		if child.name == node_name:
 			return child as BaseState
 	return null
-		
 		
 		
 # Private Functions

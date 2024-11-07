@@ -31,36 +31,31 @@ _camera = NodePath("Camera3D")
 _bullet_cast = NodePath("Camera3D/BulletCast")
 _state_machine = NodePath("StateMachine")
 _melee_hurtbox = NodePath("HurtBox")
-_acceleration = null
-_deceleration = null
-_air_modifier = null
-_rotate_rate = null
-_gravity_multiplier = null
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_wdl16")
 _starting_state_path = NodePath("PlayerIdle")
 
-[node name="PlayerIdle" type="Node" parent="StateMachine"]
+[node name="PlayerIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("_run_state", "_jump_state", "_fall_state")]
 script = ExtResource("4_i35vg")
-_run_path = NodePath("../PlayerRun")
-_jump_path = NodePath("../PlayerJump")
-_fall_path = NodePath("../PlayerFall")
+_run_state = NodePath("../PlayerRun")
+_jump_state = NodePath("../PlayerJump")
+_fall_state = NodePath("../PlayerFall")
 
-[node name="PlayerRun" type="Node" parent="StateMachine"]
+[node name="PlayerRun" type="Node" parent="StateMachine" node_paths=PackedStringArray("_idle_state", "_jump_state", "_fall_state")]
 script = ExtResource("5_ojjch")
-_idle_path = NodePath("../PlayerIdle")
-_jump_path = NodePath("../PlayerJump")
-_fall_path = NodePath("../PlayerFall")
+_idle_state = NodePath("../PlayerIdle")
+_jump_state = NodePath("../PlayerJump")
+_fall_state = NodePath("../PlayerFall")
 
-[node name="PlayerFall" type="Node" parent="StateMachine"]
-script = ExtResource("6_sym58")
-_idle_path = NodePath("../PlayerIdle")
-_run_path = NodePath("../PlayerRun")
-
-[node name="PlayerJump" type="Node" parent="StateMachine"]
+[node name="PlayerJump" type="Node" parent="StateMachine" node_paths=PackedStringArray("_fall_state")]
 script = ExtResource("7_2ga8r")
-_fall_path = NodePath("../PlayerFall")
+_fall_state = NodePath("../PlayerFall")
+
+[node name="PlayerFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("_idle_state", "_run_state")]
+script = ExtResource("6_sym58")
+_idle_state = NodePath("../PlayerIdle")
+_run_state = NodePath("../PlayerRun")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

@@ -12,7 +12,7 @@ extends CharacterBody3D
 @export var _air_modifier := 0.5
 @export var _rotate_rate := 40.0
 
-@export var _gravity_multiplier := 1.0
+@export var _gravity_multiplier := 2.0
 #@export var _max_fall_speed := 20.0
 
 
@@ -20,7 +20,7 @@ extends CharacterBody3D
 
 
 var _move_direction : Vector3
-var _rotation_heading := Vector3.RIGHT
+var _rotation_heading := Vector3.FORWARD
 var _move_speed := 3.0
 
 
@@ -41,15 +41,22 @@ func get_flat_velocity() -> Vector3:
 	return velocity * Vector3(1.0, 0.0, 1.0)
 	
 	
-# Private Functions
-func _set_move_direction(input: Vector3, move_speed: float, accel := -1.0, decel := -1.0) -> void:
+func get_movement_heading() -> Vector3:
+	var flat_velocity := velocity * Vector3(1.0, 0.0, 1.0)
+	if flat_velocity.is_zero_approx():
+		return -global_basis.z
+		
+	return flat_velocity.normalized()
+	
+	
+func set_move_direction(input: Vector3, move_speed: float, accel := -1.0, decel := -1.0) -> void:
 	_move_direction = input
 	_move_speed = move_speed
 	_acceleration = accel if accel > 0.0 else _acceleration
 	_deceleration = decel if decel > 0.0 else _deceleration
 	
 	
-func _set_rotation_heading(heading: Vector3, rate := -1.0) -> void:
+func set_rotation_heading(heading: Vector3, rate := -1.0) -> void:
 	if heading.is_zero_approx():
 		return
 		
@@ -61,10 +68,11 @@ func _set_rotation_heading(heading: Vector3, rate := -1.0) -> void:
 		look_at(global_position + heading.normalized())
 		
 	
-func _set_gravity_multiplier(multiplier: float) -> void:
+func set_gravity_multiplier(multiplier: float) -> void:
 	_gravity_multiplier = multiplier
-	
-	
+
+
+# Private Functions
 func _apply_input_forces(delta: float) -> void:
 	var input := _move_direction * Vector3(1.0, 0.0, 1.0)
 	input = input.limit_length()
@@ -102,14 +110,12 @@ func _apply_gravity(delta: float) -> void:
 		
 		
 func _update_rotation(delta: float) -> void:
-	var rate := deg_to_rad(_rotate_rate)
+	var rate := deg_to_rad(_rotate_rate * delta)
 	var forward := -global_basis.z
 	var angle := forward.signed_angle_to(_rotation_heading.normalized(), Vector3.UP)
 	rotate_y(clampf(angle, -rate, rate))
 
 	
 func _jump(force: float) -> void:
-	if not is_on_floor():
-		return
-		
-	velocity.y = force * 10.0
+	velocity.y = force
+	
