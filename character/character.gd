@@ -72,6 +72,10 @@ func set_gravity_multiplier(multiplier: float) -> void:
 	_gravity_multiplier = multiplier
 
 
+func is_moving() -> bool:
+	return not (velocity * Vector3(1.0, 0.0, 1.0)).is_zero_approx()
+
+
 # Private Functions
 func _apply_input_forces(delta: float) -> void:
 	var input := _move_direction * Vector3(1.0, 0.0, 1.0)
