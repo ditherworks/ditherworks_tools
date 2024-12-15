@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://ct81dwgxecd4w"]
+[gd_scene load_steps=13 format=3 uid="uid://ct81dwgxecd4w"]
 
 [ext_resource type="Script" path="res://demo/scripts/player/player.gd" id="1_6x5ip"]
-[ext_resource type="PackedScene" uid="uid://46avmnm8sxr7" path="res://demo/scenes/spark_fx.tscn" id="2_vtqkh"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_wdl16"]
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_idle.gd" id="4_i35vg"]
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_run.gd" id="5_ojjch"]
@@ -71,7 +70,6 @@ target_position = Vector3(0, 0, -100)
 collision_mask = 5
 collide_with_areas = true
 script = ExtResource("7_r1mxd")
-_impact_fx = ExtResource("2_vtqkh")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

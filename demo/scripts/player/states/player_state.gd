@@ -5,9 +5,6 @@ extends BaseState
 # Signals
 # Enums
 # Constants
-const MOUSELOOK_SCALING := 0.01
-
-
 # Export Members
 # Private Members
 @onready var _player := owner as Player
@@ -22,9 +19,10 @@ func _default_movement() -> void:
 
 
 func _default_shoot() -> void:
-	if Input.is_action_just_pressed("shoot"):
-		if _player._bullet_cast:
-			_player._bullet_cast.shoot()
+	if Input.is_action_just_pressed("shoot") and _player._bullet_cast:
+		if _player._bullet_cast.shoot():
+			DebugLines.draw_point(_player._bullet_cast.get_end_point(), 0.2, Color.ORANGE_RED, 0.5)
+		DebugLines.draw_line(_player._bullet_cast.global_position, _player._bullet_cast.get_end_point(), Color.RED, 0.5)
 		
 	
 # Signal Functions
