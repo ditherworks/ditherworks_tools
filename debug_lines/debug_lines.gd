@@ -18,6 +18,8 @@ class Line:
 		
 
 # Private Members
+static var _instance : DebugLines
+
 var _mesh := ArrayMesh.new()
 var _vertices := PackedVector3Array()
 var _colors := PackedColorArray()
@@ -47,7 +49,6 @@ func _ready() -> void:
 	
 
 func _process(delta: float) -> void:
-	
 	if _dirty:
 		_mesh.clear_surfaces()
 		
@@ -77,17 +78,27 @@ func _process(delta: float) -> void:
 			_dirty = true
 		
 		
-# Public Functions		
-func draw_line(start: Vector3, end: Vector3, color: Color, duration := 0.0) -> void:
-	_lines.push_back(Line.new(start, end, color, duration))
-	_dirty = true
+# Public Functions
+static func draw_line(start: Vector3, end: Vector3, color: Color, duration := 0.0) -> void:
+	_ensure_instance_exists()
+	_instance._lines.push_back(Line.new(start, end, color, duration))
+	_instance._dirty = true
 	
 	
-func draw_ray(origin: Vector3, ray: Vector3, color: Color, duration := 0.0) -> void:
+static func draw_ray(origin: Vector3, ray: Vector3, color: Color, duration := 0.0) -> void:
 	draw_line(origin, origin + ray, color, duration)
 	
 	
-func draw_point(origin: Vector3, radius: float, color: Color, duration := 0.0) -> void:
+static func draw_point(origin: Vector3, radius: float, color: Color, duration := 0.0) -> void:
 	draw_line(origin - (Vector3.UP * radius), origin + (Vector3.UP * radius), color, duration)
 	draw_line(origin - (Vector3.RIGHT * radius), origin + (Vector3.RIGHT * radius), color, duration)
 	draw_line(origin - (Vector3.FORWARD * radius), origin + (Vector3.FORWARD * radius), color, duration)
+	
+
+static func _ensure_instance_exists() -> void:
+	if _instance == null:
+		var tree := Engine.get_main_loop() as SceneTree
+		_instance = DebugLines.new()
+		_instance.name = "DebugLines"
+		tree.root.add_child.call_deferred(_instance)
+	
