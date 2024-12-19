@@ -7,7 +7,7 @@ signal state_changed(new_state: BaseState)
 
 
 # Export Members
-@export var _starting_state_path : NodePath
+@export var _starting_state : BaseState
 
 
 # Private Members
@@ -24,10 +24,10 @@ func _ready() -> void:
 		state.change_state.connect(set_state)
 	
 	# select a starting state
-	if _starting_state_path.is_empty() and not states.is_empty():
+	if _starting_state == null and not states.is_empty():
 		_active_state = states[0]
 	else:
-		_active_state = get_node(_starting_state_path)
+		_active_state = _starting_state
 	
 	
 func _physics_process(delta: float) -> void:

@@ -47,7 +47,7 @@ func get_flat_velocity() -> Vector3:
 # Private Functions
 func _mouse_look() -> void:
 	if not _mouse_input.is_zero_approx():
-		set_rotation_heading(-global_basis.z.rotated(Vector3.UP, deg_to_rad(-_mouse_input.x)))
+		face_in_direction(-global_basis.z.rotated(Vector3.UP, deg_to_rad(-_mouse_input.x)))
 		
 		var pitch := _camera.rotation.x - deg_to_rad(_mouse_input.y)
 		var limit := deg_to_rad(89.0)

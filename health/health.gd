@@ -11,15 +11,14 @@ signal value_changed(amount: float)
 const ROUND_TO_WHOLE := false
 
 
-# Config Values
+# Members
 @export_group("Internals")
-@export var _hitbox_root_path : NodePath
+@export var _hitbox_root : Node3D
 
 @export_group("Config")
 @export var _max_value := 100.0
 
 
-# Member Variables
 var _current_value := _max_value
 var _hitboxes : Array
 
@@ -28,16 +27,32 @@ var _damage_requests : Array[Dictionary]
 
 # Default Callbacks	
 func _ready() -> void:
-	if _hitbox_root_path.is_empty():
-		_hitboxes = _get_all_hitboxes(self)
-	else:
-		_hitboxes = _get_all_hitboxes(get_node(_hitbox_root_path))
+	if not _hitbox_root:
+		_hitbox_root = self
 		
+	_hitboxes = _get_all_hitboxes(_hitbox_root)
+	
 	for hitbox : HitBox in _hitboxes:
 		(hitbox as HitBox).connect_to_health(self)
 	
 			
 # Public Functions
+func request_overlap_hurt(damage: float, hitboxes: Array, creator: Node3D) -> void:
+	# find the highest damage result
+	var chosen_damage := -1.0
+	var chosen_hitbox : HitBox
+	
+	for hitbox : HitBox in hitboxes:
+		var calculated := hitbox.calculate_damage(damage)
+		if calculated > chosen_damage:
+			chosen_damage = calculated
+			chosen_hitbox = hitbox
+	
+	# apply the chosen hurt
+	if chosen_hitbox:
+		hurt(chosen_damage, chosen_hitbox.global_position, Vector3.ZERO, creator)
+	
+	
 func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bool:
 	if _current_value <= 0.0:
 		return false
@@ -52,28 +67,6 @@ func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bo
 	value_changed.emit(amount)
 	
 	return true
-	
-	
-func request_damage(amount: float, hitbox: HitBox, creator: Node3D) -> void:
-	_damage_requests.push_back({ "amount": amount, "hitbox": hitbox, "creator": creator })
-	
-	
-func trigger_requested_damage() -> void:
-	if _damage_requests.is_empty():
-		return
-	
-	var best := _damage_requests[0]
-	for request in _damage_requests:
-		if request["amount"] as float > best["amount"] as float:
-			best = request
-	
-	if not best.is_empty():
-		var hitbox := best["hitbox"] as HitBox
-		var creator := best["creator"] as Node3D
-		var direction := hitbox.global_position.direction_to(creator.global_position)
-		hurt(best["amount"], hitbox.global_position, direction, creator)
-		
-	_damage_requests.clear()
 	
 
 func is_dead() -> bool:

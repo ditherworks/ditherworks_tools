@@ -3,6 +3,10 @@ extends CharacterBody3D
 
 
 # Signals
+signal jumped()
+signal landed(fall_distance: float)
+
+
 # Enums
 # Constants
 # Members
@@ -10,7 +14,6 @@ extends CharacterBody3D
 @export var _acceleration := 60.0
 @export var _deceleration := 40.0
 @export var _air_modifier := 0.5
-@export var _rotate_rate := 40.0
 
 @export var _gravity_multiplier := 2.0
 #@export var _max_fall_speed := 20.0
@@ -20,20 +23,17 @@ extends CharacterBody3D
 
 
 var _move_direction : Vector3
-var _rotation_heading := Vector3.FORWARD
 var _move_speed := 3.0
+
+var _fall_distance := 0.0
 
 
 # Default Callbacks
 func _physics_process(delta: float) -> void:
 	_apply_input_forces(delta)
 	_apply_gravity(delta)
-	move_and_slide()
 	
-	if is_on_floor():
-		velocity.y = 0.0
-		
-	_update_rotation(delta)
+	_update_motion(delta)
 		
 	
 # Public Functions
@@ -55,25 +55,32 @@ func set_move_direction(input: Vector3, move_speed: float, accel := -1.0, decel 
 	_acceleration = accel if accel > 0.0 else _acceleration
 	_deceleration = decel if decel > 0.0 else _deceleration
 	
-	
-func set_rotation_heading(heading: Vector3, rate := -1.0) -> void:
-	if heading.is_zero_approx():
-		return
-		
-	_rotation_heading = heading.normalized()
-	
-	if rate > 0.0:
-		_rotate_rate = rate
-	else:
+
+func face_in_direction(direction: Vector3) -> void:
+	var heading := direction * Vector3(1.0, 0.0, 1.0)
+	if heading.length() > 0.0:
 		look_at(global_position + heading.normalized())
-		
 	
+	
+func rotate_to_direction(direction: Vector3, rotate_amount: float) -> void:
+	var forward := -global_basis.z
+	var angle := forward.signed_angle_to(direction.normalized(), Vector3.UP)
+	var rate := deg_to_rad(rotate_amount)
+	rotate_y(clampf(angle, -rate, rate))
+	
+		
 func set_gravity_multiplier(multiplier: float) -> void:
 	_gravity_multiplier = multiplier
-
-
+	
+	
+func jump(force: float) -> void:
+	velocity.y = force
+	jumped.emit()
+	
+	
 func is_moving() -> bool:
-	return not (velocity * Vector3(1.0, 0.0, 1.0)).is_zero_approx()
+	var flat_velocity := velocity * Vector3(1.0, 0.0, 1.0)
+	return flat_velocity.length() > 0.1
 
 
 # Private Functions
@@ -112,14 +119,23 @@ func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= _gravity * delta * _gravity_multiplier
 		
-		
-func _update_rotation(delta: float) -> void:
-	var rate := deg_to_rad(_rotate_rate * delta)
-	var forward := -global_basis.z
-	var angle := forward.signed_angle_to(_rotation_heading.normalized(), Vector3.UP)
-	rotate_y(clampf(angle, -rate, rate))
 
+func _update_motion(delta: float) -> void:
+	var previously_airborne := not is_on_floor()
 	
-func _jump(force: float) -> void:
-	velocity.y = force
+	# perform the collision swept movement
+	move_and_slide()
 	
+	# track falling distance
+	if velocity.y < 0.0:
+		_fall_distance += abs(velocity.y * delta)
+		
+	# respond to landing
+	if is_on_floor():
+		velocity.y = 0.0
+		if previously_airborne:
+			landed.emit(_fall_distance)
+	
+	# reset falling distance
+	if velocity.y >= 0.0:
+		_fall_distance = 0.0

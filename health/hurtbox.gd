@@ -17,41 +17,9 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
-	if not monitoring:
-		return
-		
-	var health_overlaps : Array[Health]
-	
-	for area in get_overlapping_areas():
-		# ignore if not a hitbox
-		var hitbox := area as HitBox
-		if not hitbox:
-			continue
-		
-		# ignore if they have not associated health
-		var health := hitbox._health
-		if not health:
-			continue
-		
-		# ignore if we alreayd hurt them	
-		if _recipients.has(health):
-			continue
-				
-		if not health_overlaps.has(health):
-			health_overlaps.push_back(health)
-			
-		hitbox.request_damage(_damage, owner)
-			
-	for health in health_overlaps:
-		health.trigger_requested_damage()
-		if not _recipients.has(health):
-			_recipients.push_back(health)
-			
-	# update life
-	if _life > 0.0:
-		_life -= delta
-		if _life <= 0.0:
-			deactivate()
+	if monitoring:
+		_process_overlaps()
+		_update_life(delta)
 
 
 # Public Functions
@@ -81,3 +49,45 @@ func deactivate() -> void:
 	
 	
 # Private Functions
+func _get_all_health_overlaps(hitboxes : Array[HitBox]) -> Dictionary:
+	var overlaps : Dictionary
+	for hitbox in hitboxes:
+		if not overlaps.has(hitbox._health):
+			# create new health entry with array of hitboxes
+			overlaps[hitbox._health] = []
+			
+		# add hitbox to existing list for associated health
+		var boxes : Array = overlaps[hitbox._health]
+		boxes.push_back(hitbox)
+		
+	return overlaps
+	
+	
+func _get_all_valid_hitboxes() -> Array[HitBox]:
+	var hitboxes : Array[HitBox]
+	for area in get_overlapping_areas():
+		var hitbox := area as HitBox
+		if hitbox and hitbox._health and not _recipients.has(hitbox._health):
+			hitboxes.push_back(hitbox)
+	
+	return hitboxes
+	
+
+func _process_overlaps() -> void:
+	var overlaps := _get_all_health_overlaps(_get_all_valid_hitboxes())
+		
+	# hand the damage over to each health node
+	for health : Health in overlaps:
+		health.request_overlap_hurt(_damage, overlaps[health], _creator)
+	
+	# remember who we've already overlapped
+	for key : Health in overlaps:
+		if not _recipients.has(key):
+			_recipients.push_back(key)
+	
+				
+func _update_life(delta: float) -> void:
+	if _life > 0.0:
+		_life -= delta
+		if _life <= 0.0:
+			deactivate()

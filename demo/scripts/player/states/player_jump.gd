@@ -13,7 +13,7 @@ extends PlayerState
 # Default Callbacks
 # Public Functions
 func enter() -> void:
-	_player._jump(6.0)
+	_player.jump(6.0)
 	
 	
 func fixed_update(delta: float, time_in_state: float) -> void:

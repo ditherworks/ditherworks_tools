@@ -13,6 +13,9 @@
 radius = 0.3
 height = 1.8
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_v5om4"]
+size = Vector3(1, 0.2, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0vkr"]
 albedo_color = Color(0.768627, 0.509804, 0.498039, 1)
 metallic_specular = 0.0
@@ -22,18 +25,16 @@ material = SubResource("StandardMaterial3D_f0vkr")
 radius = 0.3
 height = 1.8
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_v5om4"]
-
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera", "_bullet_cast", "_state_machine", "_melee_hurtbox")]
 script = ExtResource("1_6x5ip")
 _camera = NodePath("Camera3D")
 _bullet_cast = NodePath("Camera3D/BulletCast")
 _state_machine = NodePath("StateMachine")
-_melee_hurtbox = NodePath("HurtBox")
+_melee_hurtbox = NodePath("Camera3D/HurtBox")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("_starting_state")]
 script = ExtResource("3_wdl16")
-_starting_state_path = NodePath("PlayerIdle")
+_starting_state = NodePath("PlayerIdle")
 
 [node name="PlayerIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("_run_state", "_jump_state", "_fall_state")]
 script = ExtResource("4_i35vg")
@@ -71,17 +72,17 @@ collision_mask = 5
 collide_with_areas = true
 script = ExtResource("7_r1mxd")
 
-[node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_w4w8f")
-
-[node name="HurtBox" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -0.75)
+[node name="HurtBox" type="Area3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.75)
 collision_layer = 4
 collision_mask = 4
 monitorable = false
 script = ExtResource("8_nafdf")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/HurtBox"]
 shape = SubResource("BoxShape3D_v5om4")
 disabled = true
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_w4w8f")
