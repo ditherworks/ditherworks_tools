@@ -29,11 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		g_game.pause(true)
 		get_viewport().set_input_as_handled()
-		
-	if event.is_action_pressed("melee") and _melee_hurtbox:
-		_melee_hurtbox.activate(10.0, 0.1, self)
-		print("swish")
-		
+				
 	if event is InputEventMouseMotion:
 		var motion := event as InputEventMouseMotion
 		_mouse_input += motion.screen_relative * SENSITIVITY

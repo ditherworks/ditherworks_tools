@@ -25,6 +25,8 @@ signal landed(fall_distance: float)
 var _move_direction : Vector3
 var _move_speed := 3.0
 
+var _fixed_motion := Vector3.ZERO
+
 var _fall_distance := 0.0
 
 
@@ -32,7 +34,6 @@ var _fall_distance := 0.0
 func _physics_process(delta: float) -> void:
 	_apply_input_forces(delta)
 	_apply_gravity(delta)
-	
 	_update_motion(delta)
 		
 	
@@ -47,6 +48,10 @@ func get_movement_heading() -> Vector3:
 		return -global_basis.z
 		
 	return flat_velocity.normalized()
+	
+	
+func set_fixed_motion(motion: Vector3) -> void:
+	_fixed_motion = motion
 	
 	
 func set_move_direction(input: Vector3, move_speed: float, accel := -1.0, decel := -1.0) -> void:
@@ -88,6 +93,10 @@ func _apply_input_forces(delta: float) -> void:
 	var input := _move_direction * Vector3(1.0, 0.0, 1.0)
 	input = input.limit_length()
 	
+	# if there's a fixed/root motion, ignore physics input
+	if not _fixed_motion.is_zero_approx():
+		input = Vector3.ZERO
+	
 	# break velocity into lateral and vertical
 	var lateral := velocity * Vector3(1.0, 0.0, 1.0)
 	var vertical := velocity - lateral
@@ -123,8 +132,15 @@ func _apply_gravity(delta: float) -> void:
 func _update_motion(delta: float) -> void:
 	var previously_airborne := not is_on_floor()
 	
-	# perform the collision swept movement
+	# temporarily account for requested fixed/root motion
+	var previous_velocity := velocity
+	velocity += _fixed_motion
+	
 	move_and_slide()
+	
+	# revert all motion values
+	velocity = previous_velocity
+	_fixed_motion = Vector3.ZERO
 	
 	# track falling distance
 	if velocity.y < 0.0:

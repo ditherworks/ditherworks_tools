@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ct81dwgxecd4w"]
+[gd_scene load_steps=15 format=3 uid="uid://ct81dwgxecd4w"]
 
 [ext_resource type="Script" path="res://demo/scripts/player/player.gd" id="1_6x5ip"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_wdl16"]
@@ -7,14 +7,19 @@
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_fall.gd" id="6_sym58"]
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_jump.gd" id="7_2ga8r"]
 [ext_resource type="Script" path="res://health/bullet_cast.gd" id="7_r1mxd"]
+[ext_resource type="Script" path="res://demo/scripts/player/states/player_melee.gd" id="7_u424l"]
 [ext_resource type="Script" path="res://health/hurtbox.gd" id="8_nafdf"]
+
+[sub_resource type="Curve" id="Curve_kappi"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_myg2a"]
 radius = 0.3
 height = 1.8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v5om4"]
-size = Vector3(1, 0.2, 1)
+size = Vector3(1, 0.2, 1.16113)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0vkr"]
 albedo_color = Color(0.768627, 0.509804, 0.498039, 1)
@@ -36,17 +41,19 @@ _melee_hurtbox = NodePath("Camera3D/HurtBox")
 script = ExtResource("3_wdl16")
 _starting_state = NodePath("PlayerIdle")
 
-[node name="PlayerIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("_run_state", "_jump_state", "_fall_state")]
+[node name="PlayerIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("_run_state", "_jump_state", "_fall_state", "_melee_state")]
 script = ExtResource("4_i35vg")
 _run_state = NodePath("../PlayerRun")
 _jump_state = NodePath("../PlayerJump")
 _fall_state = NodePath("../PlayerFall")
+_melee_state = NodePath("../PlayerMelee")
 
-[node name="PlayerRun" type="Node" parent="StateMachine" node_paths=PackedStringArray("_idle_state", "_jump_state", "_fall_state")]
+[node name="PlayerRun" type="Node" parent="StateMachine" node_paths=PackedStringArray("_idle_state", "_jump_state", "_fall_state", "_melee_state")]
 script = ExtResource("5_ojjch")
 _idle_state = NodePath("../PlayerIdle")
 _jump_state = NodePath("../PlayerJump")
 _fall_state = NodePath("../PlayerFall")
+_melee_state = NodePath("../PlayerMelee")
 
 [node name="PlayerJump" type="Node" parent="StateMachine" node_paths=PackedStringArray("_fall_state")]
 script = ExtResource("7_2ga8r")
@@ -56,6 +63,12 @@ _fall_state = NodePath("../PlayerFall")
 script = ExtResource("6_sym58")
 _idle_state = NodePath("../PlayerIdle")
 _run_state = NodePath("../PlayerRun")
+
+[node name="PlayerMelee" type="Node" parent="StateMachine" node_paths=PackedStringArray("_idle_state", "_fall_state")]
+script = ExtResource("7_u424l")
+_idle_state = NodePath("../PlayerIdle")
+_fall_state = NodePath("../PlayerFall")
+_movement = SubResource("Curve_kappi")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -80,6 +93,7 @@ monitorable = false
 script = ExtResource("8_nafdf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/HurtBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0805664)
 shape = SubResource("BoxShape3D_v5om4")
 disabled = true
 
