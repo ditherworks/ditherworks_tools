@@ -1,4 +1,4 @@
-@icon("res://health/health.svg")
+@icon("health.svg")
 class_name Health
 extends Node3D
 

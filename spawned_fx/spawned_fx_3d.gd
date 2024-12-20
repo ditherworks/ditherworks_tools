@@ -1,4 +1,4 @@
-@icon("res://spawned_fx/spawned_fx_3d_icon.svg")
+@icon("spawned_fx_3d_icon.svg")
 class_name SpawnedFX3D
 extends Node3D
 
