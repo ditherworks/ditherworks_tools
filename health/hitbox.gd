@@ -11,6 +11,9 @@ var _health : Health
 
 
 # Default Callbacks
+func _ready() -> void:
+	monitoring = false
+	
 
 # Public Functions
 func connect_to_health(health: Health) -> void:
@@ -27,9 +30,4 @@ func calculate_damage(hurt_amount: float) -> float:
 	if not _health or _health.is_dead():
 		return 0.0
 	return hurt_amount * _multiplier
-	
-	
-func request_damage(amount: float, creator: Node3D) -> void:
-	if _health:
-		_health.request_damage(calculate_damage(amount), self, creator)
-		
+			

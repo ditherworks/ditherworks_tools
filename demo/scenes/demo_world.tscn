@@ -204,9 +204,8 @@ text = "00"
 script = SubResource("GDScript_lrthn")
 _health_path = NodePath("../Health")
 
-[node name="Health" type="Node3D" parent="Dummy1" node_paths=PackedStringArray("_hitbox_root")]
+[node name="Health" type="Node3D" parent="Dummy1"]
 script = ExtResource("7_04iuv")
-_hitbox_root = NodePath("..")
 
 [node name="Head_HitBox" type="Area3D" parent="Dummy1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -245,9 +244,8 @@ text = "00"
 script = SubResource("GDScript_lrthn")
 _health_path = NodePath("../Health")
 
-[node name="Health" type="Node3D" parent="Dummy2" node_paths=PackedStringArray("_hitbox_root")]
+[node name="Health" type="Node3D" parent="Dummy2"]
 script = ExtResource("7_04iuv")
-_hitbox_root = NodePath("..")
 
 [node name="Head_HitBox" type="Area3D" parent="Dummy2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

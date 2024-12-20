@@ -31,6 +31,8 @@ radius = 0.3
 height = 1.8
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera", "_bullet_cast", "_state_machine", "_melee_hurtbox")]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_6x5ip")
 _camera = NodePath("Camera3D")
 _bullet_cast = NodePath("Camera3D/BulletCast")

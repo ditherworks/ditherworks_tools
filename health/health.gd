@@ -12,9 +12,6 @@ const ROUND_TO_WHOLE := false
 
 
 # Members
-@export_group("Internals")
-@export var _hitbox_root : Node3D
-
 @export_group("Config")
 @export var _max_value := 100.0
 
@@ -27,10 +24,7 @@ var _damage_requests : Array[Dictionary]
 
 # Default Callbacks	
 func _ready() -> void:
-	if not _hitbox_root:
-		_hitbox_root = self
-		
-	_hitboxes = _get_all_hitboxes(_hitbox_root)
+	_hitboxes = _get_all_hitboxes(get_parent_node_3d())
 	
 	for hitbox : HitBox in _hitboxes:
 		(hitbox as HitBox).connect_to_health(self)
