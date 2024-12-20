@@ -4,7 +4,7 @@ extends Node3D
 
 
 # Signals
-signal value_changed(amount: float)
+signal value_changed(amount: float, point: Vector3, normal: Vector3, creator: Node3D)
 
 
 # Constants
@@ -31,7 +31,7 @@ func _ready() -> void:
 	
 			
 # Public Functions
-func request_overlap_hurt(damage: float, hitboxes: Array, creator: Node3D) -> void:
+func request_overlap_hurt(damage: float, hitboxes: Array, hurtbox: HurtBox, creator: Node3D) -> void:
 	# find the highest damage result
 	var chosen_damage := -1.0
 	var chosen_hitbox : HitBox
@@ -44,7 +44,7 @@ func request_overlap_hurt(damage: float, hitboxes: Array, creator: Node3D) -> vo
 	
 	# apply the chosen hurt
 	if chosen_hitbox:
-		hurt(chosen_damage, chosen_hitbox.global_position, Vector3.ZERO, creator)
+		hurt(chosen_damage, hurtbox.global_position, Vector3.ZERO, creator)
 	
 	
 func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bool:
@@ -58,7 +58,7 @@ func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bo
 	if ROUND_TO_WHOLE:
 		_current_value = floorf(_current_value)
 	
-	value_changed.emit(amount)
+	value_changed.emit(amount, point, normal, creator)
 	
 	return true
 	

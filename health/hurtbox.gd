@@ -78,7 +78,7 @@ func _process_overlaps() -> void:
 		
 	# hand the damage over to each health node
 	for health : Health in overlaps:
-		health.request_overlap_hurt(_damage, overlaps[health], _creator)
+		health.request_overlap_hurt(_damage, overlaps[health], self, _creator)
 	
 	# remember who we've already overlapped
 	for key : Health in overlaps:
