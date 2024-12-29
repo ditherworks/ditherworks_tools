@@ -7,7 +7,7 @@ Each tool is self-reliant and kept in it's own folder so pick and choose whateve
 A simple debug console for registering and parsing commands linked to custom callables
 
 ### debug_lines
-An autoload class allowing that will render lines and points in 3D, quickly and easily. They can last a single frame or hold for a fixed period.
+An static class allowing easy rendering lines and points in 3D. They can last a single frame or hold for a fixed period.
 
 ### game
 A base framework for the typical, major components of a game architecture: front end (with many screens), hud, pause screen
