@@ -2,6 +2,10 @@ class_name HurtBox
 extends Area3D
 
 
+# Signals
+signal damage_dealt(damage: float)
+
+
 #  Members
 var _life := -1.0
 var _damage := 100.0
@@ -68,6 +72,8 @@ func _get_all_valid_hitboxes() -> Array[HitBox]:
 	for area in get_overlapping_areas():
 		var hitbox := area as HitBox
 		if hitbox and hitbox._health and not _recipients.has(hitbox._health):
+			if hitbox._health.get_parent() == _creator:
+				continue
 			hitboxes.push_back(hitbox)
 	
 	return hitboxes
@@ -78,7 +84,9 @@ func _process_overlaps() -> void:
 		
 	# hand the damage over to each health node
 	for health : Health in overlaps:
-		health.request_overlap_hurt(_damage, overlaps[health], self, _creator)
+		var result := health.overlap_hurt(_damage, overlaps[health], self, _creator)
+		if result > 0.0:
+			damage_dealt.emit(result)
 	
 	# remember who we've already overlapped
 	for key : Health in overlaps:

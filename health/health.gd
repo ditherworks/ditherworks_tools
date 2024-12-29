@@ -31,7 +31,7 @@ func _ready() -> void:
 	
 			
 # Public Functions
-func request_overlap_hurt(damage: float, hitboxes: Array, hurtbox: HurtBox, creator: Node3D) -> void:
+func overlap_hurt(damage: float, hitboxes: Array, hurtbox: HurtBox, creator: Node3D) -> float:
 	# find the highest damage result
 	var chosen_damage := -1.0
 	var chosen_hitbox : HitBox
@@ -45,6 +45,9 @@ func request_overlap_hurt(damage: float, hitboxes: Array, hurtbox: HurtBox, crea
 	# apply the chosen hurt
 	if chosen_hitbox:
 		hurt(chosen_damage, hurtbox.global_position, Vector3.ZERO, creator)
+		return chosen_damage
+		
+	return 0.0
 	
 	
 func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bool:
