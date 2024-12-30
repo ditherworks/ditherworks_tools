@@ -4,7 +4,7 @@ extends Node3D
 
 
 # Signals
-signal value_changed(amount: float, point: Vector3, normal: Vector3, creator: Node3D)
+signal value_changed(info: HurtInfoBase)
 
 
 # Constants
@@ -31,39 +31,41 @@ func _ready() -> void:
 	
 			
 # Public Functions
-func overlap_hurt(damage: float, hitboxes: Array, hurtbox: HurtBox, creator: Node3D) -> float:
+func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> float:
 	# find the highest damage result
 	var chosen_damage := -1.0
 	var chosen_hitbox : HitBox
 	
 	for hitbox : HitBox in hitboxes:
-		var calculated := hitbox.calculate_damage(damage)
+		var calculated := hitbox.calculate_damage(info.amount)
 		if calculated > chosen_damage:
 			chosen_damage = calculated
 			chosen_hitbox = hitbox
 	
 	# apply the chosen hurt
 	if chosen_hitbox:
-		hurt(chosen_damage, hurtbox.global_position, Vector3.ZERO, creator)
+		info.hitbox = chosen_hitbox
+		info.amount = chosen_damage
+		hurt(info)
 		return chosen_damage
 		
 	return 0.0
 	
 	
-func hurt(amount: float, point: Vector3, normal: Vector3, creator: Node3D) -> bool:
+func hurt(info: HurtInfoBase) -> float:
 	if _current_value <= 0.0:
-		return false
+		return 0.0
 	
 	if _max_value > 0.0:
-		_current_value -= amount
+		_current_value -= info.amount
 		_current_value = clampf(_current_value, 0.0, _max_value)
 		
 	if ROUND_TO_WHOLE:
 		_current_value = floorf(_current_value)
 	
-	value_changed.emit(amount, point, normal, creator)
+	value_changed.emit(info)
 	
-	return true
+	return info.amount
 	
 
 func is_dead() -> bool:

@@ -72,7 +72,7 @@ func _get_all_valid_hitboxes() -> Array[HitBox]:
 	for area in get_overlapping_areas():
 		var hitbox := area as HitBox
 		if hitbox and hitbox._health and not _recipients.has(hitbox._health):
-			if hitbox._health.get_parent() == _creator:
+			if hitbox._health.owner == _creator:
 				continue
 			hitboxes.push_back(hitbox)
 	
@@ -80,16 +80,17 @@ func _get_all_valid_hitboxes() -> Array[HitBox]:
 	
 
 func _process_overlaps() -> void:
-	var overlaps := _get_all_health_overlaps(_get_all_valid_hitboxes())
+	var affected_health := _get_all_health_overlaps(_get_all_valid_hitboxes())
 		
 	# hand the damage over to each health node
-	for health : Health in overlaps:
-		var result := health.overlap_hurt(_damage, overlaps[health], self, _creator)
+	for health : Health in affected_health:
+		var info := HurtInfoBase.new(_damage, global_position, null, _creator)
+		var result := health.overlap_hurt(info, affected_health[health], self)
 		if result > 0.0:
 			damage_dealt.emit(result)
 	
 	# remember who we've already overlapped
-	for key : Health in overlaps:
+	for key : Health in affected_health:
 		if not _recipients.has(key):
 			_recipients.push_back(key)
 	
