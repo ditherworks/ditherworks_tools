@@ -3,7 +3,7 @@ extends Area3D
 
 
 # Signals
-signal damage_dealt(damage: float)
+signal damage_dealt(info: HurtInfoBase)
 
 
 #  Members
@@ -86,7 +86,7 @@ func _process_overlaps() -> void:
 	for health : Health in affected_health:
 		var info := HurtInfoBase.new(_damage, global_position, null, _creator)
 		var result := health.overlap_hurt(info, affected_health[health], self)
-		if result > 0.0:
+		if result:
 			damage_dealt.emit(result)
 	
 	# remember who we've already overlapped

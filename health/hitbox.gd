@@ -20,9 +20,9 @@ func connect_to_health(health: Health) -> void:
 	_health = health
 
 
-func hurt(amount: float, point: Vector3, creator: Node3D) -> float:
+func hurt(amount: float, point: Vector3, creator: Node3D) -> HurtInfoBase:
 	if not _health:
-		return 0.0
+		return null
 		
 	var damage := calculate_damage(amount)
 	return _health.hurt(HurtInfoBase.new(damage, point, self, creator))

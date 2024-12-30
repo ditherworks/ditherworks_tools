@@ -4,7 +4,8 @@ extends Node3D
 
 
 # Signals
-signal value_changed(info: HurtInfoBase)
+signal value_changed(previous_value: float, new_value: float)
+signal damage_taken(info: HurtInfoBase)
 
 
 # Constants
@@ -31,7 +32,7 @@ func _ready() -> void:
 	
 			
 # Public Functions
-func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> float:
+func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> HurtInfoBase:
 	# find the highest damage result
 	var chosen_damage := -1.0
 	var chosen_hitbox : HitBox
@@ -47,14 +48,14 @@ func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> floa
 		info.hitbox = chosen_hitbox
 		info.amount = chosen_damage
 		hurt(info)
-		return chosen_damage
+		return info
 		
-	return 0.0
+	return null
 	
 	
-func hurt(info: HurtInfoBase) -> float:
+func hurt(info: HurtInfoBase) -> HurtInfoBase:
 	if _current_value <= 0.0:
-		return 0.0
+		return null
 	
 	if _max_value > 0.0:
 		_current_value -= info.amount
@@ -63,9 +64,10 @@ func hurt(info: HurtInfoBase) -> float:
 	if ROUND_TO_WHOLE:
 		_current_value = floorf(_current_value)
 	
-	value_changed.emit(info)
+	damage_taken.emit(info)
+	value_changed.emit(_current_value + info.amount, _current_value)
 	
-	return info.amount
+	return info
 	
 
 func is_dead() -> bool:
