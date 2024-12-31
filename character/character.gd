@@ -54,8 +54,11 @@ func set_fixed_motion(motion: Vector3) -> void:
 	_fixed_motion = motion
 	
 	
-func set_move_direction(input: Vector3, move_speed: float, accel := -1.0, decel := -1.0) -> void:
+func set_move_direction(input: Vector3) -> void:
 	_move_direction = input
+	
+	
+func set_speed(move_speed: float, accel := -1.0, decel := -1.0) -> void:
 	_move_speed = move_speed
 	_acceleration = accel if accel > 0.0 else _acceleration
 	_deceleration = decel if decel > 0.0 else _deceleration

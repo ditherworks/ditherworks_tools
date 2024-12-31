@@ -15,7 +15,8 @@ extends BaseState
 # Private Functions
 func _default_movement() -> void:	
 	var dir := Vector3(Input.get_axis("move_left", "move_right"), 0.0, Input.get_axis("move_forward", "move_backward"))
-	_player.set_move_direction(_player.global_basis * dir, _player.SPEED)
+	_player.set_move_direction(_player.global_basis * dir)
+	_player.set_speed(Player.SPEED)
 
 
 func _default_shoot() -> void:
