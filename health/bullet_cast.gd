@@ -21,7 +21,7 @@ func shoot() -> bool:
 	while _cast_for_collision():
 		var hitbox := get_collider() as HitBox
 		if hitbox:
-			hitbox.hurt(10.0, get_collision_point(), self)
+			hitbox.hurt(HurtInfoBase.new(10.0, get_collision_point(), hitbox, self))
 			return true
 		
 		if get_collider() is Area3D:

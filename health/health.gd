@@ -34,19 +34,18 @@ func _ready() -> void:
 # Public Functions
 func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> HurtInfoBase:
 	# find the highest damage result
-	var chosen_damage := -1.0
+	var highest_damage := -1.0
 	var chosen_hitbox : HitBox
 	
 	for hitbox : HitBox in hitboxes:
 		var calculated := hitbox.calculate_damage(info.amount)
-		if calculated > chosen_damage:
-			chosen_damage = calculated
+		if calculated > highest_damage:
+			highest_damage = calculated
 			chosen_hitbox = hitbox
 	
 	# apply the chosen hurt
 	if chosen_hitbox:
 		info.hitbox = chosen_hitbox
-		info.amount = chosen_damage
 		hurt(info)
 		return info
 		
@@ -54,6 +53,9 @@ func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> Hurt
 	
 	
 func hurt(info: HurtInfoBase) -> HurtInfoBase:
+	if info.hitbox:
+		info.amount = info.hitbox.calculate_damage(info.amount)
+	
 	if _current_value <= 0.0:
 		return null
 	
