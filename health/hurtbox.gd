@@ -7,9 +7,8 @@ signal damage_dealt(info: HurtInfoBase)
 
 
 #  Members
+var _hurt_info : HurtInfoBase
 var _life := -1.0
-var _damage := 100.0
-var _creator : Node3D
 var _recipients := []
 
 
@@ -27,10 +26,9 @@ func _physics_process(delta: float) -> void:
 
 
 # Public Functions
-func activate(damage: float, duration: float, creator: Node3D) -> void:
-	_damage = damage
+func activate(hurt_info: HurtInfoBase, duration: float) -> void:
+	_hurt_info = hurt_info
 	_life = duration
-	_creator = creator
 	
 	var collision := get_child(0) as CollisionShape3D
 	if collision:
@@ -72,7 +70,7 @@ func _get_all_valid_hitboxes() -> Array[HitBox]:
 	for area in get_overlapping_areas():
 		var hitbox := area as HitBox
 		if hitbox and hitbox._health and not _recipients.has(hitbox._health):
-			if hitbox._health.owner == _creator:
+			if hitbox._health.owner == _hurt_info.creator:
 				continue
 			hitboxes.push_back(hitbox)
 	
@@ -84,8 +82,8 @@ func _process_overlaps() -> void:
 		
 	# hand the damage over to each health node
 	for health : Health in affected_health:
-		var info := HurtInfoBase.new(_damage, global_position, null, _creator)
-		var result := health.overlap_hurt(info, affected_health[health], self)
+		_hurt_info.point = global_position
+		var result := health.overlap_hurt(_hurt_info, affected_health[health], self)
 		if result:
 			damage_dealt.emit(result)
 	

@@ -20,7 +20,7 @@ const DURATION := 0.25
 # Public Functions
 func enter() -> void:
 	if _player._melee_hurtbox:
-		_player._melee_hurtbox.activate(10.0, DURATION, _player)
+		_player._melee_hurtbox.activate(HurtInfoBase.new(10.0, Vector3.ZERO, null, _player), DURATION)
 	
 	
 func fixed_update(delta: float, time_in_state: float) -> void:
