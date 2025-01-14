@@ -6,6 +6,7 @@ extends Node3D
 # Signals
 signal value_changed(previous_value: float, new_value: float)
 signal damage_taken(info: HurtInfoBase)
+signal died()
 
 
 # Constants
@@ -68,6 +69,8 @@ func hurt(info: HurtInfoBase) -> HurtInfoBase:
 	
 	damage_taken.emit(info)
 	value_changed.emit(_current_value + info.amount, _current_value)
+	if _current_value <= 0.0:
+		died.emit()
 	
 	return info
 	
