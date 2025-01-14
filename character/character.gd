@@ -81,6 +81,10 @@ func set_gravity_multiplier(multiplier: float) -> void:
 	_gravity_multiplier = multiplier
 	
 	
+func apply_impulse(impulse : Vector3) -> void:
+	velocity += impulse
+	
+	
 func jump(force: float) -> void:
 	velocity.y = force
 	jumped.emit()
@@ -88,7 +92,7 @@ func jump(force: float) -> void:
 	
 func is_moving() -> bool:
 	var flat_velocity := velocity * Vector3(1.0, 0.0, 1.0)
-	return flat_velocity.length() > 0.1
+	return flat_velocity.length() > 0.1 or not _fixed_motion.is_zero_approx()
 
 
 # Private Functions
