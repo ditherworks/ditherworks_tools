@@ -34,7 +34,12 @@ static func deadzone_adjust_vec3(input: Vector3, deadzone := 0.18) -> Vector3:
 		return input.normalized() * adjusted
 	else:
 		return Vector3.ZERO
-
+		
+		
+static func get_heading(vec : Vector3, normalize := true) -> Vector3:
+	vec.y = 0.0
+	return vec.normalized() if normalize else vec
+		
 
 static func get_unique_timestamp() -> String:
 	var time := Time.get_time_dict_from_system()
@@ -51,4 +56,3 @@ static func get_all_nodes(node: Node, children := []) -> Array:
 		children = get_all_nodes(child, children)
 		
 	return children
-	
