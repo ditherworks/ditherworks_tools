@@ -28,6 +28,8 @@ func _ready() -> void:
 		_active_state = states[0]
 	else:
 		_active_state = _starting_state
+		
+	state_changed.emit(_active_state)
 	
 	
 func _physics_process(delta: float) -> void:
@@ -37,13 +39,11 @@ func _physics_process(delta: float) -> void:
 
 
 # Public Functions	
-func set_state(next: BaseState, allow_repeat := false) -> void:
+func set_state(next: BaseState) -> void:
 	if next == null:
+		push_error("next state is null")
 		return
-		
-	if next == _active_state and not allow_repeat:
-		return
-		
+				
 	if _active_state:
 		_active_state.exit()
 	_active_state = next
@@ -56,6 +56,7 @@ func get_state(node_name: String) -> BaseState:
 	for child in get_children():
 		if child.name == node_name:
 			return child as BaseState
+	printerr(node_name, "state not found")
 	return null
 		
 		
