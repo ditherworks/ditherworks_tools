@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ct81dwgxecd4w"]
+[gd_scene load_steps=16 format=3 uid="uid://ct81dwgxecd4w"]
 
 [ext_resource type="Script" path="res://demo/scripts/player/player.gd" id="1_6x5ip"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_wdl16"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_jump.gd" id="7_2ga8r"]
 [ext_resource type="Script" path="res://health/bullet_cast.gd" id="7_r1mxd"]
 [ext_resource type="Script" path="res://demo/scripts/player/states/player_melee.gd" id="7_u424l"]
+[ext_resource type="Script" path="res://character/character_capsule.gd" id="8_cqqts"]
 [ext_resource type="Script" path="res://health/hurtbox.gd" id="8_nafdf"]
 
 [sub_resource type="Curve" id="Curve_kappi"]
@@ -75,6 +76,7 @@ _movement = SubResource("Curve_kappi")
 [node name="Collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_myg2a")
+script = ExtResource("8_cqqts")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
