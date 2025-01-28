@@ -22,6 +22,7 @@ var _current_value := _max_value
 var _hitboxes : Array
 
 var _damage_requests : Array[Dictionary]
+var _dodge_buffer := 0.0
 
 
 # Default Callbacks	
@@ -30,6 +31,11 @@ func _ready() -> void:
 	
 	for hitbox : HitBox in _hitboxes:
 		(hitbox as HitBox).connect_to_health(self)
+		
+		
+func _physics_process(delta: float) -> void:
+	if _dodge_buffer > 0.0:
+		_dodge_buffer -= delta
 	
 			
 # Public Functions
@@ -59,6 +65,9 @@ func hurt(info: HurtInfoBase) -> HurtInfoBase:
 	
 	if _current_value <= 0.0:
 		return null
+		
+	if _dodge_buffer > 0.0:
+		return null
 	
 	if _max_value > 0.0:
 		_current_value -= info.amount
@@ -73,6 +82,11 @@ func hurt(info: HurtInfoBase) -> HurtInfoBase:
 		died.emit()
 	
 	return info
+	
+	
+func dodge_damage(duration : float) -> void:
+	if duration > _dodge_buffer:
+		_dodge_buffer = duration
 	
 
 func is_dead() -> bool:
