@@ -3,9 +3,6 @@ extends Node
 
 
 # Signals
-signal state_changed(new_state: BaseState)
-
-
 # Export Members
 @export var _starting_state : BaseState
 
@@ -25,11 +22,9 @@ func _ready() -> void:
 	
 	# select a starting state
 	if _starting_state == null and not states.is_empty():
-		_active_state = states[0]
+		set_state(states[0])
 	else:
-		_active_state = _starting_state
-		
-	state_changed.emit(_active_state)
+		set_state(_starting_state)
 	
 	
 func _physics_process(delta: float) -> void:
@@ -49,7 +44,6 @@ func set_state(next: BaseState) -> void:
 	_active_state = next
 	_active_state.enter()
 	_time_in_state = 0.0
-	state_changed.emit(_active_state)
 
 
 func get_state(node_name: String) -> BaseState:
