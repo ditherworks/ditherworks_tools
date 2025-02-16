@@ -16,4 +16,3 @@ func fixed_update(delta: float, time_in_state: float) -> void:
 func exit() -> void:
 	pass
 	
-	

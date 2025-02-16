@@ -15,3 +15,10 @@ func _init(hit_amount: float, hit_point: Vector3, hit_hitbox: HitBox, hit_creato
 	point = hit_point
 	hitbox = hit_hitbox
 	creator = hit_creator
+
+
+func get_calculated_damage() -> float:
+	if hitbox:
+		return amount * hitbox._multiplier
+		
+	return amount

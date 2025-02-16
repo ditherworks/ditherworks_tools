@@ -21,14 +21,11 @@ func connect_to_health(health: Health) -> void:
 
 
 func hurt(info: HurtInfoBase) -> HurtInfoBase:
+	if not info.hitbox:
+		info.hitbox = self
+		
 	if _health:
 		return _health.hurt(info)
 	
 	return null
 	
-
-func calculate_damage(hurt_amount: float) -> float:
-	if not _health or _health.is_dead():
-		return 0.0
-	return hurt_amount * _multiplier
-			

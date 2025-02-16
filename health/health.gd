@@ -45,9 +45,8 @@ func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> Hurt
 	var chosen_hitbox : HitBox
 	
 	for hitbox : HitBox in hitboxes:
-		var calculated := hitbox.calculate_damage(info.amount)
-		if calculated > highest_damage:
-			highest_damage = calculated
+		if info.get_calculated_damage() > highest_damage:
+			highest_damage = info.get_calculated_damage()
 			chosen_hitbox = hitbox
 	
 	# apply the chosen hurt
@@ -59,25 +58,19 @@ func overlap_hurt(info: HurtInfoBase, hitboxes: Array, hurtbox: HurtBox) -> Hurt
 	return null
 	
 	
-func hurt(info: HurtInfoBase) -> HurtInfoBase:
-	if info.hitbox:
-		info.amount = info.hitbox.calculate_damage(info.amount)
-	
-	if _current_value <= 0.0:
-		return null
-		
-	if _dodge_buffer > 0.0:
+func hurt(info: HurtInfoBase) -> HurtInfoBase:	
+	if _current_value <= 0.0 or _dodge_buffer > 0.0:
 		return null
 	
 	if _max_value > 0.0:
-		_current_value -= info.amount
+		_current_value -= info.get_calculated_damage()
 		_current_value = clampf(_current_value, 0.0, _max_value)
 		
 	if ROUND_TO_WHOLE:
 		_current_value = floorf(_current_value)
 	
 	damage_taken.emit(info)
-	value_changed.emit(_current_value + info.amount, _current_value)
+	value_changed.emit(_current_value + info.get_calculated_damage(), _current_value)
 	if _current_value <= 0.0:
 		died.emit()
 	
