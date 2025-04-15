@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://demo/scripts/folder_3d.gd" id="3_1to0t"]
 [ext_resource type="PackedScene" uid="uid://5j01ivs0gas1" path="res://demo/models/shapes_cone.tscn" id="4_4dbg8"]
 [ext_resource type="PackedScene" uid="uid://8w24ph0vsuma" path="res://demo/models/shapes_torus.tscn" id="5_yo584"]
-[ext_resource type="PackedScene" uid="uid://b161qw6g3bm14" path="res://demo/models/shapes_monkey.tscn" id="6_3k84n"]
+[ext_resource type="PackedScene" uid="uid://b161qw6g3bm14" path="res://demo/models/shapes.blend" id="6_3k84n"]
 [ext_resource type="Script" path="res://health/health.gd" id="7_04iuv"]
 [ext_resource type="Script" path="res://health/hitbox.gd" id="8_u11ks"]
 [ext_resource type="Material" uid="uid://j8r223yo0m3c" path="res://demo/materials/grey.tres" id="9_q6lik"]
@@ -184,7 +184,6 @@ shape = SubResource("ConcavePolygonShape3D_0acn7")
 
 [node name="Monkey" parent="Shapes" instance=ExtResource("6_3k84n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -7)
-surface_material_override/0 = ExtResource("2_uabkg")
 
 [node name="Dummy1" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)

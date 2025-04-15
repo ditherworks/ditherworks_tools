@@ -39,7 +39,7 @@ static func deadzone_adjust_vec3(input: Vector3, deadzone := 0.18) -> Vector3:
 static func get_heading(vec : Vector3, normalize := true) -> Vector3:
 	vec.y = 0.0
 	return vec.normalized() if normalize else vec
-		
+			
 
 static func get_unique_timestamp() -> String:
 	var time := Time.get_time_dict_from_system()
@@ -56,3 +56,27 @@ static func get_all_nodes(node: Node, children := []) -> Array:
 		children = get_all_nodes(child, children)
 		
 	return children
+
+
+static func restart_all_particles(parent: Node3D) -> void:
+	if parent is GPUParticles3D:
+		(parent as GPUParticles3D).restart()
+			
+	for child in parent.get_children():
+		if child is GPUParticles3D:
+			(child as GPUParticles3D).restart()
+		
+
+static func safe_look_at(node: Node3D, target: Vector3) -> void:
+	if node.global_position.is_equal_approx(target):
+		return
+		
+	var dir := node.global_position.direction_to(target)
+	var up := Vector3.UP
+	if dir.normalized().is_equal_approx(Vector3.UP) or dir.normalized().is_equal_approx(Vector3.DOWN):
+		up = Vector3.FORWARD
+		
+	node.look_at(target, up)
+	
+	
+	

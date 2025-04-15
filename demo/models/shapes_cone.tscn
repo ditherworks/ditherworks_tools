@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=4 uid="uid://5j01ivs0gas1"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mp1a"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_20t25"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_lb4bh"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_jmiaj"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
 "format": 34896613377,
@@ -16,7 +16,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_1dn5y"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_gkpa1"]
 resource_name = "shapes_Cone"
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
@@ -25,15 +25,15 @@ _surfaces = [{
 "index_count": 90,
 "index_data": PackedByteArray("AQAEADEABQAHADMACAAKADUACwAOADcADQARADYAEAAUADQAEwAXADIAFgAZADAAGgAcADgAHQAfADoAIAAiADwAIwAlAD4AJgApAD8AKAAsAD0ALQADAAAAAwAJAAYACQAPAAwADwAVABIAFQAbABgAGwAhAB4AIQAnACQAJwAtACoALQAJAAMACQAVAA8AFQAhABsAIQAtACcALQAVAAkAFQAtACEAKwAvADsALgACADkA"),
 "lods": [0.414372, PackedByteArray("LgAKAEwAKwAuAEwACgANAE0AKAArAE4ADQAQAEoAEAATAEoAJQAoAD4AIgAlAD4AHwAiAEsAEwAcAEsAHAAfAEsACQAPAAwACQASAA8ALQASAAkAEgAtACEAEgAhABsAGwAhAB4AIQAtACcAJwAtACoAIQAnACQA"), 0.625887, PackedByteArray("RABAAEgAQQBCAEYAQwAiAEcAIgAlAD4AJQAoAD4AKABFAEkALQAbAAwAGwAtACEAIQAtACcAIQAnACQA")],
-"material": SubResource("StandardMaterial3D_7mp1a"),
+"material": SubResource("StandardMaterial3D_20t25"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 79,
 "vertex_data": PackedByteArray("/38AAAAA/z//fwAAAAA/7P9/AAAAAD/s+7AAAL4J/z/7sAAAvgk/7PuwAAC+CRDlgdoAAH0l/z+B2gAAfSUQ5YHaAAB9JVrbQPYAAANP/z9A9gAAA09a20D2AAADT+fQ//8AAP9//z///wAA/38dxv//AAD/f+fQQPYAAPuw/z9A9gAA+7CuukD2AAD7sB3GgdoAAIHa/z+B2gAAgdrtrIHaAACB2q66+7AAAED2/z/7sAAAQPZAmfuwAABA9u2s/38AAP///z//fwAA//9Amf9/AAD//0CZA08AAED2/z8DTwAAQPZAmQNPAABA9u2sfSUAAIHa/z99JQAAgdrtrH0lAACB2q66vgkAAPuw/z++CQAA+7Cuur4JAAD7sB3GAAAAAP9//z8AAAAA/38dxgAAAAD/f+fQvgkAAANP/z++CQAAA09a274JAAADT+fQfSUAAH0l/z99JQAAfSUQ5X0lAAB9JVrbA08AAL4J/z8DTwAAvgk/7ANPAAC+CRDl/3////9/QJn/f////38/7P9/////f+2s/3////9/EOX/f////3+uuv9/////f1rb/3////9/Hcb/f////3/n0P9/////f0CZ/3////9/P+z/f////3/trP9/////fxDl/3////9/rrr/f////39a2/9/////fx3G/3////9/59D//wAA/39j4v//AAD/f967A08AAED215kDTwAAQPasogNPAAC+CRztA08AAL4J497/f////38Tpv9/////fx6h/3////9/COX/f////39U4/9/////fxSy/3////9/Q5v/f////38f7P9/////f3zJ/3////9/j+EAAP9/Ouc3bDfsw5gAAP9/Ouc3bNzOa1wAAP9/3M5rXFDDjFkAAP9/UMOMWe279VoAAP9/VbZqXu279VoAAP9/BLJtY1W2al4AAP9/kbAWagSybWMAAP9/kcFuc5GwFmoAAP9/kcFuc23zbb4AAP9/bfNtvhXqbc8AAP9/Feptz23j+c0AAP9/beP5zWreqckAAP9/at6pyfXaEMQAAP9/jNmuvPXaEMQAAP9/atwhsYzZrrwAAP9/N+zDmGrcIbGRwW5zOuc3bJGwFmrczmtcBLJtY1DDjFlVtmpe7bv1Wm3zbb437MOYFeptz2rcIbFt4/nNjNmuvGreqcn12hDEXcrAXM2xJmUK7HM77OCswhjppWXg1Xax+L6CX2iqOqrs1iBd77/avue/5VhuuEOZDerjkSrGRVRTvZHB")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_lb4bh")
+shadow_mesh = SubResource("ArrayMesh_jmiaj")
 
 [node name="Cone" type="MeshInstance3D"]
-mesh = SubResource("ArrayMesh_1dn5y")
+mesh = SubResource("ArrayMesh_gkpa1")
 skeleton = NodePath("")
