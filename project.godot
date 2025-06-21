@@ -25,6 +25,7 @@ run/bg_color=Color(0, 0, 0, 1)
 g_console="*res://game/console/console.tscn"
 g_god_camera="*res://game/god_camera/god_camera.gd"
 g_game="*res://demo/scenes/game.tscn"
+Fx="*res://demo/fx/fx_manager.tscn"
 
 [debug]
 
@@ -42,6 +43,10 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/editor_tweaks/plugin.cfg", "res://addons/script_tabs/plugin.cfg")
 
 [file_customization]
 

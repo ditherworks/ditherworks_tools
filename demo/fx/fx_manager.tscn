@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://oagr66ck5j2a"]
+
+[ext_resource type="Script" path="res://spawned_fx/fx_manager.gd" id="1_1k81j"]
+[ext_resource type="PackedScene" uid="uid://46avmnm8sxr7" path="res://demo/fx/spark_fx.tscn" id="2_kpk2b"]
+
+[node name="FxManager" type="Node3D"]
+script = ExtResource("1_1k81j")
+_fx_scenes = Array[PackedScene]([ExtResource("2_kpk2b")])

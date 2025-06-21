@@ -19,6 +19,8 @@ func shoot() -> bool:
 	clear_exceptions()
 	
 	while _cast_for_collision():
+		Fx.spawn_aimed("spark_fx", get_collision_point(), get_collision_normal())
+		
 		var hitbox := get_collider() as HitBox
 		if hitbox:
 			hitbox.hurt(HurtInfoBase.new(10.0, get_collision_point(), hitbox, self))

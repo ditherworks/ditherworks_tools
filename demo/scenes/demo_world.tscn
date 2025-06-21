@@ -1,15 +1,16 @@
-[gd_scene load_steps=26 format=3 uid="uid://2eahjvvuqm1v"]
+[gd_scene load_steps=29 format=3 uid="uid://2eahjvvuqm1v"]
 
 [ext_resource type="PackedScene" uid="uid://b01tt6armfu7j" path="res://demo/scenes/default_environment.tscn" id="1_5eqw7"]
 [ext_resource type="Material" uid="uid://bhcsdgs5j6fxw" path="res://demo/materials/grey_checker.tres" id="2_uabkg"]
 [ext_resource type="Script" path="res://demo/scripts/folder_3d.gd" id="3_1to0t"]
 [ext_resource type="PackedScene" uid="uid://5j01ivs0gas1" path="res://demo/models/shapes_cone.tscn" id="4_4dbg8"]
 [ext_resource type="PackedScene" uid="uid://8w24ph0vsuma" path="res://demo/models/shapes_torus.tscn" id="5_yo584"]
-[ext_resource type="PackedScene" uid="uid://b161qw6g3bm14" path="res://demo/models/shapes.blend" id="6_3k84n"]
+[ext_resource type="PackedScene" uid="uid://b161qw6g3bm14" path="res://demo/models/shapes_monkey.tscn" id="6_3k84n"]
 [ext_resource type="Script" path="res://health/health.gd" id="7_04iuv"]
 [ext_resource type="Script" path="res://health/hitbox.gd" id="8_u11ks"]
 [ext_resource type="Material" uid="uid://j8r223yo0m3c" path="res://demo/materials/grey.tres" id="9_q6lik"]
 [ext_resource type="PackedScene" uid="uid://ct81dwgxecd4w" path="res://demo/scenes/player.tscn" id="10_urfi4"]
+[ext_resource type="Script" path="res://debug_lines/tool_lines.gd" id="11_7h557"]
 
 [sub_resource type="GDScript" id="GDScript_u7i2f"]
 resource_name = "user_test"
@@ -130,6 +131,22 @@ radius = 0.3
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yfr6e"]
 radius = 0.3
 height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoowq"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mejgm"]
+_surfaces = [{
+"aabb": AABB(0, 0, 0, 11.3374, 1e-05, 5),
+"attribute_data": PackedByteArray(255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255),
+"format": 34359738377,
+"primitive": 1,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 64, 0, 0, 0, 0, 0, 0, 0, 0, 254, 101, 53, 65, 0, 0, 0, 0, 0, 0, 160, 64)
+}]
 
 [node name="DemoWorld" type="Node3D"]
 script = SubResource("GDScript_u7i2f")
@@ -266,3 +283,18 @@ script = ExtResource("8_u11ks")
 shape = SubResource("CapsuleShape3D_yfr6e")
 
 [node name="Player" parent="." instance=ExtResource("10_urfi4")]
+
+[node name="ToolLines" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 3.5)
+material_override = SubResource("StandardMaterial3D_hoowq")
+cast_shadow = 0
+mesh = SubResource("ArrayMesh_mejgm")
+script = ExtResource("11_7h557")
+
+[node name="Marker3D" type="Marker3D" parent="ToolLines"]
+
+[node name="Marker3D2" type="Marker3D" parent="ToolLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="Marker3D3" type="Marker3D" parent="ToolLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.3374, 0, 5)
