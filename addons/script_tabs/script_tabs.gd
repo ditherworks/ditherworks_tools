@@ -46,6 +46,7 @@ func _enable_script_tabs(enable := true) -> void:
 		#print(vsplit.split_offset)
 	else:
 		_script_list.property_list_changed.disconnect(_on_script_list_updated)
+		_tab_container.tabs_visible = false
 		tab_bar.tab_hovered.disconnect(_on_script_tab_hovered)
 		tab_bar.gui_input.disconnect(_on_script_tabs_gui_event)
 	

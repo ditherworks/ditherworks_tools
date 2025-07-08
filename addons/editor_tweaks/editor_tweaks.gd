@@ -76,4 +76,13 @@ func _on_scene_changed(scene_root: Node) -> void:
 	
 	# activate the appropriate editor
 	var root := EditorInterface.get_edited_scene_root()
-	EditorInterface.set_main_screen_editor("3D" if root is Node3D else "2D")
+	if root:
+		var type := root.get_class()
+		var window := "2D"
+		if type == "Node":
+			if root.get_child_count() > 0 and root.get_child(0) is Node3D:
+				window = "3D"
+		elif root is Node3D:
+			window = "3D"
+				
+		EditorInterface.set_main_screen_editor(window)
